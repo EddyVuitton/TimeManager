@@ -1,0 +1,47 @@
+﻿@using TimeManager.Data
+@using TimeManager.Helpers
+<MudText Typo="Typo.h3">@monthName @now.Year</MudText>
+@{
+    var day = 1;
+
+    @for (int i = 1; i <= weeks; i++)
+    {
+        int daysToTake = i < weeks ? 7 : daysInLastWeek;
+
+        <div class="d-flex flex-row">
+            @for (int j = 0; j < daysToTake; j++)
+            {
+                var d = _days.FirstOrDefault(x => x.Day == day);
+                <Day DayBody=d />
+
+                day++;
+            }
+        </div>
+    }
+}
+
+@code {
+    readonly List<DateTime> _days = new();
+    readonly DateTime now = DateTime.Now;
+    DateTime lastDayOfMonth;
+    int daysInMonth;
+    int daysInLastWeek;
+    int weeks;
+    string monthName = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        lastDayOfMonth = new DateTime(now.Year, now.Month, 1).AddMonths(1).AddDays(-1);
+        daysInMonth = lastDayOfMonth.Day;
+        daysInLastWeek = daysInMonth % 7;
+        weeks = daysInMonth / 7;
+        weeks += daysInLastWeek > 0 ? 1 : 0;
+        monthName = BasicHelper.GetMonthName(now.Month);
+
+        for (int i = 1; i <= daysInMonth; i++)
+        {
+            var day = new DateTime(now.Year, now.Month, i);
+            _days.Add(day);
+        }
+    }
+}

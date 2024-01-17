@@ -1,0 +1,115 @@
+﻿<style>
+    .custom-select {
+        position: relative;
+        width: 150px; /* Szerokość diva */
+    }
+
+        .custom-select select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+            /* Styl dla zwiniętej listy */
+            .custom-select select::-ms-expand {
+                display: none;
+            }
+
+            .custom-select select option {
+                font-weight: normal;
+            }
+        /* Styl dla rozwiniętej listy */
+        .custom-select:after {
+            /*  content: '\25BC'; /* Strzałka w dół */
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+</style>
+
+<MudDialog>
+    <DialogContent>
+        <div class="add-activity-body gap-y-4">
+            <div class="d-flex flex-row gap-x-8">
+                <div></div>
+                <MudTextField T="string"
+                              Style="font-size: 2rem;"
+                              Placeholder="Dodaj tytuł i termin" />
+            </div>
+            <div class="d-flex flex-row gap-x-2" style="width: 100%; height: 50px;">
+                <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.AccessTime" Color="Color.Primary" />
+                <div class="d-flex justify-space-around" style="width: 100%; height: 100%;">
+                    <div class="align-self-center" style="font-size: 1rem;">@_dayName</div>
+                    @if (_showAddDeadlineButton)
+                    {
+                        <div class="custom-select align-self-center">
+                            <select @onchange="((e) => OnRepetitionChange(e))" disabled="@_isRepetitionSelectDisabled">
+                                @foreach (var repetition in _repetitionList)
+                                {
+                                    <option value="@repetition">@repetition</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="align-self-center" style="font-size: 1rem;">@_repetitionValue</div>
+                    }
+                    @if (_showAddDeadlineButton)
+                    {
+                        <div class="custom-select align-self-center" style="width: 100px;">
+                            <select @onchange="((e) => OnHourChange(e))">
+                                @foreach (var hour in _hourList)
+                                {
+                                    <option value="@hour">@hour</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    @if (_isRepetitionSelectDisabled)
+                    {
+                        <MudButton OnClick="ShowAddDeadlineButton"
+                                   Class="align-self-center"
+                                   Size="Size.Small"
+                                   Color="Color.Primary"
+                                   Variant="Variant.Outlined">
+                            Dodaj termin
+                        </MudButton>
+                    }
+                </div>
+            </div>
+            <div class="d-flex flex-row gap-x-2" style="width: 100%;">
+                <MudIcon Style="margin-top: 5%;" Icon="@Icons.Material.Filled.Description" Color="Color.Primary" />
+                <MudTextField T="string" Class="align-self-start"
+                              Style="margin: 0px; padding: 0px;"
+                              Variant="Variant.Outlined"
+                              Text="@_description"
+                              Placeholder="Dodaj opis"
+                              AutoGrow="true"
+                              MaxLines="4"
+                              Lines="4" />
+            </div>
+            <div class="d-flex flex-row gap-x-2" style="width: 100%;">
+                <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.List" Color="Color.Primary" />
+                <div style="width: 50%;">
+                    <div class="custom-select align-self-center">
+                        <select @onchange="((e) => OnTaskChange(e))">
+                            @foreach (var taskList in _taskLists)
+                            {
+                                <option value="@taskList">@taskList</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Anuluj</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Zapisz</MudButton>
+    </DialogActions>
+</MudDialog>
