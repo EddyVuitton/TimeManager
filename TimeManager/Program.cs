@@ -1,11 +1,9 @@
-using MudBlazor.Services;
+using TimeManager.Server.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddMudServices();
+BasicHelper.AddServices(builder);
 
 var app = builder.Build();
 
