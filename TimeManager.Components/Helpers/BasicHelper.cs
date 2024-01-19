@@ -1,4 +1,4 @@
-﻿namespace TimeManager.Helpers;
+﻿namespace TimeManager.Components.Helpers;
 
 public static class BasicHelper
 {

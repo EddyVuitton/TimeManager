@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System.Text;
-using TimeManager.Helpers;
+using TimeManager.Components.Helpers;
 
-namespace TimeManager.Dialogs;
+namespace TimeManager.Components.Dialogs;
 
 public partial class AddActivity
 {

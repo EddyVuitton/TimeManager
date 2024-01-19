@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using TimeManager.Dialogs;
+using TimeManager.Components.Dialogs;
 
-namespace TimeManager.Components;
+namespace TimeManager.Components.Components;
 
 public partial class Day
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace TimeManager.Dialogs;
+namespace TimeManager.Components.Dialogs;
 
 public partial class ActivityList
 {
