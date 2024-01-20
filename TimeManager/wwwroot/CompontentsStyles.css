@@ -17,7 +17,7 @@
 
 .day {
     width: 29vh;
-    height: 15vh;
+    height: 17vh;
     border-left: 0.1rem solid #cccccc;
     margin: 0.0rem;
 }
@@ -46,3 +46,54 @@
     display: flex;
     flex-direction: column;
 }
+
+.custom-select {
+    position: relative;
+    width: 150px; /* Szerokoœæ diva */
+}
+
+    .custom-select select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+        /* Styl dla zwiniêtej listy */
+        .custom-select select::-ms-expand {
+            display: none;
+        }
+
+        .custom-select select option {
+            font-weight: normal;
+        }
+    /* Styl dla rozwiniêtej listy */
+    .custom-select:after {
+        /*  content: '\25BC'; /* Strza³ka w dó³ */
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+.activity-body {
+    width: auto;
+    height: 23px;
+    background-color: #5496ff;
+    margin-top: 1%;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+    .activity-body:hover {
+        background-color: #317df5;
+    }
+
+    .activity-body .activity-title {
+        padding-left: 5%;
+        font-weight: bold;
+        color: white;
+        font-size: 0.85rem;
+    }

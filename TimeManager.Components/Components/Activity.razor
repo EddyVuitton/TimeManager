@@ -1,0 +1,19 @@
+﻿@if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
+{
+    var max4 = ActivitiesDto.Count > 4 ? 4 : ActivitiesDto.Count;
+
+    @for (int i = 0; i < max4; i++)
+    {
+        <div class="activity-body">
+            <span class="activity-title">(Bez tytułu)</span>
+        </div>
+    }
+    @if (ActivitiesDto.Count > 4)
+    {
+        var leftActivities = ActivitiesDto.Count - 4;
+
+        <div class="activity-body">
+            <span class="activity-title">Jeszcze @(leftActivities)</span>
+        </div>
+    }
+}

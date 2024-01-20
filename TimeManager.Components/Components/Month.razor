@@ -31,7 +31,7 @@
                 @for (int day = 0; day < daysToRender; day++) //Render days
                 {
                     var dayObject = _days.FirstOrDefault(x => x.Day == dayCount);
-                    <Day DayBody="dayObject" />
+                    <Day DayBody="dayObject" MonthRef="this" />
 
                     dayCount++;
                 }

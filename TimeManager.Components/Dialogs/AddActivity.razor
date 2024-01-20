@@ -1,42 +1,10 @@
-﻿<style>
-    .custom-select {
-        position: relative;
-        width: 150px; /* Szerokość diva */
-    }
-
-        .custom-select select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            cursor: pointer;
-        }
-            /* Styl dla zwiniętej listy */
-            .custom-select select::-ms-expand {
-                display: none;
-            }
-
-            .custom-select select option {
-                font-weight: normal;
-            }
-        /* Styl dla rozwiniętej listy */
-        .custom-select:after {
-            /*  content: '\25BC'; /* Strzałka w dół */
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
-</style>
-
-<MudDialog>
+﻿<MudDialog>
     <DialogContent>
         <div class="add-activity-body gap-y-4">
             <div class="d-flex flex-row gap-x-8">
                 <div></div>
-                <MudTextField T="string"
+                <MudTextField @bind-Value="_title"
+                              T="string"
                               Style="font-size: 2rem;"
                               Placeholder="Dodaj tytuł i termin" />
             </div>
@@ -84,10 +52,11 @@
             </div>
             <div class="d-flex flex-row gap-x-2" style="width: 100%;">
                 <MudIcon Style="margin-top: 5%;" Icon="@Icons.Material.Filled.Description" Color="Color.Primary" />
-                <MudTextField T="string" Class="align-self-start"
+                <MudTextField @bind-Value="@_description"
+                              T="string"
+                              Class="align-self-start"
                               Style="margin: 0px; padding: 0px;"
                               Variant="Variant.Outlined"
-                              Text="@_description"
                               Placeholder="Dodaj opis"
                               AutoGrow="true"
                               MaxLines="4"
