@@ -14,6 +14,12 @@ public partial class Day
 
     protected override void OnInitialized()
     {
+        InitFields();
+    }
+
+    #region PrivateMethods
+    private void InitFields()
+    {
         _dayText = DayBody.Day < 10 ? $"0{DayBody.Day}" : DayBody.Day.ToString();
     }
 
@@ -32,4 +38,5 @@ public partial class Day
 
         DialogService?.Show<AddActivity>(string.Empty, parameters, options);
     }
+    #endregion PrivateMethods
 }

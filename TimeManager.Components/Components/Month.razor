@@ -1,46 +1,41 @@
-﻿<MudText Typo="Typo.h3">@monthName @now.Year</MudText>
+﻿<div class="d-flex">
+    <MudButton OnClick="DecreaseMonth"
+               Class="align-self-center"
+               Style="height: fit-content; padding: 0.2rem 0.4rem;"
+               Variant="Variant.Filled"
+               Color="Color.Primary"
+               Size="Size.Small">
+        Zmniejsz miesiąc
+    </MudButton>
+    <MudText Style="width: 370px; margin: 0% 1%;" Typo="Typo.h3">@(monthName) @(MonthBody.Year)</MudText>
+    <MudButton OnClick="IncreaseMonth"
+               Class="align-self-center"
+               Style="height: fit-content; padding: 0.2rem 0.4rem;"
+               Variant="Variant.Filled"
+               Color="Color.Primary"
+               Size="Size.Small">
+        Zwiększ miesiąc
+    </MudButton>
+</div>
 
-@{
-    var day = 1;
-
-    @for (int i = 1; i <= weeks; i++)
+<div class="month-top">
+    @if (_days is not null || _days?.Count > 0)
     {
-        int daysToTake = i < weeks ? 7 : daysInLastWeek;
+        var dayCount = 1;
 
-        <div class="d-flex flex-row">
-            @for (int j = 0; j < daysToTake; j++)
-            {
-                var d = _days.FirstOrDefault(x => x.Day == day);
-                <Day DayBody=d />
-
-                day++;
-            }
-        </div>
-    }
-}
-
-@code {
-    readonly List<DateTime> _days = new();
-    readonly DateTime now = DateTime.Now;
-    DateTime lastDayOfMonth;
-    int daysInMonth;
-    int daysInLastWeek;
-    int weeks;
-    string monthName = string.Empty;
-
-    protected override void OnInitialized()
-    {
-        lastDayOfMonth = new DateTime(now.Year, now.Month, 1).AddMonths(1).AddDays(-1);
-        daysInMonth = lastDayOfMonth.Day;
-        daysInLastWeek = daysInMonth % 7;
-        weeks = daysInMonth / 7;
-        weeks += daysInLastWeek > 0 ? 1 : 0;
-        monthName = BasicHelper.GetMonthName(now.Month);
-
-        for (int i = 1; i <= daysInMonth; i++)
+        @for (int week = 1; week <= weeks; week++) //Render weeks
         {
-            var day = new DateTime(now.Year, now.Month, i);
-            _days.Add(day);
+            int daysToRender = daysInLastWeek > 0 ? week < weeks ? 7 : daysInLastWeek : 7;
+
+            <div class="d-flex flex-row week">
+                @for (int day = 0; day < daysToRender; day++) //Render days
+                {
+                    var dayObject = _days.FirstOrDefault(x => x.Day == dayCount);
+                    <Day DayBody="dayObject" />
+
+                    dayCount++;
+                }
+            </div>
         }
     }
-}
+</div>
