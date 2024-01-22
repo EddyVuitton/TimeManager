@@ -1,19 +1,29 @@
-﻿@if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
-{
-    var max4 = ActivitiesDto.Count > 4 ? 4 : ActivitiesDto.Count;
-
-    @for (int i = 0; i < max4; i++)
+﻿<div @onclick:stopPropagation="true" @onclick="OpenDialog">
+    @*
+        Div, który ma ustawiony stop propagation na true blokuje uruchomienie działań
+        z komponentu rodzica, tzn. w przypadku nałożenia na siebie dwóch komponentów,
+        gdzie oba mają eventy onclick, ale jeden jest dzieckiem rodzica,
+        ten który ma stop propagation na true (dziecko) zostanie uruchomiony
+    *@
+    @if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
     {
-        <div class="activity-body">
-            <span class="activity-title">(Bez tytułu)</span>
-        </div>
-    }
-    @if (ActivitiesDto.Count > 4)
-    {
-        var leftActivities = ActivitiesDto.Count - 4;
+        var top4activities = ActivitiesDto.Take(4);
 
-        <div class="activity-body">
-            <span class="activity-title">Jeszcze @(leftActivities)</span>
-        </div>
+        @foreach (var a in top4activities)
+        {
+            var title = string.IsNullOrEmpty(a.Title) ? "(Bez tytułu)" : a.Title;
+
+            <div class="activity-body">
+                <span class="activity-title">@title</span>
+            </div>
+        }
+        @if (ActivitiesDto.Count > 4)
+        {
+            var leftActivities = ActivitiesDto.Count - 4;
+
+            <div class="activity-body">
+                <span class="activity-title">Jeszcze @(leftActivities)</span>
+            </div>
+        }
     }
-}
+</div>

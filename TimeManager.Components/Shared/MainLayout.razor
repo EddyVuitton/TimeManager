@@ -4,16 +4,22 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<PageTitle>TimeManager</PageTitle>
-
-<MudLayout>
-    <MudAppBar>
+@* <MudLayout>
+    <MudAppBar Dense="true">
         My Application
     </MudAppBar>
     <MudDrawer Open="false" ClipMode="DrawerClipMode.Docked">
         <NavMenu />
     </MudDrawer>
-    <MudMainContent>
+    <MudMainContent Style="">
         @Body
     </MudMainContent>
-</MudLayout>
+</MudLayout> *@
+
+<div>
+    <main>
+        <div>
+            @Body
+        </div>
+    </main>
+</div>
