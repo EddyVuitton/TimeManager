@@ -6,10 +6,11 @@ using TimeManager.Data.DTOs;
 
 namespace TimeManager.Components.Dialogs;
 
-public partial class AddActivity
+public partial class AddActivityDialog
 {
     [CascadingParameter] public MudDialogInstance? MudDialog { get; set; }
-    [Parameter] public DateTime DayBody { get; set; }
+
+    [Parameter] public DayDto? DayDto { get; set; }
     [Parameter] public Day? DayRef { get; set; }
 
     private readonly string[] _taskLists = { "Moje zadania" };
@@ -19,9 +20,9 @@ public partial class AddActivity
 
     private string _description = string.Empty;
     private string _title = string.Empty;
-    private string _taskValue { get; set; } = "Moje zadania";
-    private string _hourValue { get; set; } = string.Empty;
-    private string _repetitionValue { get; set; } = "Nie powtarza się";
+    private string _taskValue = "Moje zadania";
+    private string _hourValue = string.Empty;
+    private string _repetitionValue = "Nie powtarza się";
     private string _dayName = string.Empty;
 
     private bool _showAddDeadlineButton = false;
@@ -35,6 +36,7 @@ public partial class AddActivity
     }
 
     #region PrivateMethods
+
     private void AddHoursToSelect()
     {
         var start = new DateTime(_now.Year, _now.Month, _now.Day, 0, 0, 0);
@@ -61,8 +63,8 @@ public partial class AddActivity
 
     private void SetDayName()
     {
-        var monthName = BasicHelper.GetMonthName(DayBody.Month)[..3].ToLower() ?? string.Empty;
-        _dayName = $"{DayBody.Day} {monthName} {DayBody.Year}";
+        var monthName = BasicHelper.GetMonthName(DayDto!.Day.Month)[..3].ToLower() ?? string.Empty;
+        _dayName = $"{DayDto.Day.Day} {monthName} {DayDto.Day.Year}";
     }
 
     private void ShowAddDeadlineButton()
@@ -84,7 +86,7 @@ public partial class AddActivity
     {
         var activity = new ActivityDto()
         {
-            Day = DayBody,
+            Day = DayDto!.Day,
             Title = _title,
             Description = _description,
             Task = _taskValue,
@@ -96,7 +98,7 @@ public partial class AddActivity
         MudDialog?.Close(DialogResult.Ok(true));
     }
 
-    private void Cancel() =>
-        MudDialog?.Cancel();
+    private void Cancel() => MudDialog?.Cancel();
+
     #endregion PrivateMethods
 }

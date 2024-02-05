@@ -1,4 +1,4 @@
-﻿<div @onclick:stopPropagation="true" @onclick="OpenDialog">
+﻿<div @onclick:stopPropagation="true">
     @*
         Div, który ma ustawiony stop propagation na true blokuje uruchomienie działań
         z komponentu rodzica, tzn. w przypadku nałożenia na siebie dwóch komponentów,
@@ -11,10 +11,11 @@
 
         @foreach (var a in top4activities)
         {
-            var title = string.IsNullOrEmpty(a.Title) ? "(Bez tytułu)" : a.Title;
+            a.Title = string.IsNullOrEmpty(a.Title) ? "(Bez tytułu)" : a.Title;
 
-            <div class="activity-body">
-                <span class="activity-title">@title</span>
+            <div class="activity-body" @onclick="(() => OpenPopover(a))">
+                <span class="activity-title">@a.Title</span>
+                <OpenActivityPopover Activity="this" ActivityDto="a" />
             </div>
         }
         @if (ActivitiesDto.Count > 4)

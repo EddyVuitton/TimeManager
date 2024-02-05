@@ -9,11 +9,11 @@ public partial class Day
 {
     [Inject] public IDialogService? DialogService { get; set; }
 
-    [Parameter] public DateTime DayBody { get; set; }
-    [Parameter] public Month? MonthRef { get; set; }
+    [CascadingParameter(Name = "MonthRef")] public Month? MonthRef { get; set; }
+
+    [Parameter] public DayDto? DayDto { get; set; }
 
     private string _dayText = string.Empty;
-    private List<ActivityDto> _activitiesDto = new();
 
     protected override void OnInitialized()
     {
@@ -21,9 +21,10 @@ public partial class Day
     }
 
     #region PrivateMethods
+
     private void InitFields()
     {
-        _dayText = DayBody.Day < 10 ? $"0{DayBody.Day}" : DayBody.Day.ToString();
+        _dayText = DayDto?.Day.Day < 10 ? $"0{DayDto?.Day.Day}" : DayDto?.Day.Day.ToString() ?? string.Empty;
     }
 
     private void OpenDialog()
@@ -36,19 +37,30 @@ public partial class Day
 
         var parameters = new DialogParameters
         {
-            { "DayBody", DayBody },
+            { "DayDto", DayDto },
             { "DayRef", this }
         };
 
-        DialogService?.Show<AddActivity>(string.Empty, parameters, options);
+        DialogService?.Show<AddActivityDialog>(string.Empty, parameters, options);
     }
+
     #endregion PrivateMethods
 
     #region PublicMethods
+
     public void AddActivity(ActivityDto activity)
     {
-        _activitiesDto.Add(activity);
+        MonthRef!.AddActivity(activity);
         StateHasChanged();
     }
+
+    public void RemoveActivity(ActivityDto activity)
+    {
+        MonthRef!.RemoveActivity(activity);
+        StateHasChanged();
+    }
+
+    public void DayStateHasChanged() => StateHasChanged();
+
     #endregion PublicMethods
 }

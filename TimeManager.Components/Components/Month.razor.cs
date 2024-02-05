@@ -1,62 +1,77 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TimeManager.Components.Helpers;
+using TimeManager.Components.Pages;
+using TimeManager.Data.DTOs;
 
 namespace TimeManager.Components.Components;
 
 public partial class Month
 {
-    [Parameter] public DateTime MonthBody { get; set; }
+    private MonthDto? _monthDto = new();
 
-    private readonly List<DateTime> _days = new();
+    private readonly DateTime _now = DateTime.Now;
+    private DateTime _lastDayOfMonth;
+    private int _daysInMonth;
+    private int _daysInLastWeek;
+    private int _weeks;
+    private string? _monthName;
 
-    private DateTime lastDayOfMonth;
-    private int daysInMonth;
-    private int daysInLastWeek;
-    private int weeks;
-    private string monthName = string.Empty;
+    private readonly List<ActivityDto> _allActivitiesDto = new();
 
     protected override void OnInitialized()
     {
-        InitFields();
-        StateHasChanged();
+        InitMonth(new DateTime(_now.Year, _now.Month, 1));
     }
 
     #region PrivateMethods
+
     private void InitFields()
     {
-        lastDayOfMonth = new DateTime(MonthBody.Year, MonthBody.Month, 1).AddMonths(1).AddDays(-1);
-        daysInMonth = lastDayOfMonth.Day;
-        daysInLastWeek = daysInMonth % 7;
-        weeks = daysInMonth / 7;
-        weeks += daysInLastWeek > 0 ? 1 : 0;
-        monthName = BasicHelper.GetMonthName(MonthBody.Month);
+        _lastDayOfMonth = new DateTime(_monthDto!.Year, _monthDto.Month, 1).AddMonths(1).AddDays(-1);
+        _daysInMonth = _lastDayOfMonth.Day;
+        _daysInLastWeek = _daysInMonth % 7;
+        _weeks = _daysInMonth / 7;
+        _weeks += _daysInLastWeek > 0 ? 1 : 0;
+        _monthName = BasicHelper.GetMonthName(_monthDto.Month);
 
-        GenerateDaysInMonth();
         StateHasChanged();
     }
 
-    private void GenerateDaysInMonth()
+    private void IncreaseMonth()
     {
-        if (_days is not null || _days?.Count > 0)
-            _days.Clear();
-
-        for (int i = 1; i <= daysInMonth; i++)
-        {
-            var day = new DateTime(MonthBody.Year, MonthBody.Month, i);
-            _days?.Add(day);
-        }
+        var newDate = new DateTime(_monthDto!.Year, _monthDto.Month, 1).AddMonths(1);
+        InitMonth(newDate);
     }
 
-    public void IncreaseMonth()
+    private void DecreaseMonth()
     {
-        MonthBody = MonthBody.AddMonths(1);
+        var newDate = new DateTime(_monthDto!.Year, _monthDto.Month, 1).AddMonths(-1);
+        InitMonth(newDate);
+    }
+
+    private void InitMonth(DateTime date)
+    {
+        var activities = BasicHelper.GetMonthActivities(_allActivitiesDto, date);
+        _monthDto = BasicHelper.CreateMonthDto(date.Year, date.Month, activities);
+
         InitFields();
     }
 
-    public void DecreaseMonth()
-    {
-        MonthBody = MonthBody.AddMonths(-1);
-        InitFields();
-    }
     #endregion PrivateMethods
+
+    #region PublicMethods
+
+    public void AddActivity(ActivityDto activity)
+    {
+        _allActivitiesDto.Add(activity);
+        InitMonth(activity.Day);
+    }
+
+    public void RemoveActivity(ActivityDto activity)
+    {
+        _allActivitiesDto.Remove(activity);
+        InitMonth(activity.Day);
+    }
+
+    #endregion PublicMethods
 }

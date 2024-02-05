@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using TimeManager.Components.Dialogs;
 using TimeManager.Data.DTOs;
 
 namespace TimeManager.Components.Components;
 
 public partial class Activity
 {
-    [Inject] public IDialogService? DialogService { get; set; }
+    [CascadingParameter(Name = "MonthRef")] public Month? MonthRef { get; set; }
 
+    [Parameter] public Day? Day { get; set; }
     [Parameter] public List<ActivityDto>? ActivitiesDto { get; set; }
 
-    protected override void OnInitialized()
-    {
-    }
+    private static void OpenPopover(ActivityDto activity) =>
+        activity.IsOpen = !activity.IsOpen;
 
-    private void OpenDialog()
+    public void RemoveActivity(ActivityDto activity)
     {
-        //To do...
+        MonthRef!.RemoveActivity(activity);
+        Day!.DayStateHasChanged();
     }
 }

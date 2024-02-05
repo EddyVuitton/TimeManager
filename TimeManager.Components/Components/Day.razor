@@ -1,4 +1,4 @@
 ﻿<div class="day" @onclick="OpenDialog">
     <MudText Align="Align.Center">@(_dayText)</MudText>
-    <Activity ActivitiesDto="_activitiesDto" />
+    <Activity Day="this" ActivitiesDto="DayDto?.Activities" />
 </div>
