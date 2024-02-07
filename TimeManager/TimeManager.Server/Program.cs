@@ -1,10 +1,10 @@
-using TimeManager.Server.Helpers;
+using TimeManager.Server.Extensions;
 using TimeManager.WebUI.EntryPoint;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-BasicHelper.AddServices(builder);
+builder.Services.AddServices();
 
 var app = builder.Build();
 
