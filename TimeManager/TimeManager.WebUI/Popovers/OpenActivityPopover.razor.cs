@@ -21,15 +21,19 @@ public partial class OpenActivityPopover
 
     protected override void OnInitialized()
     {
-        var DayBody = DateTime.Now;
+        InitFields();
+    }
 
+    #region PrivateMethods
+
+    private void InitFields()
+    {
+        var DayBody = DateTime.Now;
         var dayWeekName = BasicHelper.GetDayWeekName((int)DayBody.DayOfWeek);
         var polishMonthInflection = BasicHelper.GetPolishMonthInflection(DayBody.Month).ToLower();
         _dayName = $"{dayWeekName}, {DayBody.Day} {polishMonthInflection}";
         _titleStyle = _TITLEUNEDITABLE;
     }
-
-    #region PrivateMethods
 
     private void ToggleReadonly()
     {

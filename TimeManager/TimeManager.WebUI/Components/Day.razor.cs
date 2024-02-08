@@ -54,12 +54,6 @@ public partial class Day
         StateHasChanged();
     }
 
-    public void RemoveActivity(ActivityDto activity)
-    {
-        MonthRef!.RemoveActivity(activity);
-        StateHasChanged();
-    }
-
     public void DayStateHasChanged() => StateHasChanged();
 
     #endregion PublicMethods
