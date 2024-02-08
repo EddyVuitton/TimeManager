@@ -1,5 +1,5 @@
-﻿using TimeManager.WebUI.Helpers;
-using TimeManager.Domain.DTOs;
+﻿using TimeManager.Domain.DTOs;
+using TimeManager.WebUI.Helpers;
 
 namespace TimeManager.WebUI.Components;
 

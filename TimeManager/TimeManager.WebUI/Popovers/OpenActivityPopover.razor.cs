@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
+using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Components;
 using TimeManager.WebUI.Helpers;
 using TimeManager.WebUI.Pages;
-using TimeManager.Domain.DTOs;
 
 namespace TimeManager.WebUI.Popovers;
 
