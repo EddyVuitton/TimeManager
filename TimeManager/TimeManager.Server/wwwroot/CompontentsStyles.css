@@ -11,12 +11,12 @@
     }
 
     .month .month-top {
-        border-top: 0.1rem solid #cccccc;
+        /*border-top: 0.1rem solid #cccccc;*/
     }
 
 .day {
-    width: 270px;
-    height: 17vh;
+    width: 271px;
+    height: 165px;
     border-left: 0.1rem solid #cccccc;
 }
 
