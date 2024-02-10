@@ -6,6 +6,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="MudBlazor" Version="6.15.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\TimeManager.WebUI\TimeManager.WebUI.csproj" />

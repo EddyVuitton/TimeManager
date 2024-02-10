@@ -4,7 +4,7 @@ using TimeManager.WebUI.EntryPoint;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddServices();
+builder.Services.AddServices(builder);
 
 var app = builder.Build();
 
@@ -23,5 +23,13 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+/*
+ * Podczas ka¿dego uruchomienia aplikacji migruj bazê DBContext.cs do lokalnego serwera SQL (localdb)\\MSSQLLocalDB
+*/
+if (app.Environment.IsDevelopment()) //Tylko i wy³¹cznie na œrodowisku deweloperskim
+{
+    app.ReMigrateDatabase();
+}
 
 app.Run();
