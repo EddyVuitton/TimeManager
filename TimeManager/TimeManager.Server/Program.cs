@@ -27,9 +27,9 @@ app.MapRazorComponents<App>()
 /*
  * Podczas ka¿dego uruchomienia aplikacji migruj bazê DBContext.cs do lokalnego serwera SQL (localdb)\\MSSQLLocalDB
 */
-if (app.Environment.IsDevelopment()) //Tylko i wy³¹cznie na œrodowisku deweloperskim
-{
-    app.ReMigrateDatabase();
-}
+//if (app.Environment.IsDevelopment()) //Tylko i wy³¹cznie na œrodowisku deweloperskim
+//{
+//    app.ReMigrateDatabase();
+//}
 
 app.Run();
