@@ -24,7 +24,7 @@ public partial class Day
 
     private void InitFields()
     {
-        _dayText = DayDto?.Day.Day < 10 ? $"0{DayDto?.Day.Day}" : DayDto?.Day.Day.ToString() ?? string.Empty;
+        _dayText = DayDto?.Day.Day.ToString();
     }
 
     private void OpenDialog()
