@@ -5,16 +5,16 @@ namespace TimeManager.WebUI.Components;
 
 public partial class Month
 {
-    private MonthDto? _monthDto = new();
+    private MonthDto _monthDto = new();
 
     private readonly DateTime _now = DateTime.Now;
     private DateTime _lastDayOfMonth;
     private int _daysInMonth;
     private int _daysInLastWeek;
     private int _weeks;
-    private string? _monthName;
+    private string _monthName = string.Empty;
 
-    private readonly List<ActivityDto> _allActivitiesDto = new();
+    private readonly List<ActivityDto> _allActivitiesDto = [];
 
     protected override void OnInitialized()
     {
@@ -25,7 +25,7 @@ public partial class Month
 
     private void InitFields()
     {
-        _lastDayOfMonth = new DateTime(_monthDto!.Year, _monthDto.Month, 1).AddMonths(1).AddDays(-1);
+        _lastDayOfMonth = new DateTime(_monthDto.Year, _monthDto.Month, 1).AddMonths(1).AddDays(-1);
         _daysInMonth = _lastDayOfMonth.Day;
         _daysInLastWeek = _daysInMonth % 7;
         _weeks = _daysInMonth / 7;
@@ -37,13 +37,13 @@ public partial class Month
 
     private void IncreaseMonth()
     {
-        var newDate = new DateTime(_monthDto!.Year, _monthDto.Month, 1).AddMonths(1);
+        var newDate = new DateTime(_monthDto.Year, _monthDto.Month, 1).AddMonths(1);
         InitMonth(newDate);
     }
 
     private void DecreaseMonth()
     {
-        var newDate = new DateTime(_monthDto!.Year, _monthDto.Month, 1).AddMonths(-1);
+        var newDate = new DateTime(_monthDto.Year, _monthDto.Month, 1).AddMonths(-1);
         InitMonth(newDate);
     }
 

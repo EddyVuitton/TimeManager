@@ -8,10 +8,10 @@ namespace TimeManager.WebUI.Popovers;
 
 public partial class OpenActivityPopover
 {
-    [CascadingParameter(Name = "HomeRef")] protected Home? HomeRef { get; set; }
+    [CascadingParameter(Name = "HomeRef")] protected Home HomeRef { get; set; } = null!;
 
-    [Parameter] public Activity? Activity { get; set; }
-    [Parameter] public ActivityDto? ActivityDto { get; set; }
+    [Parameter] public Activity Activity { get; set; } = null!;
+    [Parameter] public ActivityDto ActivityDto { get; set; } = null!;
 
     private string _dayName = string.Empty;
     private bool isReadonly = true;
@@ -44,15 +44,15 @@ public partial class OpenActivityPopover
 
     private void ToggleOpen()
     {
-        ActivityDto!.ToggleOpen();
+        ActivityDto.ToggleOpen();
         isReadonly = true;
         _titleStyle = _TITLEUNEDITABLE;
-        Activity!.Day!.DayStateHasChanged();
+        Activity.Day.DayStateHasChanged();
     }
 
     private void DeleteActivity()
     {
-        Activity!.RemoveActivity(ActivityDto!);
+        Activity.RemoveActivity(ActivityDto);
         StateHasChanged();
     }
 

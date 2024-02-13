@@ -86,5 +86,5 @@ public static class BasicHelper
     }
 
     public static List<ActivityDto> GetMonthActivities(List<ActivityDto>? activities, DateTime date) =>
-        activities?.Where(x => x.Day.Year == date.Year && x.Day.Month == date.Month).ToList() ?? new List<ActivityDto>();
+        activities?.Where(x => x.Day.Year == date.Year && x.Day.Month == date.Month).ToList() ?? [];
 }

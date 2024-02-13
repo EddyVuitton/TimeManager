@@ -7,11 +7,11 @@ namespace TimeManager.WebUI.Components;
 
 public partial class Day
 {
-    [Inject] public IDialogService? DialogService { get; set; }
+    [Inject] public IDialogService DialogService { get; set; } = null!;
 
-    [CascadingParameter(Name = "MonthRef")] public Month? MonthRef { get; set; }
+    [CascadingParameter(Name = "MonthRef")] public Month MonthRef { get; set; } = null!;
 
-    [Parameter] public DayDto? DayDto { get; set; }
+    [Parameter] public DayDto DayDto { get; set; } = null!;
 
     private string _dayText = string.Empty;
 
@@ -24,7 +24,7 @@ public partial class Day
 
     private void InitFields()
     {
-        _dayText = DayDto?.Day.Day.ToString();
+        _dayText = DayDto.Day.Day.ToString();
     }
 
     private void OpenDialog()
@@ -41,7 +41,7 @@ public partial class Day
             { "DayRef", this }
         };
 
-        DialogService?.Show<AddActivityDialog>(string.Empty, parameters, options);
+        DialogService.Show<AddActivityDialog>(string.Empty, parameters, options);
     }
 
     #endregion PrivateMethods
@@ -50,7 +50,7 @@ public partial class Day
 
     public void AddActivity(ActivityDto activity)
     {
-        MonthRef!.AddActivity(activity);
+        MonthRef.AddActivity(activity);
         StateHasChanged();
     }
 

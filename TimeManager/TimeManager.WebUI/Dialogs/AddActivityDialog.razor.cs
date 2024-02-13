@@ -8,14 +8,14 @@ namespace TimeManager.WebUI.Dialogs;
 
 public partial class AddActivityDialog
 {
-    [CascadingParameter] public MudDialogInstance? MudDialog { get; set; }
+    [CascadingParameter] public MudDialogInstance MudDialog { get; set; } = null!;
 
-    [Parameter] public DayDto? DayDto { get; set; }
-    [Parameter] public Day? DayRef { get; set; }
+    [Parameter] public DayDto DayDto { get; set; } = null!;
+    [Parameter] public Day DayRef { get; set; } = null!;
 
-    private readonly string[] _taskLists = { "Moje zadania" };
-    private readonly List<string> _hourList = new();
-    private readonly List<string> _repetitionList = new();
+    private readonly string[] _taskLists = ["Moje zadania"];
+    private readonly List<string> _hourList = [];
+    private readonly List<string> _repetitionList = [];
     private readonly DateTime _now = DateTime.Now;
 
     private string _description = string.Empty;
@@ -63,7 +63,7 @@ public partial class AddActivityDialog
 
     private void SetDayName()
     {
-        var monthName = BasicHelper.GetMonthName(DayDto!.Day.Month)[..3].ToLower() ?? string.Empty;
+        var monthName = BasicHelper.GetMonthName(DayDto.Day.Month)[..3].ToLower() ?? string.Empty;
         _dayName = $"{DayDto.Day.Day} {monthName} {DayDto.Day.Year}";
     }
 
@@ -86,7 +86,7 @@ public partial class AddActivityDialog
     {
         var activity = new ActivityDto()
         {
-            Day = DayDto!.Day,
+            Day = DayDto.Day,
             Title = _title,
             Description = _description,
             Task = _taskValue,
@@ -94,11 +94,11 @@ public partial class AddActivityDialog
             RepetitionType = _repetitionValue
         };
 
-        DayRef?.AddActivity(activity);
-        MudDialog?.Close(DialogResult.Ok(true));
+        DayRef.AddActivity(activity);
+        MudDialog.Close(DialogResult.Ok(true));
     }
 
-    private void Cancel() => MudDialog?.Cancel();
+    private void Cancel() => MudDialog.Cancel();
 
     #endregion PrivateMethods
 }
