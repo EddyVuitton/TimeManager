@@ -1,4 +1,6 @@
-﻿namespace TimeManager.Server.Extensions;
+﻿using MudBlazor.Services;
+
+namespace TimeManager.Server.Extensions;
 
 public static class IServiceCollectionExtension
 {
@@ -7,5 +9,6 @@ public static class IServiceCollectionExtension
         service
             .AddRazorComponents()
             .AddInteractiveServerComponents();
+        service.AddMudServices();
     }
 }
