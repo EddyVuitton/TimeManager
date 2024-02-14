@@ -10,7 +10,7 @@ public partial class OpenActivityPopover
 {
     [CascadingParameter(Name = "HomeRef")] protected Home HomeRef { get; set; } = null!;
 
-    [Parameter] public Activity Activity { get; set; } = null!;
+    [Parameter] public Activity ActivityRef { get; set; } = null!;
     [Parameter] public ActivityDto ActivityDto { get; set; } = null!;
 
     private string _dayName = string.Empty;
@@ -18,6 +18,7 @@ public partial class OpenActivityPopover
     private const string _TITLEEDITABLE = "font-size: 2rem; color: black;";
     private const string _TITLEUNEDITABLE = "font-size: 2rem; color: #969696;";
     private string _titleStyle = string.Empty;
+    private string? _placeholder;
 
     protected override void OnInitialized()
     {
@@ -28,11 +29,12 @@ public partial class OpenActivityPopover
 
     private void InitFields()
     {
-        var DayBody = DateTime.Now;
-        var dayWeekName = BasicHelper.GetDayWeekName((int)DayBody.DayOfWeek);
-        var polishMonthInflection = BasicHelper.GetPolishMonthInflection(DayBody.Month).ToLower();
-        _dayName = $"{dayWeekName}, {DayBody.Day} {polishMonthInflection}";
+        var dayBody = ActivityDto.Day;
+        var dayWeekName = BasicHelper.GetDayWeekName((int)dayBody.DayOfWeek);
+        var polishMonthInflection = BasicHelper.GetPolishMonthInflection(dayBody.Month).ToLower();
+        _dayName = $"{dayWeekName}, {dayBody.Day} {polishMonthInflection}";
         _titleStyle = _TITLEUNEDITABLE;
+        _placeholder = ActivityDto.Title ?? "(Bez tytułu)";
     }
 
     private void ToggleReadonly()
@@ -47,12 +49,12 @@ public partial class OpenActivityPopover
         ActivityDto.ToggleOpen();
         isReadonly = true;
         _titleStyle = _TITLEUNEDITABLE;
-        Activity.Day.DayStateHasChanged();
+        ActivityRef.Day.DayStateHasChanged();
     }
 
     private void DeleteActivity()
     {
-        Activity.RemoveActivity(ActivityDto);
+        ActivityRef.RemoveActivity(ActivityDto);
         StateHasChanged();
     }
 

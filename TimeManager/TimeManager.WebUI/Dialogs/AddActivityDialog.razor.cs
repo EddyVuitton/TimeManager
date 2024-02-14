@@ -19,7 +19,7 @@ public partial class AddActivityDialog
     private readonly DateTime _now = DateTime.Now;
 
     private string _description = string.Empty;
-    private string _title = string.Empty;
+    private string? _title;
     private string _taskValue = "Moje zadania";
     private string _hourValue = string.Empty;
     private string _repetitionValue = "Nie powtarza się";

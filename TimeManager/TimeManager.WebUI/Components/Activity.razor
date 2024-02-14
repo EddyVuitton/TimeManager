@@ -11,10 +11,10 @@
 
         @foreach (var a in top4activities)
         {
-            a.Title = string.IsNullOrEmpty(a.Title) ? "(Bez tytułu)" : a.Title;
+            var localTitle = a.Title ?? "(Bez tytułu)";
 
             <div class="activity-body" @onclick="(() => OpenPopover(a))">
-                <span class="activity-title">@a.Title</span>
+                <span class="activity-title">@localTitle</span>
                 <OpenActivityPopover Activity="this" ActivityDto="a" />
             </div>
         }
