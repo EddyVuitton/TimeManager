@@ -12,6 +12,6 @@
 		<PackageReference Include="MudBlazor" Version="6.15.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\TimeManager.Domain\TimeManager.Domain.csproj" />
+		<ProjectReference Include="..\TimeManager.WebAPI\TimeManager.WebAPI.csproj" />
 	</ItemGroup>
 </Project>

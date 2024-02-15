@@ -5,7 +5,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\TimeManager.WebAPI\TimeManager.WebAPI.csproj" />
 		<ProjectReference Include="..\TimeManager.WebUI\TimeManager.WebUI.csproj" />
 	</ItemGroup>
 </Project>

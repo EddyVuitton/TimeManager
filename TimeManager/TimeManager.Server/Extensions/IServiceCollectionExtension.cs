@@ -1,14 +1,11 @@
-﻿using MudBlazor.Services;
+﻿using TimeManager.WebAPI.APIs.Management;
 
 namespace TimeManager.Server.Extensions;
 
 public static class IServiceCollectionExtension
 {
-    public static void AddServices(this IServiceCollection service)
+    public static void AddApiServices(this IServiceCollection service)
     {
-        service
-            .AddRazorComponents()
-            .AddInteractiveServerComponents();
-        service.AddMudServices();
+        service.AddScoped<IManagementService, ManagementService>();
     }
 }

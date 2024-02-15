@@ -1,10 +1,16 @@
-﻿using TimeManager.Domain.DTOs;
+﻿using Microsoft.AspNetCore.Components;
+using TimeManager.Domain.DTOs;
+using TimeManager.WebAPI.APIs.Management;
 using TimeManager.WebUI.Helpers;
 
 namespace TimeManager.WebUI.Components;
 
 public partial class Month
 {
+    [Inject] public IManagementService ManagementService { get; set; } = null!;
+
+    [CascadingParameter(Name = "UserId")] public int UserId { get; set; }
+
     private MonthDto _monthDto = new();
 
     private readonly DateTime _now = DateTime.Now;
@@ -14,14 +20,33 @@ public partial class Month
     private int _weeks;
     private string _monthName = string.Empty;
 
-    private readonly List<ActivityDto> _allActivitiesDto = [];
+    private List<ActivityDto> _allActivitiesDto = [];
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        InitMonth(new DateTime(_now.Year, _now.Month, 1));
+        try
+        {
+            await LoadActivitiesAsync();
+            InitMonth(new DateTime(_now.Year, _now.Month, 1));
+        }
+        catch
+        {
+        }
     }
 
     #region PrivateMethods
+
+    private async Task LoadActivitiesAsync()
+    {
+        var userActivities = await ManagementService.GetUserActivitiesAsync(UserId);
+
+        if (!userActivities.IsSuccess)
+        {
+            throw new Exception(userActivities.Message ?? "Błąd we wczytaniu aktywności...");
+        }
+
+        _allActivitiesDto = userActivities.Data;
+    }
 
     private void InitFields()
     {

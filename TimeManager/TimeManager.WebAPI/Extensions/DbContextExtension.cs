@@ -7,7 +7,7 @@ using TimeManager.WebAPI.Helpers;
 
 namespace TimeManager.WebAPI.Extensions;
 
-public static class DbContextExtensions
+public static class DbContextExtension
 {
     private static readonly string _databaseConnectionString = ConfigurationHelper.DatabaseConnectionString;
 
@@ -128,6 +128,16 @@ public static class DbContextExtensions
         }
 
         return list;
+    }
+
+    public static object CreateParameter(this DbContext db, string name, object? value, SqlDbType type)
+    {
+        return new SqlParameter()
+        {
+            ParameterName = name,
+            Value = value ?? DBNull.Value,
+            SqlDbType = type
+        };
     }
 
     #endregion PublicMethods
