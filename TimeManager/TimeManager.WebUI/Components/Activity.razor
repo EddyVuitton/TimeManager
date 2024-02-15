@@ -15,7 +15,7 @@
 
             <div class="activity-body" @onclick="(() => OpenPopover(a))">
                 <span class="activity-title">@localTitle</span>
-                <OpenActivityPopover Activity="this" ActivityDto="a" />
+                <OpenActivityPopover ActivityRef="this" ActivityDto="a" />
             </div>
         }
         @if (ActivitiesDto.Count > 4)
