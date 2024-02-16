@@ -6,10 +6,10 @@ namespace TimeManager.Domain.Context;
 
 public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
 {
-    public DbSet<RepetitionType> RepetitionType { get; set; }
-    public DbSet<Repetition> Repetition { get; set; }
-    public DbSet<Activity> Activity { get; set; }
-    public DbSet<User> User { get; set; }
+    public DbSet<RepetitionType> RepetitionType => Set<RepetitionType>();
+    public DbSet<Repetition> Repetition => Set<Repetition>();
+    public DbSet<Activity> Activity => Set<Activity>();
+    public DbSet<User> User => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

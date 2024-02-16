@@ -17,7 +17,7 @@ public static class IServiceCollectionExtension
          */
         services.AddDbContextFactory<DBContext>(options =>
         {
-            options.UseSqlServer(ConfigurationHelper.DatabaseConnectionString);
+            options.UseSqlServer(ConfigurationHelper.TempDatabaseConnectionString);
         });
 
         return services;

@@ -1,5 +1,8 @@
-﻿namespace TimeManager.Domain.DTOs;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace TimeManager.Domain.DTOs;
+
+[NotMapped]
 public class ActivityDto
 {
     public DateTime Day { get; set; }

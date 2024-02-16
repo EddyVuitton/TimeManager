@@ -9,7 +9,7 @@ public static class ModelBuilderExtension
     {
         modelBuilder.Entity<ActivityDto>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasNoKey().ToView(null);
         });
     }
 }

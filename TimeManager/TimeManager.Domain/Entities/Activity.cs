@@ -1,24 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TimeManager.Domain.Entities;
 
 public class Activity
 {
-    //[Required]
+    [Key]
     public int Id { get; set; }
-    //[Required]
     public DateTime Day { get; set; }
     public string? Title { get; set; }
     public string? Description { get; set; }
-    //[Required]
     public string Task { get; set; } = null!;
-    //[Required]
     public string Hour { get; set; } = null!;
-    //[Required]
+    [ForeignKey(nameof(Repetition))]
     public int RepetitionId { get; set; }
-    //[Required]
+    [ForeignKey(nameof(User))]
     public int UserId { get; set; }
 
-    //public virtual Repetition Repetition { get; set; } = null!;
-    //public virtual User User { get; set; } = null!;
+    public virtual Repetition Repetition { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }

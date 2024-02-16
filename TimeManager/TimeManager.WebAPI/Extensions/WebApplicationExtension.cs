@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TimeManager.Domain.Context;
 
-namespace TimeManager.Server.Extensions;
+namespace TimeManager.WebAPI.Extensions;
 
 public static class WebApplicationExtension
 {
@@ -14,6 +14,6 @@ public static class WebApplicationExtension
         context.Database.Migrate(); //i stwórz ją razem z jej obiektami
 
         //Przygotuj wstępne dane do testowania aplikacji
-        //SeedDataService.Initialize(context);
+        SeedDataService.Initialize(context);
     }
 }
