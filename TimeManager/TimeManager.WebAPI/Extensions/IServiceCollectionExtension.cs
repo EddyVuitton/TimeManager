@@ -9,6 +9,12 @@ public static class IServiceCollectionExtension
 {
     public static IServiceCollection AddContextFactory(this IServiceCollection services)
     {
+        /*
+         * W aplikacji Blazor, w której jest renderowane wiele stron korzystających z żądań HTTP chcemy,
+         * aby w ramach tych żądań były tworzone osobne instancje kontekstu bazy danych oraz istniały jak najkrócej.
+         * Metoda AddDbContextFactory<DbContext>() tworzy fabrykę typu DbContext co umożliwia szybkie stworzenie nowego kontekstu dla żądania
+         * oraz zarządza jego cyklem życia.
+         */
         services.AddDbContextFactory<DBContext>(options =>
         {
             options.UseSqlServer(ConfigurationHelper.DatabaseConnectionString);
