@@ -25,7 +25,7 @@ public static class IServiceCollectionExtension
 
     public static IServiceCollection AddBusinessLogics(this IServiceCollection services)
     {
-        services.AddScoped<IManagementContext, Management>();
+        services.AddScoped<IManagement, Management>();
 
         return services;
     }

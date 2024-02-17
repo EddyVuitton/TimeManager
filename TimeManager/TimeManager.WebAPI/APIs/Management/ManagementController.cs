@@ -7,9 +7,9 @@ namespace TimeManager.WebAPI.APIs.Management;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ManagementController(IManagementContext businessLogic) : ControllerBase
+public class ManagementController(IManagement businessLogic) : ControllerBase
 {
-    private readonly IManagementContext _businessLogic = businessLogic;
+    private readonly IManagement _businessLogic = businessLogic;
 
     [HttpGet("GetUserActivitiesAsync")]
     public async Task<HttpResultT<List<ActivityDto>>> GetUserActivitiesAsync(int userId)

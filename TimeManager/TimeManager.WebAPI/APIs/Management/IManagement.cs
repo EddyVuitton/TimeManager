@@ -1,9 +1,11 @@
 ﻿using TimeManager.Domain.DTOs;
+using TimeManager.Domain.Entities;
 
 namespace TimeManager.WebAPI.APIs.Management;
 
-public interface IManagementContext
+public interface IManagement
 {
     Task<ActivityDto> AddUserActivityAsync(ActivityDto activity);
+    Task<List<RepetitionType>> GetRepetitionTypesAsync();
     Task<List<ActivityDto>> GetUserActivitiesAsync(int userId);
 }
