@@ -16,33 +16,59 @@ public static class SeedDataService
         context.SaveChanges();
 
         //User
-        context.User.Add(new User() { Email = "abc@ab.com", Password = "admin" });
+        var user = new User() { Email = "abc@ab.com", Password = "admin" };
+        context.User.Add(user);
         context.SaveChanges();
 
         //Repetition
-        context.Repetition.Add(new Repetition() { RepetitionTypeId = 1 });
-        context.Repetition.Add(new Repetition() { RepetitionTypeId = 1 });
-        context.SaveChanges();
+        var repetition1 = AddRepetition(context, 1);
+        var repetition2 = AddRepetition(context, 1);
+        var repetition3 = AddRepetition(context, 1);
 
         //Activity
-        context.Activity.Add(new Activity()
+        var activity1 = new Activity()
         {
             Day = DateTime.Now,
             Description = string.Empty,
             Task = "Moje zadania",
             Hour = "10:00",
-            RepetitionId = 1,
-            UserId = 1
-        });
-        context.Activity.Add(new Activity()
+            Repetition = repetition1,
+            User = user
+        };
+        var activity2 = new Activity()
         {
-            Day = DateTime.Now.AddDays(1),
+            Day = activity1.Day.AddDays(1),
             Description = string.Empty,
             Task = "Moje zadania",
-            Hour = "12:00",
-            RepetitionId = 2,
-            UserId = 1
-        });
+            Hour = "10:00",
+            Repetition = repetition2,
+            User = user
+        };
+        var activity3 = new Activity()
+        {
+            Day = activity2.Day.AddDays(1),
+            Description = string.Empty,
+            Task = "Moje zadania",
+            Hour = "10:00",
+            Repetition = repetition3,
+            User = user
+        };
+
+        context.Activity.Add(activity1);
+        context.Activity.Add(activity2);
+        context.Activity.Add(activity3);
+
         context.SaveChanges();
+    }
+
+    private static Repetition AddRepetition(DBContext context, int typeId)
+    {
+        var repetition = new Repetition()
+        {
+            RepetitionTypeId = typeId
+        };
+        context.Repetition.Add(repetition);
+        context.SaveChanges();
+        return repetition;
     }
 }

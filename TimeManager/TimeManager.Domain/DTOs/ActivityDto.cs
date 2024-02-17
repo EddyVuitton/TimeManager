@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace TimeManager.Domain.DTOs;
 
-namespace TimeManager.Domain.DTOs;
-
-[NotMapped]
 public class ActivityDto
 {
     public DateTime Day { get; set; }
@@ -10,9 +7,9 @@ public class ActivityDto
     public string Description { get; set; } = string.Empty;
     public string Task { get; set; } = string.Empty;
     public string Hour { get; set; } = string.Empty;
-    public string RepetitionType { get; set; } = string.Empty;
+    public int RepetitionTypeId { get; set; }
+    public string RepetitionTypeName { get; set; } = string.Empty;
     public int? RepetitionDay { get; set; } //todo
     public bool IsOpen { get; set; } = false;
-
-    public void ToggleOpen() => IsOpen = !IsOpen;
+    public int UserId { get; set; }
 }

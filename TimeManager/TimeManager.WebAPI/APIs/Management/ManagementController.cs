@@ -24,4 +24,18 @@ public class ManagementController(IManagementContext businessLogic) : Controller
             return HttpHelper.Error<List<ActivityDto>>(e);
         }
     }
+
+    [HttpPost("AddUserActivityAsync")]
+    public async Task<HttpResultT<ActivityDto>> AddUserActivityAsync(ActivityDto activity)
+    {
+        try
+        {
+            var result = await _businessLogic.AddUserActivityAsync(activity);
+            return HttpHelper.Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error<ActivityDto>(e);
+        }
+    }
 }

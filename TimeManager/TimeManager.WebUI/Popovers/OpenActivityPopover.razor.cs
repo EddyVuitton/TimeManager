@@ -46,7 +46,7 @@ public partial class OpenActivityPopover
 
     private void ToggleOpen()
     {
-        ActivityDto.ToggleOpen();
+        ActivityDto.IsOpen = !ActivityDto.IsOpen;
         isReadonly = true;
         _titleStyle = _TITLEUNEDITABLE;
         ActivityRef.Day.DayStateHasChanged();

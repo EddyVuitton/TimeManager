@@ -50,6 +50,7 @@ public partial class Day
 
     public void AddActivity(ActivityDto activity)
     {
+        activity.UserId = MonthRef.UserId;
         MonthRef.AddActivity(activity);
         StateHasChanged();
     }

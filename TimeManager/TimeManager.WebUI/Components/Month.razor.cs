@@ -84,10 +84,26 @@ public partial class Month
 
     #region PublicMethods
 
-    public void AddActivity(ActivityDto activity)
+    public async void AddActivity(ActivityDto activity)
     {
-        _allActivitiesDto.Add(activity);
-        InitMonth(activity.Day);
+        try
+        {
+            var newActivityResult = await ManagementService.AddUserActivityAsync(activity);
+
+            if (!newActivityResult.IsSuccess)
+            {
+                throw new Exception(newActivityResult.Message ?? "Błąd w dodaniu aktywności...");
+            }
+
+            _allActivitiesDto.Add(newActivityResult.Data);
+        }
+        catch
+        {
+        }
+        finally
+        {
+            InitMonth(activity.Day);
+        }
     }
 
     public void RemoveActivity(ActivityDto activity)

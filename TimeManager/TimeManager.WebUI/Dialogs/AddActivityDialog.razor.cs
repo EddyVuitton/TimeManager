@@ -91,7 +91,7 @@ public partial class AddActivityDialog
             Description = _description,
             Task = _taskValue,
             Hour = _hourValue,
-            RepetitionType = _repetitionValue
+            RepetitionTypeId = 1
         };
 
         DayRef.AddActivity(activity);

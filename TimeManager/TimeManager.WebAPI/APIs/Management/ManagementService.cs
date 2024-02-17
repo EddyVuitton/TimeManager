@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Text;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebAPI.Http;
 
@@ -17,6 +18,21 @@ public class ManagementService(HttpClient httpClient) : IManagementService
 
         if (deserialisedResponse is null)
             throw new NullReferenceException(typeof(List<ActivityDto>).Name);
+
+        return deserialisedResponse;
+    }
+
+    public async Task<HttpResultT<ActivityDto>> AddUserActivityAsync(ActivityDto activity)
+    {
+        var json = JsonConvert.SerializeObject(activity);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync($"{_ROUTE}/AddUserActivityAsync", content);
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityDto>>(responseContent);
+
+        if (deserialisedResponse is null)
+            throw new NullReferenceException(typeof(ActivityDto).Name);
 
         return deserialisedResponse;
     }
