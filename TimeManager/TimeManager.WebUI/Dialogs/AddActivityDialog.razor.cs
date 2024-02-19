@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using TimeManager.Domain.DTOs;
+using TimeManager.WebAPI.APIs.Management;
 using TimeManager.WebUI.Components;
 using TimeManager.WebUI.Helpers;
 
@@ -8,34 +9,57 @@ namespace TimeManager.WebUI.Dialogs;
 
 public partial class AddActivityDialog
 {
+    [Inject] public IManagementService ManagementService { get; set; } = null!;
+
     [CascadingParameter] public MudDialogInstance MudDialog { get; set; } = null!;
 
     [Parameter] public DayDto DayDto { get; set; } = null!;
     [Parameter] public Day DayRef { get; set; } = null!;
 
-    private readonly string[] _taskLists = ["Moje zadania"];
-    private readonly List<string> _hourList = [];
-    private readonly List<string> _repetitionList = [];
-    private readonly DateTime _now = DateTime.Now;
+    private List<string> _hourList = null!;
+    private Dictionary<int, string> _repetitionTypeList = null!;
+    private DateTime _now;
 
-    private string _description = string.Empty;
+    private string[] _taskLists = null!;
+    private string _description = null!;
+    private string _taskValue = null!;
+    private string _hourValue = null!;
+    private string _dayName = null!;
     private string? _title;
-    private string _taskValue = "Moje zadania";
-    private string _hourValue = string.Empty;
-    private string _repetitionValue = "Nie powtarza się";
-    private string _dayName = string.Empty;
+    private string? _repetitionTypeValue;
 
     private bool _showAddDeadlineButton = false;
     private bool _isRepetitionSelectDisabled = true;
 
-    protected override void OnInitialized()
+    private int _repetitionTypeId;
+
+    protected override async Task OnInitializedAsync()
     {
-        AddHoursToSelect();
-        AddRepetitionsToSelect();
+        InitFields();
         SetDayName();
+        await AddRepetitionsToSelect();
+        AddHoursToSelect();
+        SetDefualtRepetitionType();
     }
 
     #region PrivateMethods
+
+    private void InitFields()
+    {
+        _taskLists = ["Moje zadania"];
+        _description = string.Empty;
+        _taskValue = "Moje zadania";
+        _hourList = [];
+        _now = DateTime.Now;
+        _hourValue = string.Empty;
+        _dayName = string.Empty;
+    }
+
+    private void SetDefualtRepetitionType()
+    {
+        _repetitionTypeId = _repetitionTypeList.FirstOrDefault().Key;
+        _repetitionTypeValue = _repetitionTypeList.FirstOrDefault(x => x.Key == _repetitionTypeId).Value;
+    }
 
     private void AddHoursToSelect()
     {
@@ -51,14 +75,26 @@ public partial class AddActivityDialog
         }
     }
 
-    private void AddRepetitionsToSelect()
+    private async Task AddRepetitionsToSelect()
     {
-        _repetitionList.Add("Nie powtarza się");
-        _repetitionList.Add("Codziennie");
-        _repetitionList.Add("Co tydzień w: wtorek");
-        _repetitionList.Add("Co miesiąc w: 3. wtorek");
-        _repetitionList.Add("Co roku w dniu: 16 stycznia");
-        _repetitionList.Add("W dni powszednie (od poniedziałku do piątku)");
+        _repetitionTypeList = [];
+        try
+        {
+            var repetitionTypesResult = await ManagementService.GetRepetitionTypesAsync();
+
+            if (!repetitionTypesResult.IsSuccess)
+            {
+                throw new Exception(repetitionTypesResult.Message ?? "Błąd w pobraniu typów powtórzeń...");
+            }
+
+            foreach (var type in repetitionTypesResult.Data)
+            {
+                _repetitionTypeList.Add(type.Id, type.Name);
+            }
+        }
+        catch
+        {
+        }
     }
 
     private void SetDayName()
@@ -74,7 +110,7 @@ public partial class AddActivityDialog
     }
 
     private void OnRepetitionChange(ChangeEventArgs e) =>
-        _repetitionValue = e.Value as string ?? string.Empty;
+        _repetitionTypeId = int.Parse(e.Value as string ?? string.Empty);
 
     private void OnHourChange(ChangeEventArgs e) =>
         _hourValue = e.Value as string ?? string.Empty;
@@ -91,7 +127,7 @@ public partial class AddActivityDialog
             Description = _description,
             Task = _taskValue,
             Hour = _hourValue,
-            RepetitionTypeId = 1
+            RepetitionTypeId = _repetitionTypeId
         };
 
         DayRef.AddActivity(activity);

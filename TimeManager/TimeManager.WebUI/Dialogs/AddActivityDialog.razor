@@ -16,16 +16,16 @@
                     {
                         <div class="custom-select align-self-center">
                             <select @onchange="((e) => OnRepetitionChange(e))" disabled="@_isRepetitionSelectDisabled">
-                                @foreach (var repetition in _repetitionList)
+                                @foreach (var repetitionType in _repetitionTypeList)
                                 {
-                                    <option value="@repetition">@repetition</option>
+                                    <option value="@repetitionType.Key">@repetitionType.Value</option>
                                 }
                             </select>
                         </div>
                     }
                     else
                     {
-                        <div class="align-self-center" style="font-size: 1rem;">@_repetitionValue</div>
+                        <div class="align-self-center" style="font-size: 1rem;">@_repetitionTypeValue</div>
                     }
                     @if (_showAddDeadlineButton)
                     {

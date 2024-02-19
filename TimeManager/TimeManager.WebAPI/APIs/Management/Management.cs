@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using TimeManager.Domain.Context;
 using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
@@ -7,7 +8,7 @@ using TimeManager.WebAPI.Helpers;
 
 namespace TimeManager.WebAPI.APIs.Management;
 
-public class Management(DBContext context) : IManagementContext
+public class Management(DBContext context) : IManagement
 {
     #region PublicMethods
 
@@ -40,6 +41,13 @@ public class Management(DBContext context) : IManagementContext
         });
 
         return activity;
+    }
+
+    public async Task<List<RepetitionType>> GetRepetitionTypesAsync()
+    {
+        var result = await context.RepetitionType.ToListAsync();
+
+        return result ?? [];
     }
 
     #endregion PublicMethods

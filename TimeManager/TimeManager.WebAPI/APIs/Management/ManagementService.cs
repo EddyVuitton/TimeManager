@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
 using TimeManager.Domain.DTOs;
+using TimeManager.Domain.Entities;
 using TimeManager.WebAPI.Http;
 
 namespace TimeManager.WebAPI.APIs.Management;
@@ -33,6 +34,18 @@ public class ManagementService(HttpClient httpClient) : IManagementService
 
         if (deserialisedResponse is null)
             throw new NullReferenceException(typeof(ActivityDto).Name);
+
+        return deserialisedResponse;
+    }
+
+    public async Task<HttpResultT<List<RepetitionType>>> GetRepetitionTypesAsync()
+    {
+        var response = await _httpClient.GetAsync($"{_ROUTE}/GetRepetitionTypesAsync");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<RepetitionType>>>(responseContent);
+
+        if (deserialisedResponse is null)
+            throw new NullReferenceException(typeof(List<RepetitionType>).Name);
 
         return deserialisedResponse;
     }
