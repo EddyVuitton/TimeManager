@@ -10,6 +10,7 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
     public DbSet<Repetition> Repetition => Set<Repetition>();
     public DbSet<Activity> Activity => Set<Activity>();
     public DbSet<User> User => Set<User>();
+    public DbSet<HourType> HourType => Set<HourType>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -49,4 +49,16 @@ public class ManagementService(HttpClient httpClient) : IManagementService
 
         return deserialisedResponse;
     }
+
+    public async Task<HttpResultT<List<HourType>>> GetHourTypesAsync()
+    {
+        var response = await _httpClient.GetAsync($"{_ROUTE}/GetHourTypesAsync");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<HourType>>>(responseContent);
+
+        if (deserialisedResponse is null)
+            throw new NullReferenceException(typeof(List<HourType>).Name);
+
+        return deserialisedResponse;
+    }
 }

@@ -35,7 +35,7 @@ public class Management(DBContext context) : IManagement
             Day = activity.Day,
             Description = activity.Description,
             Task = activity.Task,
-            Hour = activity.Hour,
+            HourTypeId = activity.HourTypeId,
             Repetition = repetition,
             UserId = activity.UserId
         });
@@ -46,6 +46,13 @@ public class Management(DBContext context) : IManagement
     public async Task<List<RepetitionType>> GetRepetitionTypesAsync()
     {
         var result = await context.RepetitionType.ToListAsync();
+
+        return result ?? [];
+    }
+
+    public async Task<List<HourType>> GetHourTypesAsync()
+    {
+        var result = await context.HourType.ToListAsync();
 
         return result ?? [];
     }

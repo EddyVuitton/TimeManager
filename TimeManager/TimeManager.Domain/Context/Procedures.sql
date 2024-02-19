@@ -6,10 +6,8 @@ begin
 		a.Title,
 		a.Description,
 		a.Task,
-		a.Hour,
+		a.HourTypeId,
 		rt.Id [RepetitionTypeId],
-		rt.Name [RepetitionTypeName],
-		null as RepetitionDay,
 		cast(0 as bit) as IsOpen,
 		a.UserId
 	from Activity a

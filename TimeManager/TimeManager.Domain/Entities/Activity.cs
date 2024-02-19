@@ -11,7 +11,8 @@ public class Activity
     public string? Title { get; set; }
     public string? Description { get; set; }
     public string Task { get; set; } = null!;
-    public string Hour { get; set; } = null!;
+    [ForeignKey(nameof(HourType))]
+    public int HourTypeId { get; set; }
     [ForeignKey(nameof(Repetition))]
     public int RepetitionId { get; set; }
     [ForeignKey(nameof(User))]
@@ -19,4 +20,5 @@ public class Activity
 
     public virtual Repetition Repetition { get; set; } = null!;
     public virtual User User { get; set; } = null!;
+    public virtual HourType HourType { get; set; } = null!;
 }

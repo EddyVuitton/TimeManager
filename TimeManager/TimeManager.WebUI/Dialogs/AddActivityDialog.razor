@@ -31,9 +31,9 @@
                     {
                         <div class="custom-select align-self-center" style="width: 100px;">
                             <select @onchange="((e) => OnHourChange(e))">
-                                @foreach (var hour in _hourList)
+                                @foreach (var hour in _hourTypeList)
                                 {
-                                    <option value="@hour">@hour</option>
+                                    <option value="@hour.Key">@hour.Value</option>
                                 }
                             </select>
                         </div>

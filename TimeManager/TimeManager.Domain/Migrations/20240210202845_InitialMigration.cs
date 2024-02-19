@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using TimeManager.Domain.Extensions;
 
 #nullable disable
 
@@ -10,6 +11,7 @@ namespace TimeManager.Domain.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RunSqlScript("Procedures");
         }
 
         /// <inheritdoc />

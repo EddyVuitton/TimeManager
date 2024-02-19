@@ -31,9 +31,8 @@ namespace TimeManager.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Hour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("HourTypeId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsOpen")
                         .HasColumnType("bit");
@@ -41,7 +40,10 @@ namespace TimeManager.Domain.Migrations
                     b.Property<int?>("RepetitionDay")
                         .HasColumnType("int");
 
-                    b.Property<string>("RepetitionType")
+                    b.Property<int>("RepetitionTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RepetitionTypeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -51,6 +53,9 @@ namespace TimeManager.Domain.Migrations
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.ToTable((string)null);
 
@@ -71,9 +76,8 @@ namespace TimeManager.Domain.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Hour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("HourTypeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("RepetitionId")
                         .HasColumnType("int");
@@ -90,11 +94,30 @@ namespace TimeManager.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HourTypeId");
+
                     b.HasIndex("RepetitionId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Activity");
+                });
+
+            modelBuilder.Entity("TimeManager.Domain.Entities.HourType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HourType");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.Repetition", b =>
@@ -158,6 +181,12 @@ namespace TimeManager.Domain.Migrations
 
             modelBuilder.Entity("TimeManager.Domain.Entities.Activity", b =>
                 {
+                    b.HasOne("TimeManager.Domain.Entities.HourType", "HourType")
+                        .WithMany()
+                        .HasForeignKey("HourTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TimeManager.Domain.Entities.Repetition", "Repetition")
                         .WithMany()
                         .HasForeignKey("RepetitionId")
@@ -169,6 +198,8 @@ namespace TimeManager.Domain.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("HourType");
 
                     b.Navigation("Repetition");
 

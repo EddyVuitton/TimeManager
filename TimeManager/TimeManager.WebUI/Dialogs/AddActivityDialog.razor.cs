@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using TimeManager.Domain.DTOs;
+using TimeManager.Domain.Entities;
 using TimeManager.WebAPI.APIs.Management;
 using TimeManager.WebUI.Components;
 using TimeManager.WebUI.Helpers;
@@ -16,14 +17,13 @@ public partial class AddActivityDialog
     [Parameter] public DayDto DayDto { get; set; } = null!;
     [Parameter] public Day DayRef { get; set; } = null!;
 
-    private List<string> _hourList = null!;
+    private Dictionary<int, string> _hourTypeList = null!;
     private Dictionary<int, string> _repetitionTypeList = null!;
     private DateTime _now;
 
     private string[] _taskLists = null!;
     private string _description = null!;
     private string _taskValue = null!;
-    private string _hourValue = null!;
     private string _dayName = null!;
     private string? _title;
     private string? _repetitionTypeValue;
@@ -32,13 +32,14 @@ public partial class AddActivityDialog
     private bool _isRepetitionSelectDisabled = true;
 
     private int _repetitionTypeId;
+    private int _hourTypeId;
 
     protected override async Task OnInitializedAsync()
     {
         InitFields();
         SetDayName();
-        await AddRepetitionsToSelect();
-        AddHoursToSelect();
+        await AddRepetitionsToSelectAsync();
+        await AddHoursToSelectAsync();
         SetDefualtRepetitionType();
     }
 
@@ -49,9 +50,8 @@ public partial class AddActivityDialog
         _taskLists = ["Moje zadania"];
         _description = string.Empty;
         _taskValue = "Moje zadania";
-        _hourList = [];
+        _hourTypeList = [];
         _now = DateTime.Now;
-        _hourValue = string.Empty;
         _dayName = string.Empty;
     }
 
@@ -61,21 +61,29 @@ public partial class AddActivityDialog
         _repetitionTypeValue = _repetitionTypeList.FirstOrDefault(x => x.Key == _repetitionTypeId).Value;
     }
 
-    private void AddHoursToSelect()
+    private async Task AddHoursToSelectAsync()
     {
-        var start = new DateTime(_now.Year, _now.Month, _now.Day, 0, 0, 0);
-
-        for (int i = 0; i < 96; i++)
+        _hourTypeList = [];
+        try
         {
-            var hour = start.Hour < 10 ? $"0{start.Hour}" : start.Hour.ToString();
-            var minute = start.Minute < 10 ? $"0{start.Minute}" : start.Minute.ToString();
+            var hourTypesResult = await ManagementService.GetHourTypesAsync();
 
-            _hourList.Add($"{hour}:{minute}");
-            start = start.AddMinutes(15);
+            if (!hourTypesResult.IsSuccess)
+            {
+                throw new Exception(hourTypesResult.Message ?? "Błąd w pobraniu godzin do wyboru...");
+            }
+
+            foreach (var type in hourTypesResult.Data)
+            {
+                _hourTypeList.Add(type.Id, type.Name);
+            }
+        }
+        catch
+        {
         }
     }
 
-    private async Task AddRepetitionsToSelect()
+    private async Task AddRepetitionsToSelectAsync()
     {
         _repetitionTypeList = [];
         try
@@ -113,20 +121,23 @@ public partial class AddActivityDialog
         _repetitionTypeId = int.Parse(e.Value as string ?? string.Empty);
 
     private void OnHourChange(ChangeEventArgs e) =>
-        _hourValue = e.Value as string ?? string.Empty;
+        _hourTypeId = int.Parse(e.Value as string ?? string.Empty);
 
     private void OnTaskChange(ChangeEventArgs e) =>
         _taskValue = e.Value as string ?? string.Empty;
 
     private void Submit()
     {
+        if (_hourTypeId == 0)
+            _hourTypeId = 1;
+
         var activity = new ActivityDto()
         {
             Day = DayDto.Day,
             Title = _title,
             Description = _description,
             Task = _taskValue,
-            Hour = _hourValue,
+            HourTypeId = _hourTypeId,
             RepetitionTypeId = _repetitionTypeId
         };
 

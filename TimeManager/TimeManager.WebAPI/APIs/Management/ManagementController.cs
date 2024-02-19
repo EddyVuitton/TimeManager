@@ -42,6 +42,20 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         }
     }
 
+    [HttpGet("GetHourTypesAsync")]
+    public async Task<HttpResultT<List<HourType>>> GetHourTypesAsync()
+    {
+        try
+        {
+            var result = await _businessLogic.GetHourTypesAsync();
+            return HttpHelper.Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error<List<HourType>>(e);
+        }
+    }
+
     #endregion Gets
 
     #region Posts

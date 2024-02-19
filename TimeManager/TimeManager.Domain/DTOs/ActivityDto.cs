@@ -6,10 +6,8 @@ public class ActivityDto
     public string? Title { get; set; }
     public string Description { get; set; } = string.Empty;
     public string Task { get; set; } = string.Empty;
-    public string Hour { get; set; } = string.Empty;
+    public int HourTypeId { get; set; }
     public int RepetitionTypeId { get; set; }
-    public string RepetitionTypeName { get; set; } = string.Empty;
-    public int? RepetitionDay { get; set; } //todo
     public bool IsOpen { get; set; } = false;
     public int UserId { get; set; }
 }

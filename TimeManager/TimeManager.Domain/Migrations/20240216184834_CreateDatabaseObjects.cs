@@ -11,7 +11,18 @@ namespace TimeManager.Domain.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RunSqlScript("Procedures");
+            migrationBuilder.CreateTable(
+                name: "HourType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HourType", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "RepetitionType",
@@ -70,13 +81,19 @@ namespace TimeManager.Domain.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Task = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Hour = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HourTypeId = table.Column<int>(type: "int", nullable: false),
                     RepetitionId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Activity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Activity_HourType_HourTypeId",
+                        column: x => x.HourTypeId,
+                        principalTable: "HourType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Activity_Repetition_RepetitionId",
                         column: x => x.RepetitionId,
@@ -90,6 +107,11 @@ namespace TimeManager.Domain.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Activity_HourTypeId",
+                table: "Activity",
+                column: "HourTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activity_RepetitionId",
@@ -112,6 +134,9 @@ namespace TimeManager.Domain.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Activity");
+
+            migrationBuilder.DropTable(
+                name: "HourType");
 
             migrationBuilder.DropTable(
                 name: "Repetition");
