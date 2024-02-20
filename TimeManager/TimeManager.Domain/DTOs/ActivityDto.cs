@@ -2,6 +2,8 @@
 
 public class ActivityDto
 {
+    public int ActivityId { get; set; }
+    public int RepetitionId { get; set; }
     public DateTime Day { get; set; }
     public string? Title { get; set; }
     public string Description { get; set; } = string.Empty;

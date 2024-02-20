@@ -2,6 +2,8 @@ create procedure p_get_user_activities @userId int
 as
 begin
 	select
+		a.ID as ActivityId,
+		r.ID as RepetitionId,
 		a.Day,
 		a.Title,
 		a.Description,

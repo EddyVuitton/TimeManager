@@ -57,5 +57,17 @@ public class Management(DBContext context) : IManagement
         return result ?? [];
     }
 
+    public async Task RemoveActivityAsync(int activityId)
+    {
+        var activityToRemove = await context.Activity.Include(a => a.Repetition).FirstOrDefaultAsync(a => a.Id == activityId);
+        if (activityToRemove is not null)
+        {
+            context.Repetition.Remove(activityToRemove.Repetition);
+            context.Activity.Remove(activityToRemove);
+
+            await context.SaveChangesAsync();
+        }
+    }
+
     #endregion PublicMethods
 }

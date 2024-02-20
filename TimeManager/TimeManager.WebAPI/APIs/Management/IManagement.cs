@@ -9,4 +9,5 @@ public interface IManagement
     Task<List<HourType>> GetHourTypesAsync();
     Task<List<RepetitionType>> GetRepetitionTypesAsync();
     Task<List<ActivityDto>> GetUserActivitiesAsync(int userId);
+    Task RemoveActivityAsync(int activityId);
 }
