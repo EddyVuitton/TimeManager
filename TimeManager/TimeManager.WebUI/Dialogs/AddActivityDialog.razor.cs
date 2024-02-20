@@ -2,7 +2,7 @@
 using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
-using TimeManager.WebAPI.APIs.Management;
+using TimeManager.WebAPI.APIs.Management.Interfaces;
 using TimeManager.WebUI.Components;
 using TimeManager.WebUI.Helpers;
 

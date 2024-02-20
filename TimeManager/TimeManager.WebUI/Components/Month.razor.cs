@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TimeManager.Domain.DTOs;
-using TimeManager.WebAPI.APIs.Management;
+using TimeManager.WebAPI.APIs.Management.Interfaces;
 using TimeManager.WebUI.Helpers;
 
 namespace TimeManager.WebUI.Components;
