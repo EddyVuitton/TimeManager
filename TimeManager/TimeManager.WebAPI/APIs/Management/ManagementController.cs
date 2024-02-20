@@ -14,12 +14,12 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
 
     #region Gets
 
-    [HttpGet("GetUserActivitiesAsync")]
-    public async Task<HttpResultT<List<ActivityDto>>> GetUserActivitiesAsync(int userId)
+    [HttpGet("GetActivitiesAsync")]
+    public async Task<HttpResultT<List<ActivityDto>>> GetActivitiesAsync(int userId)
     {
         try
         {
-            var result = await _businessLogic.GetUserActivitiesAsync(userId);
+            var result = await _businessLogic.GetActivitiesAsync(userId);
             return HttpHelper.Ok(result);
         }
         catch (Exception e)
@@ -60,12 +60,12 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
 
     #region Posts
 
-    [HttpPost("AddUserActivityAsync")]
-    public async Task<HttpResultT<ActivityDto>> AddUserActivityAsync(ActivityDto activity)
+    [HttpPost("AddActivityAsync")]
+    public async Task<HttpResultT<ActivityDto>> AddActivityAsync(ActivityDto activity)
     {
         try
         {
-            var result = await _businessLogic.AddUserActivityAsync(activity);
+            var result = await _businessLogic.AddActivityAsync(activity);
             return HttpHelper.Ok(result);
         }
         catch (Exception e)

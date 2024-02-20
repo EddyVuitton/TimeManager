@@ -38,7 +38,7 @@ public partial class Month
 
     private async Task LoadActivitiesAsync()
     {
-        var userActivities = await ManagementService.GetUserActivitiesAsync(UserId);
+        var userActivities = await ManagementService.GetActivitiesAsync(UserId);
 
         if (!userActivities.IsSuccess)
         {
@@ -88,7 +88,7 @@ public partial class Month
     {
         try
         {
-            var newActivityResult = await ManagementService.AddUserActivityAsync(activity);
+            var newActivityResult = await ManagementService.AddActivityAsync(activity);
 
             if (!newActivityResult.IsSuccess)
             {

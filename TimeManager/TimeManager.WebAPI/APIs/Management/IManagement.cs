@@ -5,9 +5,9 @@ namespace TimeManager.WebAPI.APIs.Management;
 
 public interface IManagement
 {
-    Task<ActivityDto> AddUserActivityAsync(ActivityDto activity);
+    Task<ActivityDto> AddActivityAsync(ActivityDto activity);
     Task<List<HourType>> GetHourTypesAsync();
     Task<List<RepetitionType>> GetRepetitionTypesAsync();
-    Task<List<ActivityDto>> GetUserActivitiesAsync(int userId);
+    Task<List<ActivityDto>> GetActivitiesAsync(int userId);
     Task RemoveActivityAsync(int activityId);
 }

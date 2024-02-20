@@ -11,9 +11,9 @@ public class ManagementService(HttpClient httpClient) : IManagementService
     private readonly HttpClient _httpClient = httpClient;
     private const string _ROUTE = "api/Management";
 
-    public async Task<HttpResultT<List<ActivityDto>>> GetUserActivitiesAsync(int userId)
+    public async Task<HttpResultT<List<ActivityDto>>> GetActivitiesAsync(int userId)
     {
-        var response = await _httpClient.GetAsync($"{_ROUTE}/GetUserActivitiesAsync?userId={userId}");
+        var response = await _httpClient.GetAsync($"{_ROUTE}/GetActivitiesAsync?userId={userId}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<ActivityDto>>>(responseContent);
 
@@ -23,11 +23,11 @@ public class ManagementService(HttpClient httpClient) : IManagementService
         return deserialisedResponse;
     }
 
-    public async Task<HttpResultT<ActivityDto>> AddUserActivityAsync(ActivityDto activity)
+    public async Task<HttpResultT<ActivityDto>> AddActivityAsync(ActivityDto activity)
     {
         var json = JsonConvert.SerializeObject(activity);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync($"{_ROUTE}/AddUserActivityAsync", content);
+        var response = await _httpClient.PostAsync($"{_ROUTE}/AddActivityAsync", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityDto>>(responseContent);

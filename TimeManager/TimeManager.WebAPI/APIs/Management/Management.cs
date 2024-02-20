@@ -12,7 +12,7 @@ public class Management(DBContext context) : IManagement
 {
     #region PublicMethods
 
-    public async Task<List<ActivityDto>> GetUserActivitiesAsync(int userId)
+    public async Task<List<ActivityDto>> GetActivitiesAsync(int userId)
     {
         var hT = new object[]
         {
@@ -23,7 +23,7 @@ public class Management(DBContext context) : IManagement
         return result ?? [];
     }
 
-    public async Task<ActivityDto> AddUserActivityAsync(ActivityDto activity)
+    public async Task<ActivityDto> AddActivityAsync(ActivityDto activity)
     {
         var repetition = await ManagementHelper.AddRepetitionAsync(context, new Repetition()
         {
