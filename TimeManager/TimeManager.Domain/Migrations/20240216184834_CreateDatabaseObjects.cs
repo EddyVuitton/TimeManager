@@ -77,7 +77,7 @@ namespace TimeManager.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Day = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Day = table.Column<DateTime>(type: "date", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Task = table.Column<string>(type: "nvarchar(max)", nullable: false),

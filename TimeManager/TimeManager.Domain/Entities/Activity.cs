@@ -7,6 +7,7 @@ public class Activity
 {
     [Key]
     public int Id { get; set; }
+    [Column(TypeName = "date")]
     public DateTime Day { get; set; }
     public string? Title { get; set; }
     public string? Description { get; set; }

@@ -24,8 +24,11 @@ namespace TimeManager.Domain.Migrations
 
             modelBuilder.Entity("TimeManager.Domain.DTOs.ActivityDto", b =>
                 {
+                    b.Property<int>("ActivityId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Day")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -37,15 +40,11 @@ namespace TimeManager.Domain.Migrations
                     b.Property<bool>("IsOpen")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RepetitionDay")
+                    b.Property<int>("RepetitionId")
                         .HasColumnType("int");
 
                     b.Property<int>("RepetitionTypeId")
                         .HasColumnType("int");
-
-                    b.Property<string>("RepetitionTypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Task")
                         .IsRequired()
@@ -71,7 +70,7 @@ namespace TimeManager.Domain.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Day")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
