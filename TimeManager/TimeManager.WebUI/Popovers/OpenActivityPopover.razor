@@ -7,7 +7,7 @@
         <div class="d-flex flex-row justify-end">
             <div class="d-flex gap-x-4">
                 <MudIconButton Class="activity-open-icon" OnClick="ToggleReadonly" Size="Size.Small" Icon="fa-solid fa-pen" Color="Color.Primary" />
-                <MudIconButton Class="activity-open-icon" OnClick="DeleteActivity" Size="Size.Small" Icon="fa-solid fa-trash" Color="Color.Primary" />
+                <MudIconButton Class="activity-open-icon" OnClick="@(async () => await DeleteActivity())" Size="Size.Small" Icon="fa-solid fa-trash" Color="Color.Primary" />
                 <MudIconButton Class="activity-open-icon" OnClick="ToggleOpen" Size="Size.Small" Icon="fa-solid fa-x" Color="Color.Primary" />
             </div>
         </div>

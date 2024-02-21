@@ -35,7 +35,7 @@ public class HttpHelper
         {
             StatusCode = HttpStatusCode.InternalServerError,
             Message = ex.Message,
-            IsSucces = false
+            IsSuccess = false
         };
 
         return HttpResult;
@@ -47,7 +47,7 @@ public class HttpHelper
         {
             StatusCode = HttpStatusCode.OK,
             Message = string.IsNullOrEmpty(message) ? "Success" : message,
-            IsSucces = true
+            IsSuccess = true
         };
 
         return HttpResult;

@@ -13,9 +13,9 @@ public partial class Activity
     private static void OpenPopover(ActivityDto activity) =>
         activity.IsOpen = !activity.IsOpen;
 
-    public void RemoveActivity(ActivityDto activity)
+    public async Task RemoveActivity(ActivityDto activity)
     {
-        MonthRef.RemoveActivity(activity);
+        await MonthRef.RemoveActivity(activity);
         Day.DayStateHasChanged();
     }
 }

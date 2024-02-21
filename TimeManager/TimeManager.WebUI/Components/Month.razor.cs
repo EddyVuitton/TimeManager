@@ -106,10 +106,26 @@ public partial class Month
         }
     }
 
-    public void RemoveActivity(ActivityDto activity)
+    public async Task RemoveActivity(ActivityDto activity)
     {
-        _allActivitiesDto.Remove(activity);
-        InitMonth(activity.Day);
+        try
+        {
+            var removeActivityResult = await ManagementService.RemoveActivityAsync(activity.ActivityId);
+
+            if (!removeActivityResult.IsSuccess)
+            {
+                throw new Exception(removeActivityResult.Message ?? "Błąd w usunięciu aktywności...");
+            }
+
+            _allActivitiesDto.Remove(activity);
+        }
+        catch
+        {
+        }
+        finally
+        {
+            InitMonth(activity.Day);
+        }
     }
 
     #endregion PublicMethods

@@ -52,9 +52,9 @@ public partial class OpenActivityPopover
         ActivityRef.Day.DayStateHasChanged();
     }
 
-    private void DeleteActivity()
+    private async Task DeleteActivity()
     {
-        ActivityRef.RemoveActivity(ActivityDto);
+        await ActivityRef.RemoveActivity(ActivityDto);
         StateHasChanged();
     }
 
