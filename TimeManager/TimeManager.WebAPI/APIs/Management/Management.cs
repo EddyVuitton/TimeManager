@@ -34,6 +34,7 @@ public class Management(DBContext context) : IManagement
         await context.Activity.AddAsync(new Activity()
         {
             Day = activity.Day,
+            Title = activity.Title,
             Description = activity.Description,
             Task = activity.Task,
             HourTypeId = activity.HourTypeId,
