@@ -7,7 +7,7 @@
             Color="Color.Primary">
         Zmniejsz miesiąc
     </MudFab>
-    <MudText Style="width: 370px; margin: 0% 1%; text-align: center;" Typo="Typo.h3">@(_monthName) @(_monthDto!.Year)</MudText>
+    <MudText Style="width: 370px; margin: 0% 1%; text-align: center;" Typo="Typo.h3">@(_monthName) @(_monthDto.Year)</MudText>
     <MudFab OnClick="IncreaseMonth"
             Class="align-self-center"
             Style="font-size: 10px;"
@@ -30,7 +30,7 @@
                 <div class="d-flex flex-row week">
                     @for (int day = 0; day < daysToRender; day++) //Render days
                     {
-                        var dayDto = _monthDto!.Days.FirstOrDefault(x => x.Day.Day == dayCount);
+                        var dayDto = _monthDto.Days.FirstOrDefault(x => x.Day.Day == dayCount);
                         <Day DayDto="dayDto" />
 
                         dayCount++;
