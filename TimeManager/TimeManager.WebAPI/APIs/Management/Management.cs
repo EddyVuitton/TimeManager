@@ -26,20 +26,21 @@ public class Management(DBContext context) : IManagement
 
     public async Task<ActivityDto> AddActivityAsync(ActivityDto activity)
     {
-        var repetition = await ManagementHelper.AddRepetitionAsync(context, new Repetition()
+        var newRepetitionEntity = (await context.Repetition.AddAsync(new Repetition()
         {
             Day = DateTime.Now,
             RepetitionTypeId = activity.RepetitionTypeId
-        });
-        await ManagementHelper.AddActivityAsync(context, new Activity()
+        })).Entity;
+        await context.Activity.AddAsync(new Activity()
         {
             Day = activity.Day,
             Description = activity.Description,
             Task = activity.Task,
             HourTypeId = activity.HourTypeId,
-            Repetition = repetition,
+            Repetition = newRepetitionEntity,
             UserId = activity.UserId
         });
+        await context.SaveChangesAsync();
 
         return activity;
     }
