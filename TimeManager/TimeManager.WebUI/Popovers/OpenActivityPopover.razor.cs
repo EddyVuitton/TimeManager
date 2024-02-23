@@ -19,6 +19,7 @@ public partial class OpenActivityPopover
     private const string _TITLEUNEDITABLE = "font-size: 2rem; color: #969696;";
     private string _titleStyle = string.Empty;
     private string? _placeholder;
+    private string _activityListName = null!;
 
     protected override void OnInitialized()
     {
@@ -35,6 +36,7 @@ public partial class OpenActivityPopover
         _dayName = $"{dayWeekName}, {dayBody.Day} {polishMonthInflection}";
         _titleStyle = _TITLEUNEDITABLE;
         _placeholder = ActivityDto.Title ?? "(Bez tytułu)";
+        _activityListName = ActivityRef.MonthRef.GetActivityLists().First(x => x.Id == ActivityDto.ActivityListId).Name;
     }
 
     private void ToggleReadonly()

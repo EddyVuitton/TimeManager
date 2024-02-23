@@ -31,6 +31,14 @@ public static class SeedDataService
         //Default hour type
         var hourTypeId = context.HourType.First(x => x.Name == "10:00").Id;
 
+        //Default activity list
+        var activityList = new ActivityList()
+        {
+            Name = "Moje zadania",
+            User = user
+        };
+        context.ActivityList.Add(activityList);
+
         //Activity
         var activity1 = new Activity()
         {
@@ -39,7 +47,8 @@ public static class SeedDataService
             Task = "Moje zadania",
             HourTypeId = hourTypeId,
             Repetition = repetition1,
-            User = user
+            User = user,
+            ActivityList = activityList
         };
         var activity2 = new Activity()
         {
@@ -48,7 +57,8 @@ public static class SeedDataService
             Task = "Moje zadania",
             HourTypeId = hourTypeId,
             Repetition = repetition2,
-            User = user
+            User = user,
+            ActivityList = activityList
         };
         var activity3 = new Activity()
         {
@@ -57,7 +67,8 @@ public static class SeedDataService
             Task = "Moje zadania",
             HourTypeId = hourTypeId,
             Repetition = repetition3,
-            User = user
+            User = user,
+            ActivityList = activityList
         };
 
         context.Activity.Add(activity1);

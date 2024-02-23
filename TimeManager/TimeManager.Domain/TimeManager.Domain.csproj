@@ -13,9 +13,6 @@
 	  </PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Migrations\" />
-	</ItemGroup>
-	<ItemGroup>
 	  <None Update="Context\Procedures.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

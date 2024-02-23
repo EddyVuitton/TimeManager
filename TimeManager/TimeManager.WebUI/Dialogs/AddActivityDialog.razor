@@ -25,7 +25,8 @@
                     }
                     else
                     {
-                        <div class="align-self-center" style="font-size: 1rem;">@_repetitionTypeValue</div>
+                        var _tempRepetitionTypeValue = _repetitionTypeList.FirstOrDefault(x => x.Key == _repetitionTypeId).Value;
+                        <div class="align-self-center" style="font-size: 1rem;">@_tempRepetitionTypeValue</div>
                     }
                     @if (_showAddDeadlineButton)
                     {
@@ -66,10 +67,10 @@
                 <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.List" Color="Color.Primary" />
                 <div style="width: 50%;">
                     <div class="custom-select align-self-center">
-                        <select @onchange="((e) => OnTaskChange(e))">
-                            @foreach (var taskList in _taskLists)
+                        <select @onchange="((e) => OnActivityListChange(e))">
+                            @foreach (var activityList in _activityLists ?? [])
                             {
-                                <option value="@taskList">@taskList</option>
+                                <option value="@activityList.Key">@activityList.Value</option>
                             }
                         </select>
                     </div>

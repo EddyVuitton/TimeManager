@@ -39,7 +39,8 @@ public class Management(DBContext context) : IManagement
             Task = activity.Task,
             HourTypeId = activity.HourTypeId,
             Repetition = newRepetitionEntity,
-            UserId = activity.UserId
+            UserId = activity.UserId,
+            ActivityListId = activity.ActivityListId,
         });
         await context.SaveChangesAsync();
 
@@ -71,6 +72,14 @@ public class Management(DBContext context) : IManagement
             await context.SaveChangesAsync();
         }
     }
+
+    public async Task<List<ActivityList>> GetActivityListsAsync(int userId)
+    {
+        var result = await context.ActivityList.Where(x => x.UserId == userId).ToListAsync();
+
+        return result ?? [];
+    }
+
 
     #endregion PublicMethods
 }

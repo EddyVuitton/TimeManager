@@ -11,6 +11,7 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
     public DbSet<Activity> Activity => Set<Activity>();
     public DbSet<User> User => Set<User>();
     public DbSet<HourType> HourType => Set<HourType>();
+    public DbSet<ActivityList> ActivityList => Set<ActivityList>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

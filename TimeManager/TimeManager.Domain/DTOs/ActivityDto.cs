@@ -1,9 +1,13 @@
-﻿namespace TimeManager.Domain.DTOs;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TimeManager.Domain.DTOs;
 
 public class ActivityDto
 {
     public int ActivityId { get; set; }
     public int RepetitionId { get; set; }
+    public int ActivityListId { get; set; }
+    [Column(TypeName = "date")]
     public DateTime Day { get; set; }
     public string? Title { get; set; }
     public string Description { get; set; } = string.Empty;

@@ -71,4 +71,13 @@ public class ManagementService(HttpClient httpClient) : IManagementService
 
         return deserialisedResponse ?? throw new NullReferenceException(typeof(HttpResult).Name);
     }
+
+    public async Task<HttpResultT<List<ActivityList>>> GetActivityListsAsync(int userId)
+    {
+        var response = await _httpClient.GetAsync($"{_ROUTE}/GetActivityListsAsync?userId={userId}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<ActivityList>>>(responseContent);
+        
+        return deserialisedResponse ?? throw new NullReferenceException(typeof(List<ActivityList>).Name);
+    }
 }

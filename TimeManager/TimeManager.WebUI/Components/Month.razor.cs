@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TimeManager.Domain.DTOs;
+using TimeManager.Domain.Entities;
 using TimeManager.WebAPI.APIs.Management.Interfaces;
 using TimeManager.WebUI.Helpers;
 
@@ -21,12 +22,14 @@ public partial class Month
     private string _monthName = string.Empty;
 
     private List<ActivityDto> _allActivitiesDto = [];
+    private List<ActivityList> _activityLists = [];
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             await LoadActivitiesAsync();
+            await LoadActivityListsAsync();
             InitMonth(new DateTime(_now.Year, _now.Month, 1));
         }
         catch
@@ -46,6 +49,18 @@ public partial class Month
         }
 
         _allActivitiesDto = userActivities.Data;
+    }
+
+    private async Task LoadActivityListsAsync()
+    {
+        var activityLists = await ManagementService.GetActivityListsAsync(UserId);
+
+        if (!activityLists.IsSuccess)
+        {
+            throw new Exception(activityLists.Message ?? "Błąd we wczytaniu list aktywności...");
+        }
+
+        _activityLists = activityLists.Data;
     }
 
     private void InitFields()
@@ -127,6 +142,8 @@ public partial class Month
             InitMonth(activity.Day);
         }
     }
+
+    public List<ActivityList> GetActivityLists() => _activityLists;
 
     #endregion PublicMethods
 }

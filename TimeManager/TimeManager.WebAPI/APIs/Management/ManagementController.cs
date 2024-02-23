@@ -57,6 +57,20 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         }
     }
 
+    [HttpGet("GetActivityListsAsync")]
+    public async Task<HttpResultT<List<ActivityList>>> GetActivityListsAsync(int userId)
+    {
+        try
+        {
+            var result = await _businessLogic.GetActivityListsAsync(userId);
+            return HttpHelper.Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error<List<ActivityList>>(e);
+        }
+    }
+
     #endregion Gets
 
     #region Posts

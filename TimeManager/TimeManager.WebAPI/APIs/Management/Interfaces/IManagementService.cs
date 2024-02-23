@@ -11,4 +11,5 @@ public interface IManagementService
     Task<HttpResultT<List<RepetitionType>>> GetRepetitionTypesAsync();
     Task<HttpResultT<List<ActivityDto>>> GetActivitiesAsync(int userId);
     Task<HttpResult> RemoveActivityAsync(int activityId);
+    Task<HttpResultT<List<ActivityList>>> GetActivityListsAsync(int userId);
 }
