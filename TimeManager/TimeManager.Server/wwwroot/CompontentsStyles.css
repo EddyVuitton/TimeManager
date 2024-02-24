@@ -79,6 +79,7 @@
 .activity-body {
     width: auto;
     height: 23px;
+    display: flex;
     background-color: #5496ff;
     margin-top: 1%;
     cursor: pointer;
@@ -90,6 +91,9 @@
     }
 
     .activity-body .activity-title {
+        width: fit-content;
+        height: fit-content;
+        align-self: center;
         padding-left: 5%;
         font-weight: bold;
         color: white;
