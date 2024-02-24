@@ -36,7 +36,7 @@ public partial class OpenActivityPopover
         _dayName = $"{dayWeekName}, {dayBody.Day} {polishMonthInflection}";
         _titleStyle = _TITLEUNEDITABLE;
         _placeholder = ActivityDto.Title ?? "(Bez tytułu)";
-        _activityListName = ActivityRef.MonthRef.GetActivityLists().First(x => x.Id == ActivityDto.ActivityListId).Name;
+        _activityListName = ActivityRef.MonthRef.GetActivityLists().First(x => x.Key == ActivityDto.ActivityListId).Value;
     }
 
     private void ToggleReadonly()

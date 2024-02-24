@@ -38,7 +38,10 @@ public partial class Day
         var parameters = new DialogParameters
         {
             { "DayDto", DayDto },
-            { "DayRef", this }
+            { "DayRef", this },
+            { "HourTypeList", MonthRef.GetHourTypes() },
+            { "RepetitionTypeList", MonthRef.GetRepetitionTypes() },
+            { "ActivityLists", MonthRef.GetActivityLists() }
         };
 
         DialogService.Show<AddActivityDialog>(string.Empty, parameters, options);

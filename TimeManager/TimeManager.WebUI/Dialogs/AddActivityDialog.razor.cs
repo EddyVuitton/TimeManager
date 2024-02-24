@@ -15,32 +15,25 @@ public partial class AddActivityDialog
 
     [Parameter] public DayDto DayDto { get; set; } = null!;
     [Parameter] public Day DayRef { get; set; } = null!;
-
-    private DateTime _now;
-    private Dictionary<int, string> _hourTypeList = null!;
-    private Dictionary<int, string> _repetitionTypeList = null!;
-    private Dictionary<int, string> _activityLists = null!;
+    [Parameter] public Dictionary<int, string> HourTypeList { get; set; } = null!;
+    [Parameter] public Dictionary<int, string> RepetitionTypeList { get; set; } = null!;
+    [Parameter] public Dictionary<int, string> ActivityLists { get; set; } = null!;
 
     private string? _title;
     private string _description = null!;
     private string _dayName = null!;
-    
+
     private bool _showAddDeadlineButton;
     private bool _isRepetitionSelectDisabled;
 
     private int _repetitionTypeId;
-    private int _hourTypeId;
+    private int? _hourTypeId;
     private int _activityListId;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         InitFields();
         SetDayName();
-        await AddRepetitionsToSelectAsync();
-        await AddHoursToSelectAsync();
-        AddActivityListToSelect();
-        _repetitionTypeId = _repetitionTypeList.FirstOrDefault().Key;
-        _activityListId = _activityLists.FirstOrDefault().Key;
     }
 
     #region PrivateMethods
@@ -48,65 +41,11 @@ public partial class AddActivityDialog
     private void InitFields()
     {
         _description = string.Empty;
-        _hourTypeList = [];
-        _now = DateTime.Now;
         _dayName = string.Empty;
         _showAddDeadlineButton = false;
         _isRepetitionSelectDisabled = true;
-    }
-
-    private async Task AddHoursToSelectAsync()
-    {
-        _hourTypeList = [];
-        try
-        {
-            var hourTypesResult = await ManagementService.GetHourTypesAsync();
-
-            if (!hourTypesResult.IsSuccess)
-            {
-                throw new Exception(hourTypesResult.Message ?? "Błąd w pobraniu godzin do wyboru...");
-            }
-
-            foreach (var type in hourTypesResult.Data)
-            {
-                _hourTypeList.Add(type.Id, type.Name);
-            }
-        }
-        catch
-        {
-        }
-    }
-
-    private async Task AddRepetitionsToSelectAsync()
-    {
-        _repetitionTypeList = [];
-        try
-        {
-            var repetitionTypesResult = await ManagementService.GetRepetitionTypesAsync();
-
-            if (!repetitionTypesResult.IsSuccess)
-            {
-                throw new Exception(repetitionTypesResult.Message ?? "Błąd w pobraniu typów powtórzeń...");
-            }
-
-            foreach (var type in repetitionTypesResult.Data)
-            {
-                _repetitionTypeList.Add(type.Id, type.Name);
-            }
-        }
-        catch
-        {
-        }
-    }
-
-    private void AddActivityListToSelect()
-    {
-        _activityLists = [];
-        var userActivityLists = DayRef.MonthRef.GetActivityLists();
-        foreach (var a in userActivityLists)
-        {
-            _activityLists.Add(a.Id, a.Name);
-        }
+        _repetitionTypeId = RepetitionTypeList.FirstOrDefault().Key;
+        _activityListId = ActivityLists.FirstOrDefault().Key;
     }
 
     private void SetDayName()
@@ -132,15 +71,12 @@ public partial class AddActivityDialog
 
     private void Submit()
     {
-        if (_hourTypeId == 0)
-            _hourTypeId = 1;
-
         var activity = new ActivityDto()
         {
             Day = DayDto.Day,
             Title = _title,
             Description = _description,
-            HourTypeId = _hourTypeId,
+            HourTypeId = _hourTypeId ?? 1,
             RepetitionTypeId = _repetitionTypeId,
             ActivityListId = _activityListId
         };

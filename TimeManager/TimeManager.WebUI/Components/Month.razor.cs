@@ -22,7 +22,9 @@ public partial class Month
     private string _monthName = string.Empty;
 
     private List<ActivityDto> _allActivitiesDto = [];
-    private List<ActivityList> _activityLists = [];
+    private Dictionary<int, string> _activityLists = null!;
+    private Dictionary<int, string> _hourTypeList = null!;
+    private Dictionary<int, string> _repetitionTypeList = null!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,6 +32,8 @@ public partial class Month
         {
             await LoadActivitiesAsync();
             await LoadActivityListsAsync();
+            await LoadHourTypesAsync();
+            await LoadRepetitionTypesAsync();
             InitMonth(new DateTime(_now.Year, _now.Month, 1));
         }
         catch
@@ -53,14 +57,68 @@ public partial class Month
 
     private async Task LoadActivityListsAsync()
     {
-        var activityLists = await ManagementService.GetActivityListsAsync(UserId);
-
-        if (!activityLists.IsSuccess)
+        _activityLists = [];
+        try
         {
-            throw new Exception(activityLists.Message ?? "Błąd we wczytaniu list aktywności...");
-        }
+            var activityListsResult = await ManagementService.GetActivityListsAsync(UserId);
 
-        _activityLists = activityLists.Data;
+            if (!activityListsResult.IsSuccess)
+            {
+                throw new Exception(activityListsResult.Message ?? "Błąd we wczytaniu list aktywności...");
+            }
+
+            foreach (var type in activityListsResult.Data)
+            {
+                _activityLists.Add(type.Id, type.Name);
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    private async Task LoadHourTypesAsync()
+    {
+        _hourTypeList = [];
+        try
+        {
+            var hourTypesResult = await ManagementService.GetHourTypesAsync();
+
+            if (!hourTypesResult.IsSuccess)
+            {
+                throw new Exception(hourTypesResult.Message ?? "Błąd w pobraniu godzin do wyboru...");
+            }
+
+            foreach (var type in hourTypesResult.Data)
+            {
+                _hourTypeList.Add(type.Id, type.Name);
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    private async Task LoadRepetitionTypesAsync()
+    {
+        _repetitionTypeList = [];
+        try
+        {
+            var repetitionTypesResult = await ManagementService.GetRepetitionTypesAsync();
+
+            if (!repetitionTypesResult.IsSuccess)
+            {
+                throw new Exception(repetitionTypesResult.Message ?? "Błąd w pobraniu typów powtórzeń...");
+            }
+
+            foreach (var type in repetitionTypesResult.Data)
+            {
+                _repetitionTypeList.Add(type.Id, type.Name);
+            }
+        }
+        catch
+        {
+        }
     }
 
     private void InitFields()
@@ -143,7 +201,11 @@ public partial class Month
         }
     }
 
-    public List<ActivityList> GetActivityLists() => _activityLists;
+    public Dictionary<int, string> GetActivityLists() => _activityLists;
+
+    public Dictionary<int, string> GetHourTypes() => _hourTypeList;
+
+    public Dictionary<int, string> GetRepetitionTypes() => _repetitionTypeList;
 
     #endregion PublicMethods
 }
