@@ -6,7 +6,7 @@ using TimeManager.WebUI.Pages;
 
 namespace TimeManager.WebUI.Popovers;
 
-public partial class OpenActivityPopover
+public partial class ActivityPopover
 {
     [CascadingParameter(Name = "HomeRef")] protected Home HomeRef { get; set; } = null!;
 
