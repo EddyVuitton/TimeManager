@@ -1,13 +1,10 @@
-﻿<div class="d-flex flex-column">
+﻿<div class="day" @onclick="OpenDialog">
     @if (DayDto.Day.Day <= 7)
     {
         var culture = new System.Globalization.CultureInfo("pl-PL");
-        <div style="width: 271px; height: 20px; border-bottom: 0.1rem solid #cccccc; border-right: 0.1rem solid white !important; text-align: center;">
-            @culture.DateTimeFormat.GetDayName(DayDto.Day.DayOfWeek)
-        </div>
+        var weekName = culture.DateTimeFormat.GetDayName(DayDto.Day.DayOfWeek);
+        <MudText Class="hide-text-on-overflow" Align="Align.Center">@(weekName)</MudText>
     }
-    <div class="day" @onclick="OpenDialog">
-        <MudText Align="Align.Center">@(_dayText)</MudText>
-        <Activity Day="this" ActivitiesDto="DayDto?.Activities" />
-    </div>
+    <MudText Align="Align.Center">@(_dayText)</MudText>
+    <Activity Day="this" ActivitiesDto="DayDto?.Activities" />
 </div>

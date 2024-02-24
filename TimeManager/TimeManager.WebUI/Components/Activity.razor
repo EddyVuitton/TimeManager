@@ -7,23 +7,26 @@
     *@
     @if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
     {
-        var top4activities = ActivitiesDto.Take(4);
+        var dayNumber = Day.DayDto.Day.Day;
+        var isBetween1and7 = (dayNumber >= 1) && (dayNumber <= 7);
+        var take = isBetween1and7 ? 3 : 4;
+        var topActivities = ActivitiesDto.Take(take);
 
-        @foreach (var a in top4activities)
+        @foreach (var a in topActivities)
         {
             var localTitle = a.Title ?? "(Bez tytułu)";
 
             <div class="activity-body" @onclick="(() => OpenPopover(a))">
-                <span class="activity-title">@localTitle</span>
+                <span class="activity-title hide-text-on-overflow">@localTitle</span>
             </div>
             <OpenActivityPopover ActivityRef="this" ActivityDto="a" />
         }
-        @if (ActivitiesDto.Count > 4)
+        @if (ActivitiesDto.Count > take)
         {
-            var leftActivities = ActivitiesDto.Count - 4;
+            var leftActivities = ActivitiesDto.Count - take;
 
             <div class="activity-body">
-                <span class="activity-title">Jeszcze @(leftActivities)</span>
+                <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
             </div>
         }
     }
