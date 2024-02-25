@@ -10,8 +10,33 @@ public partial class Activity
     [Parameter] public Day Day { get; set; } = null!;
     [Parameter] public List<ActivityDto> ActivitiesDto { get; set; } = null!;
 
-    private static void OpenPopover(ActivityDto activity) =>
-        activity.IsOpen = !activity.IsOpen;
+    public bool OpenActivityListPopover { get; set; } = false;
+
+    private void OpenActivityPopover(ActivityDto activity)
+    {
+        OpenActivityListPopover = false;
+
+        foreach (var a in ActivitiesDto)
+        {
+            if (a.Equals(activity))
+            {
+                a.IsOpen = !a.IsOpen;
+            }
+            else
+            {
+                a.IsOpen = false;
+            }
+        }
+    }
+
+    public void ToggleActivityListPopover()
+    {
+        OpenActivityListPopover = !OpenActivityListPopover;
+        foreach (var a in ActivitiesDto)
+        {
+            a.IsOpen = false;
+        }
+    }
 
     public async Task RemoveActivity(ActivityDto activity)
     {

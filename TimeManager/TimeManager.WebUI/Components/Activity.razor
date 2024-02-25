@@ -16,7 +16,7 @@
         {
             var localTitle = a.Title ?? "(Bez tytułu)";
 
-            <div class="activity-body" @onclick="(() => OpenPopover(a))">
+            <div class="activity-body" @onclick="(() => OpenActivityPopover(a))">
                 <span class="activity-title hide-text-on-overflow">@localTitle</span>
             </div>
             <ActivityPopover ActivityRef="this" ActivityDto="a" />
@@ -25,9 +25,10 @@
         {
             var leftActivities = ActivitiesDto.Count - take;
 
-            <div class="activity-body">
+            <div class="activity-body" @onclick="ToggleActivityListPopover">
                 <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
             </div>
+            <ActivityListPopover ActivityRef="this" />
         }
     }
 </div>

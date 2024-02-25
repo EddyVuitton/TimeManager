@@ -207,5 +207,7 @@ public partial class Month
 
     public Dictionary<int, string> GetRepetitionTypes() => _repetitionTypeList;
 
+    public List<ActivityDto> GetActivities() => _allActivitiesDto;
+
     #endregion PublicMethods
 }

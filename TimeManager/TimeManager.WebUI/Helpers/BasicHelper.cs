@@ -87,4 +87,19 @@ public static class BasicHelper
 
     public static List<ActivityDto> GetMonthActivities(List<ActivityDto>? activities, DateTime date) =>
         activities?.Where(x => x.Day.Year == date.Year && x.Day.Month == date.Month).ToList() ?? [];
+
+    public static string GetShortDayWeekName(int day)
+    {
+        return day switch
+        {
+            0 => "Niedz.",
+            1 => "Pon.",
+            2 => "Wt.",
+            3 => "Śr.",
+            4 => "Czw.",
+            5 => "Pt.",
+            6 => "Sob.",
+            _ => string.Empty,
+        };
+    }
 }

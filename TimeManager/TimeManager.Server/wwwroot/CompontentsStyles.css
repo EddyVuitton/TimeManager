@@ -3,16 +3,16 @@
     height: 100%;
 }
 
-    .month .month-contener {
-        justify-content: center;
-        align-items: center;
-    }
+.month-contener {
+    justify-content: center;
+    align-items: center;
+}
 
-    .month .month-top {
-        display: flex;
-        justify-content: center;
-        border-top: 0.1rem solid #cccccc;
-    }
+.month-top {
+    display: flex;
+    justify-content: center;
+    border-top: 0.1rem solid #cccccc;
+}
 
 .day {
     width: 14.286vw;
@@ -26,10 +26,10 @@
     border-bottom: 0.1rem solid #cccccc;
 }
 
-    .week .week-name {
-        width: 271px;
-        height: 20px;
-    }
+.week-name {
+    width: 271px;
+    height: 20px;
+}
 
 .activity-list-content {
     width: 500px;
@@ -95,22 +95,48 @@
         background-color: #317df5;
     }
 
-    .activity-body .activity-title {
-        width: fit-content;
-        height: fit-content;
-        align-self: center;
-        padding-left: 5%;
-        font-weight: bold;
-        color: white;
-        font-size: 0.85rem;
-    }
+.activity-title {
+    width: fit-content;
+    height: fit-content;
+    align-self: center;
+    padding-left: 5%;
+    font-weight: bold;
+    color: white;
+    font-size: 0.85rem;
+}
 
 .activity-open-icon {
-    padding: 50px;
+    border-radius: 50% !important;
+    width: 40px;
+    height: 40px;
+    color: rgb(95,99,104) !important;
 }
 
 .hide-text-on-overflow {
     text-overflow: clip;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.day-number {
+    font-weight: 400;
+    color: #3c4043;
+    font-size: 26px;
+    line-height: 40px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    /*cursor: pointer;*/
+}
+
+/*    .day-number:hover {
+        background-color: #dadce0;
+    }*/
+
+.day-short-name {
+    font-size: 13px;
+    letter-spacing: .8px;
+    line-height: 16px;
+    font-weight: bold;
 }
