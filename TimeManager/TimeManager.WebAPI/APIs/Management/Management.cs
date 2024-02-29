@@ -31,7 +31,7 @@ public class Management(DBContext context) : IManagement
             Day = DateTime.Now,
             RepetitionTypeId = activity.RepetitionTypeId
         })).Entity;
-        await context.Activity.AddAsync(new Activity()
+        var newActivity = await context.Activity.AddAsync(new Activity()
         {
             Day = activity.Day,
             Title = activity.Title,
@@ -43,6 +43,7 @@ public class Management(DBContext context) : IManagement
             ActivityListId = activity.ActivityListId,
         });
         await context.SaveChangesAsync();
+        activity.ActivityId = newActivity.Entity.Id;
 
         return activity;
     }
@@ -80,6 +81,17 @@ public class Management(DBContext context) : IManagement
         return result ?? [];
     }
 
+    public async Task<ActivityDto> UpdateActivityAsync(ActivityDto activity)
+    {
+        var updatedActivity = await context.Activity.FindAsync(activity.ActivityId);
+        if (updatedActivity is not null)
+        {
+            updatedActivity.Title = activity.Title;
+            await context.SaveChangesAsync();
+        }
+
+        return activity;
+    }
 
     #endregion PublicMethods
 }

@@ -46,4 +46,10 @@ public partial class Activity
         await MonthRef.RemoveActivity(activity);
         Day.DayStateHasChanged();
     }
+
+    public async Task UpdateActivity(ActivityDto activity)
+    {
+        await MonthRef.UpdateActivity(activity);
+        Day.DayStateHasChanged();
+    }
 }

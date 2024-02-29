@@ -11,12 +11,12 @@
                 <MudIconButton Class="activity-open-icon" OnClick="ToggleOpen" Size="Size.Small" Icon="fa-solid fa-x" Color="Color.Primary" />
             </div>
         </div>
-        <MudTextField @bind-Value="ActivityDto.Title"
+        <MudTextField ValueChanged="((e) => OnChange(e))"
+                      Value="ActivityDto.Title"
                       T="string"
                       Style="@_titleStyle"
                       ReadOnly="@isReadonly"
-                      Placeholder="@_placeholder"
-                       />
+                      Placeholder="@_placeholder" />
         <div class="d-flex flex-row gap-x-2" style="width: 100%; height: 50px;">
             <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.AccessTime" Color="Color.Primary" />
             <div class="d-flex justify-start" style="width: 100%; height: 100%;">

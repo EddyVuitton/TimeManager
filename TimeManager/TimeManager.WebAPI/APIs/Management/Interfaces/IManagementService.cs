@@ -12,4 +12,5 @@ public interface IManagementService
     Task<HttpResultT<List<ActivityDto>>> GetActivitiesAsync(int userId);
     Task<HttpResult> RemoveActivityAsync(int activityId);
     Task<HttpResultT<List<ActivityList>>> GetActivityListsAsync(int userId);
+    Task<HttpResultT<ActivityDto>> UpdateActivityAsync(ActivityDto activity);
 }

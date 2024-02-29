@@ -60,5 +60,12 @@ public partial class ActivityPopover
         StateHasChanged();
     }
 
+    private async Task OnChange(string newTitle)
+    {
+        ActivityDto.Title = newTitle;
+        await ActivityRef.UpdateActivity(ActivityDto);
+        StateHasChanged();
+    }
+
     #endregion PrivateMethods
 }

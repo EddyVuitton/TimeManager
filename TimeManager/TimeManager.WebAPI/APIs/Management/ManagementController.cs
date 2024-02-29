@@ -104,4 +104,22 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
     }
 
     #endregion Posts
+
+    #region Puts
+
+    [HttpPut("UpdateActivityAsync")]
+    public async Task<HttpResultT<ActivityDto>> UpdateActivityAsync(ActivityDto activity)
+    {
+        try
+        {
+            var result = await _businessLogic.UpdateActivityAsync(activity);
+            return HttpHelper.Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error<ActivityDto>(e);
+        }
+    }
+
+    #endregion Puts
 }

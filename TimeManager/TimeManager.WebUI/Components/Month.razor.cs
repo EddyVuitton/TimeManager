@@ -201,6 +201,29 @@ public partial class Month
         }
     }
 
+    public async Task UpdateActivity(ActivityDto activity)
+    {
+        try
+        {
+            var updateActivityResult = await ManagementService.UpdateActivityAsync(activity);
+
+            if (!updateActivityResult.IsSuccess)
+            {
+                throw new Exception(updateActivityResult.Message ?? "Błąd w zaktualizowaniu aktywności...");
+            }
+
+            var updatedActivity = _allActivitiesDto.FirstOrDefault(x => x.ActivityId == activity.ActivityId);
+            updatedActivity = activity;
+        }
+        catch
+        {
+        }
+        finally
+        {
+            InitMonth(activity.Day);
+        }
+    }
+
     public Dictionary<int, string> GetActivityLists() => _activityLists;
 
     public Dictionary<int, string> GetHourTypes() => _hourTypeList;
