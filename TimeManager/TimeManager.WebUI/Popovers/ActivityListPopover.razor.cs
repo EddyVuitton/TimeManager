@@ -15,9 +15,7 @@ public partial class ActivityListPopover
 
     protected override void OnInitialized()
     {
-        _activitiesDto = ActivityRef.ActivitiesDto;
-        _shortDayWeekName = BasicHelper.GetShortDayWeekName((int)ActivityRef.Day.DayDto.Day.DayOfWeek).ToUpper();
-        _dayNumber = ActivityRef.Day.DayDto.Day.Day;
+        InitComponent();
     }
 
     private void OpenActivityPopover(ActivityDto activity)
@@ -37,4 +35,12 @@ public partial class ActivityListPopover
 
     private void ClosePopover() =>
         ActivityRef.ToggleActivityListPopover();
+
+    public void InitComponent()
+    {
+        _activitiesDto = ActivityRef.ActivitiesDto;
+        _shortDayWeekName = BasicHelper.GetShortDayWeekName((int)ActivityRef.Day.DayDto.Day.DayOfWeek).ToUpper();
+        _dayNumber = ActivityRef.Day.DayDto.Day.Day;
+        StateHasChanged();
+    }
 }

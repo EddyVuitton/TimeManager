@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TimeManager.Domain.DTOs;
+using TimeManager.WebUI.Popovers;
 
 namespace TimeManager.WebUI.Components;
 
@@ -9,6 +10,8 @@ public partial class Activity
 
     [Parameter] public Day Day { get; set; } = null!;
     [Parameter] public List<ActivityDto> ActivitiesDto { get; set; } = null!;
+
+    public ActivityListPopover? ActivityListPopoverRef { get; set; }
 
     public bool OpenActivityListPopover { get; set; } = false;
 

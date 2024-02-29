@@ -6,5 +6,5 @@
         <MudText Class="hide-text-on-overflow" Align="Align.Center">@(weekName)</MudText>
     }
     <MudText Align="Align.Center">@(_dayText)</MudText>
-    <Activity Day="this" ActivitiesDto="DayDto?.Activities" />
+    <Activity @ref="ActivityRef" Day="this" ActivitiesDto="DayDto?.Activities" />
 </div>

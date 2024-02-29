@@ -13,6 +13,8 @@ public partial class Day
 
     [Parameter] public DayDto DayDto { get; set; } = null!;
 
+    private Activity? ActivityRef { get; set; }
+
     private string _dayText = string.Empty;
 
     protected override void OnInitialized()
@@ -55,10 +57,13 @@ public partial class Day
     {
         activity.UserId = MonthRef.UserId;
         MonthRef.AddActivity(activity);
+        DayDto.Activities.Add(activity);
+        ActivityRef?.ActivityListPopoverRef?.InitComponent();
         StateHasChanged();
     }
 
-    public void DayStateHasChanged() => StateHasChanged();
+    public void DayStateHasChanged()
+        => StateHasChanged();
 
     #endregion PublicMethods
 }

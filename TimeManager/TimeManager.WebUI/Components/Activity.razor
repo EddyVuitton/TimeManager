@@ -28,7 +28,7 @@
             <div class="activity-body" @onclick="ToggleActivityListPopover">
                 <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
             </div>
-            <ActivityListPopover ActivityRef="this" />
+            <ActivityListPopover @ref="ActivityListPopoverRef" ActivityRef="this" />
         }
     }
 </div>
