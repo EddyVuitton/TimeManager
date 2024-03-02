@@ -3,11 +3,9 @@ using System.Data;
 using TimeManager.Domain.Context;
 using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
-using TimeManager.WebAPI.APIs.Management.Interfaces;
 using TimeManager.WebAPI.Extensions;
-using TimeManager.WebAPI.Helpers;
 
-namespace TimeManager.WebAPI.APIs.Management;
+namespace TimeManager.WebAPI.Repositories.Management;
 
 public class Management(DBContext context) : IManagement
 {

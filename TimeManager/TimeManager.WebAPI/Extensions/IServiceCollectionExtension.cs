@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TimeManager.Domain.Context;
-using TimeManager.WebAPI.APIs.Management;
-using TimeManager.WebAPI.APIs.Management.Interfaces;
 using TimeManager.WebAPI.Helpers;
+using TimeManager.WebAPI.Repositories.Management;
 
 namespace TimeManager.WebAPI.Extensions;
 
@@ -24,7 +23,7 @@ public static class IServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddBusinessLogics(this IServiceCollection services)
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IManagement, Management>();
 

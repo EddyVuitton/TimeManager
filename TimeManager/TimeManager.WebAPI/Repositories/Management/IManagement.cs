@@ -1,7 +1,7 @@
 ﻿using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
 
-namespace TimeManager.WebAPI.APIs.Management.Interfaces;
+namespace TimeManager.WebAPI.Repositories.Management;
 
 public interface IManagement
 {

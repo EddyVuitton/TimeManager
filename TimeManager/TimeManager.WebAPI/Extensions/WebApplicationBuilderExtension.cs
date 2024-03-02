@@ -12,6 +12,6 @@ public static class WebApplicationBuilderExtension
         builder.Services.AddSwaggerGen();
         ConfigurationHelper.Initialize(builder.Configuration);
         builder.Services.AddContextFactory();
-        builder.Services.AddBusinessLogics();
+        builder.Services.AddRepositories();
     }
 }

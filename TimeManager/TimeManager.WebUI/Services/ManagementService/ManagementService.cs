@@ -2,10 +2,9 @@
 using System.Text;
 using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
-using TimeManager.WebAPI.APIs.Management.Interfaces;
-using TimeManager.WebAPI.Http;
+using TimeManager.Domain.Http;
 
-namespace TimeManager.WebAPI.APIs.Management;
+namespace TimeManager.WebUI.Services.ManagementService;
 
 public class ManagementService(HttpClient httpClient) : IManagementService
 {

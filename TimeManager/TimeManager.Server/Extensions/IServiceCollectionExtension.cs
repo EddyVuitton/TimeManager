@@ -1,5 +1,4 @@
-﻿using TimeManager.WebAPI.APIs.Management;
-using TimeManager.WebAPI.APIs.Management.Interfaces;
+﻿using TimeManager.WebUI.Services.ManagementService;
 
 namespace TimeManager.Server.Extensions;
 

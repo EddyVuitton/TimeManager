@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using TimeManager.WebAPI.Http;
+using TimeManager.Domain.Http;
 
 namespace TimeManager.WebAPI.Helpers;
 

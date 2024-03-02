@@ -1,4 +1,5 @@
 ﻿using MudBlazor.Services;
+using TimeManager.Server.Helpers;
 
 namespace TimeManager.Server.Extensions;
 
@@ -9,7 +10,8 @@ public static class WebApplicationBuilderExtension
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
         builder.Services.AddMudServices();
-        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44334/") });
+        ConfigurationHelper.Initialize(builder.Configuration);
+        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(ConfigurationHelper.WebAPIHostAddress) });
         builder.Services.AddApiServices();
     }
 }
