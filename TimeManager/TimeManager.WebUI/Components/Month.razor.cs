@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Helpers;
 using TimeManager.WebUI.Services.ManagementService;
+using TimeManager.WebUI.Services.SnackbarService;
 
 namespace TimeManager.WebUI.Components;
 
 public partial class Month
 {
     [Inject] public IManagementService ManagementService { get; set; } = null!;
+    [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
 
     [CascadingParameter(Name = "UserId")] public int UserId { get; set; }
 
@@ -35,8 +38,9 @@ public partial class Month
             await LoadRepetitionTypesAsync();
             InitMonth(new DateTime(_now.Year, _now.Month, 1));
         }
-        catch
+        catch (Exception ex)
         {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
         }
     }
 
@@ -168,9 +172,11 @@ public partial class Month
             }
 
             _allActivitiesDto.Add(newActivityResult.Data);
+            SnackbarService.Show("Wydarzenie zostało zapisane", Severity.Normal, true, false);
         }
-        catch
+        catch (Exception ex)
         {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
         }
         finally
         {
@@ -190,9 +196,11 @@ public partial class Month
             }
 
             _allActivitiesDto.Remove(activity);
+            SnackbarService.Show("Wydarzenie zostało usunięte", Severity.Normal, true, false);
         }
-        catch
+        catch (Exception ex)
         {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
         }
         finally
         {
@@ -213,9 +221,11 @@ public partial class Month
 
             var updatedActivity = _allActivitiesDto.FirstOrDefault(x => x.ActivityId == activity.ActivityId);
             updatedActivity = activity;
+            SnackbarService.Show("Wydarzenie zostało zaktualizowane", Severity.Normal, true, false);
         }
-        catch
+        catch (Exception ex)
         {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
         }
         finally
         {
