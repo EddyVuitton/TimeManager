@@ -2,8 +2,8 @@
 using TimeManager.Domain.Entities;
 using TimeManager.Domain.Http;
 
-
 namespace TimeManager.WebUI.Services.ManagementService;
+
 public interface IManagementService
 {
     Task<HttpResultT<ActivityDto>> AddActivityAsync(ActivityDto activity);

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using TimeManager.Domain.Extensions;
 
 #nullable disable
 
