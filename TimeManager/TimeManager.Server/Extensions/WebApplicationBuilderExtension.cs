@@ -13,5 +13,6 @@ public static class WebApplicationBuilderExtension
         ConfigurationHelper.Initialize(builder.Configuration);
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(ConfigurationHelper.WebAPIHostAddress) });
         builder.Services.AddApiServices();
+        builder.Services.AddAuthServices();
     }
 }
