@@ -2,7 +2,7 @@
 using TimeManager.Domain.Entities;
 using TimeManager.Domain.Http;
 
-namespace TimeManager.WebUI.Services.ManagementService;
+namespace TimeManager.WebUI.Services.Management;
 
 public interface IManagementService
 {

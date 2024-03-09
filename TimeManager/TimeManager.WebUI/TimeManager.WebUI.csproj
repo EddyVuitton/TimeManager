@@ -11,6 +11,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.1" />
 		<PackageReference Include="MudBlazor" Version="6.15.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\TimeManager.Domain\TimeManager.Domain.csproj" />

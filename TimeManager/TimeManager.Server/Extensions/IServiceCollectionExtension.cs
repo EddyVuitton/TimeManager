@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using TimeManager.WebAPI.Auth;
-using TimeManager.WebUI.Services.AccontService;
-using TimeManager.WebUI.Services.ManagementService;
-using TimeManager.WebUI.Services.SnackbarService;
+using TimeManager.WebUI.Auth;
+using TimeManager.WebUI.Services.Account;
+using TimeManager.WebUI.Services.Management;
+using TimeManager.WebUI.Services.Snackbar;
 
 namespace TimeManager.Server.Extensions;
 

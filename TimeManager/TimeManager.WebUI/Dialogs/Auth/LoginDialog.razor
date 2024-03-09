@@ -1,0 +1,24 @@
+﻿<MudDialog>
+    <DialogContent>
+        <EditForm Model="@_model" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudCard Elevation="0">
+                <MudCardContent>
+                    <MudTextField @bind-Value="_model.Email"
+                                  Label="Adres email"
+                                  For="@(() => _model.Email)" />
+                    <MudTextField @bind-Value="_model.Password"
+                                  Label="Powtórz hasło" Class="mt-3"
+                                  For="@(() => _model.Password)" InputType="InputType.Password" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton OnClick="Cancel" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Zamknij</MudButton>
+                    <MudSpacer />
+                    <div class="d-flex flex-row gap-x-4">
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Zaloguj się</MudButton>
+                    </div>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    </DialogContent>
+</MudDialog>

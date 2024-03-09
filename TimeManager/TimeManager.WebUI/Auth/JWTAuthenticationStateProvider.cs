@@ -3,19 +3,20 @@ using Microsoft.JSInterop;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using TimeManager.WebUI.Extensions;
 using System.Text.Json;
 using TimeManager.Domain.Auth;
+using TimeManager.WebUI.Extensions;
 
-namespace TimeManager.WebAPI.Auth;
+namespace TimeManager.WebUI.Auth;
 
 public class JWTAuthenticationStateProvider(IJSRuntime js, HttpClient httpClient) : AuthenticationStateProvider, ILoginService
 {
     //https://www.udemy.com/course/programming-in-blazor-aspnet-core/learn/lecture/17136788#overview
     private readonly IJSRuntime _js = js;
+
     private readonly HttpClient _httpClient = httpClient;
     private const string _TOKENKEY = "TOKENKEY";
-    private static AuthenticationState _anonymous => new(new ClaimsPrincipal(new ClaimsIdentity()));
+    private readonly AuthenticationState _anonymous = new(new ClaimsPrincipal(new ClaimsIdentity()));
 
     #region PublicMethods
 

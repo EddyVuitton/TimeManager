@@ -2,8 +2,8 @@
 using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Helpers;
-using TimeManager.WebUI.Services.ManagementService;
-using TimeManager.WebUI.Services.SnackbarService;
+using TimeManager.WebUI.Services.Management;
+using TimeManager.WebUI.Services.Snackbar;
 
 namespace TimeManager.WebUI.Components;
 

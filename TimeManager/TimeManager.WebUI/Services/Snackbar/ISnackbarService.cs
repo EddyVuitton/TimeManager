@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace TimeManager.WebUI.Services.SnackbarService;
+namespace TimeManager.WebUI.Services.Snackbar;
 
 public interface ISnackbarService
 {

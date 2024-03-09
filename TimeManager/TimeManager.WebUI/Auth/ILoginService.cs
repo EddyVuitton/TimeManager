@@ -1,6 +1,6 @@
 ﻿using TimeManager.Domain.Auth;
 
-namespace TimeManager.WebAPI.Auth;
+namespace TimeManager.WebUI.Auth;
 
 public interface ILoginService
 {

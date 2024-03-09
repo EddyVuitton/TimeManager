@@ -3,7 +3,7 @@ using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Components;
 using TimeManager.WebUI.Helpers;
-using TimeManager.WebUI.Services.ManagementService;
+using TimeManager.WebUI.Services.Management;
 
 namespace TimeManager.WebUI.Dialogs;
 

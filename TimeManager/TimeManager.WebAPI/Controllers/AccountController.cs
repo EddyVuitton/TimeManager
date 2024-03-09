@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TimeManager.Domain.Auth;
+using TimeManager.Domain.Forms;
 using TimeManager.Domain.Http;
 using TimeManager.WebAPI.Helpers;
 using TimeManager.WebAPI.Repositories.Account;
@@ -15,11 +16,11 @@ public class AccountController(IAccount businessLogic) : ControllerBase
     #region Posts
 
     [HttpPost("LoginAsync")]
-    public async Task<HttpResultT<UserToken>> LoginAsync(string email, string password)
+    public async Task<HttpResultT<UserToken>> LoginAsync(LoginAccountForm form)
     {
         try
         {
-            var result = await _businessLogic.LoginAsync(email, password);
+            var result = await _businessLogic.LoginAsync(form);
             return HttpHelper.Ok(result);
         }
         catch (Exception e)

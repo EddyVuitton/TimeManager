@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace TimeManager.WebUI.Services.SnackbarService;
+namespace TimeManager.WebUI.Services.Snackbar;
 
 public class SnackbarService : ISnackbarService
 {
