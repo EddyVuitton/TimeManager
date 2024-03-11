@@ -41,12 +41,13 @@ public class SnackbarService : ISnackbarService
 
     #region PublicMethods
 
-    public void Show(string message, Severity s, bool hide = false, bool showDate = true)
+    public void Show(string message, Severity s, bool hide = false, bool showDate = true, string position = Defaults.Classes.Position.TopRight)
     {
         var now = DateTime.Now;
         var sNow = showDate ? $"[{now:yyyy-MM-dd HH:mm:ss}] " : string.Empty;
 
         LoadHideConfiguration(hide);
+        Snackbar.Configuration.PositionClass = position;
 
         Snackbar.Add($"{sNow}{message}", s);
     }

@@ -1,22 +1,29 @@
-﻿<div class="d-flex justify-center">
-    <MudFab OnClick="DecreaseMonth"
-            Class="align-self-center"
-            Style="font-size: 10px;"
-            StartIcon="@Icons.Material.Filled.KeyboardArrowLeft"
-            Size="Size.Small"
-            Color="Color.Primary">
-        Zmniejsz miesiąc
-    </MudFab>
-    <MudText Style="width: 370px; margin: 0% 1%; text-align: center;" Typo="Typo.h3">@(_monthName) @(_monthDto.Year)</MudText>
-    <MudFab OnClick="IncreaseMonth"
-            Class="align-self-center"
-            Style="font-size: 10px;"
-            StartIcon="@Icons.Material.Filled.KeyboardArrowRight"
-            Size="Size.Small"
-            Color="Color.Primary">
-        Zwiększ miesiąc
-    </MudFab>
-    <LoginLinks />
+﻿<div class="bar-container">
+    <div class="centered">
+        <MudFab OnClick="DecreaseMonth"
+                Class="align-self-center"
+                Style="font-size: 10px;"
+                StartIcon="@Icons.Material.Filled.KeyboardArrowLeft"
+                Size="Size.Small"
+                Color="Color.Primary">
+            Zmniejsz miesiąc
+        </MudFab>
+        @{
+            var year = _monthDto.Year != 0 ? _monthDto.Year.ToString() : string.Empty;
+            <MudText Style="width: 370px; height: 56px; margin: 0% 1%; text-align: center;" Typo="Typo.h3">@(_monthName) @(year)</MudText>
+        }
+        <MudFab OnClick="IncreaseMonth"
+                Class="align-self-center"
+                Style="font-size: 10px;"
+                StartIcon="@Icons.Material.Filled.KeyboardArrowRight"
+                Size="Size.Small"
+                Color="Color.Primary">
+            Zwiększ miesiąc
+        </MudFab>
+    </div>
+    <div class="right">
+        <LoginLinks />
+    </div>
 </div>
 
 <CascadingValue TValue="Month" Name="MonthRef" Value="this">
