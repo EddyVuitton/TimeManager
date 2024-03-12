@@ -1,12 +1,14 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TimeManager.Domain.Auth;
+using TimeManager.Domain.Context;
 using TimeManager.Domain.Forms;
 using TimeManager.WebAPI.Helpers;
 
 namespace TimeManager.WebAPI.Repositories.Account;
 
-public class Account : IAccount
+public class Account(DBContext context) : IAccount
 {
     private readonly byte[] _jwtKeyBytes = Encoding.UTF8.GetBytes(ConfigurationHelper.JWTKey);
 
@@ -16,7 +18,7 @@ public class Account : IAccount
             throw new Exception("Niepoprawna próba logowania");
 
         var hashedPassword = AuthHelper.HashPassword(form.Password);
-        var dbAccountPassword = AuthHelper.HashPassword("admin");
+        var dbAccountPassword = (await context.User.FirstOrDefaultAsync(x => x.Email == form.Email))?.Password;
 
         if (dbAccountPassword == hashedPassword)
         {

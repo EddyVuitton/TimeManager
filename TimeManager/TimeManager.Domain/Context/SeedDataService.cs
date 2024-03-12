@@ -19,7 +19,7 @@ public static class SeedDataService
         #endregion Dictionaries
 
         //User
-        var user = new User() { Email = "abc@ab.com", Password = "admin" };
+        var user = new User() { Email = "abc@ab.com", Password = "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918" }; //admin
         context.User.Add(user);
         context.SaveChanges();
 
