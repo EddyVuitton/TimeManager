@@ -85,6 +85,7 @@ public class Management(DBContext context) : IManagement
         if (updatedActivity is not null)
         {
             updatedActivity.Title = activity.Title;
+            updatedActivity.Description = activity.Description;
             await context.SaveChangesAsync();
         }
 

@@ -182,7 +182,7 @@ public partial class Month
             }
 
             _allActivitiesDto.Add(newActivityResult.Data);
-            SnackbarService.Show("Wydarzenie zostało zapisane", Severity.Normal, true, false);
+            SnackbarService.Show("Zadanie zostało zapisane", Severity.Normal, true, false);
         }
         catch (Exception ex)
         {
@@ -206,7 +206,7 @@ public partial class Month
             }
 
             _allActivitiesDto.Remove(activity);
-            SnackbarService.Show("Wydarzenie zostało usunięte", Severity.Normal, true, false);
+            SnackbarService.Show("Zadanie zostało usunięte", Severity.Normal, true, false);
         }
         catch (Exception ex)
         {
@@ -231,7 +231,7 @@ public partial class Month
 
             var updatedActivity = _allActivitiesDto.FirstOrDefault(x => x.ActivityId == activity.ActivityId);
             updatedActivity = activity;
-            SnackbarService.Show("Wydarzenie zostało zaktualizowane", Severity.Normal, true, false);
+            SnackbarService.Show("Zadanie zostało zaktualizowane", Severity.Normal, true, false);
         }
         catch (Exception ex)
         {
