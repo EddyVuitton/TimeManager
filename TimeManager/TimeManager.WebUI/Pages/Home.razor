@@ -3,9 +3,12 @@
 <PageTitle>Home</PageTitle>
 
 <CascadingValue TValue="int" Name="UserId" Value="_userId">
-    <div class="month-contener">
-        <div class="month">
-            <Month />
+    @if (_isInitialized)
+    {
+        <div class="month-contener">
+            <div class="month">
+                <Month HomeRef="this" />
+            </div>
         </div>
-    </div>
+    }
 </CascadingValue>

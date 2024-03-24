@@ -2,14 +2,11 @@
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Components;
 using TimeManager.WebUI.Helpers;
-using TimeManager.WebUI.Pages;
 
 namespace TimeManager.WebUI.Popovers;
 
 public partial class ActivityPopover
 {
-    [CascadingParameter(Name = "HomeRef")] protected Home HomeRef { get; set; } = null!;
-
     [Parameter] public Activity ActivityRef { get; set; } = null!;
     [Parameter] public ActivityDto ActivityDto { get; set; } = null!;
 

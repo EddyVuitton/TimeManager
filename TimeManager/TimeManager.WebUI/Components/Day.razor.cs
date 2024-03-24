@@ -2,12 +2,15 @@
 using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Dialogs;
+using TimeManager.WebUI.Dialogs.Auth;
+using TimeManager.WebUI.Services.Snackbar;
 
 namespace TimeManager.WebUI.Components;
 
 public partial class Day
 {
     [Inject] public IDialogService DialogService { get; set; } = null!;
+    [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
 
     [CascadingParameter(Name = "MonthRef")] public Month MonthRef { get; set; } = null!;
 
@@ -31,6 +34,18 @@ public partial class Day
 
     private void OpenDialog()
     {
+        if (MonthRef.UserId > 0)
+        {
+            OpenAddActivityDialog();
+        }
+        else
+        {
+            OpenLoginDialog();
+        }
+    }
+
+    private void OpenAddActivityDialog()
+    {
         var options = new DialogOptions
         {
             CloseOnEscapeKey = true,
@@ -38,15 +53,29 @@ public partial class Day
         };
 
         var parameters = new DialogParameters
-        {
-            { "DayDto", DayDto },
-            { "DayRef", this },
-            { "HourTypeList", MonthRef.GetHourTypes() },
-            { "RepetitionTypeList", MonthRef.GetRepetitionTypes() },
-            { "ActivityLists", MonthRef.GetActivityLists() }
-        };
+            {
+                { "DayDto", DayDto },
+                { "DayRef", this },
+                { "HourTypeList", MonthRef.GetHourTypes() },
+                { "RepetitionTypeList", MonthRef.GetRepetitionTypes() },
+                { "ActivityLists", MonthRef.GetActivityLists() }
+            };
 
         DialogService.Show<AddActivityDialog>(string.Empty, parameters, options);
+    }
+
+    private void OpenLoginDialog()
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            NoHeader = true,
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true
+        };
+
+        DialogService.Show<LoginDialog>(string.Empty, options);
+        SnackbarService.Show("Przed dodaniem wydarzenia zaloguj się lub stwórz konto", Severity.Info, true, false);
     }
 
     #endregion PrivateMethods

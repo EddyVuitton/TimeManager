@@ -3,14 +3,11 @@ using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Components;
 using TimeManager.WebUI.Helpers;
-using TimeManager.WebUI.Services.Management;
 
 namespace TimeManager.WebUI.Dialogs;
 
 public partial class AddActivityDialog
 {
-    [Inject] public IManagementService ManagementService { get; set; } = null!;
-
     [CascadingParameter] public MudDialogInstance MudDialog { get; set; } = null!;
 
     [Parameter] public DayDto DayDto { get; set; } = null!;

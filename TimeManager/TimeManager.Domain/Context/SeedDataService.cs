@@ -19,14 +19,12 @@ public static class SeedDataService
         #endregion Dictionaries
 
         //User
-        var user = new User() { Email = "abc@ab.com", Password = "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918" }; //admin
+        var user = new User() { Email = "konto@demo.com", Password = "2A97516C354B68848CDBD8F54A226A0A55B21ED138E207AD6C5CBB9C00AA5AEA" }; //demo
         context.User.Add(user);
         context.SaveChanges();
 
         //Repetition
         var repetition1 = AddRepetition(context, 1);
-        var repetition2 = AddRepetition(context, 1);
-        var repetition3 = AddRepetition(context, 1);
 
         //Default hour type
         var hourTypeId = context.HourType.First(x => x.Name == "10:00").Id;
@@ -50,30 +48,8 @@ public static class SeedDataService
             User = user,
             ActivityList = activityList
         };
-        var activity2 = new Activity()
-        {
-            Day = activity1.Day.AddDays(1),
-            Description = string.Empty,
-            Task = "Moje zadania",
-            HourTypeId = hourTypeId,
-            Repetition = repetition2,
-            User = user,
-            ActivityList = activityList
-        };
-        var activity3 = new Activity()
-        {
-            Day = activity2.Day.AddDays(1),
-            Description = string.Empty,
-            Task = "Moje zadania",
-            HourTypeId = hourTypeId,
-            Repetition = repetition3,
-            User = user,
-            ActivityList = activityList
-        };
 
         context.Activity.Add(activity1);
-        context.Activity.Add(activity2);
-        context.Activity.Add(activity3);
 
         context.SaveChanges();
     }

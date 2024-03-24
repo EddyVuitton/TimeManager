@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TimeManager.Domain.Auth;
+using TimeManager.Domain.Entities;
 using TimeManager.Domain.Forms;
 using TimeManager.Domain.Http;
 using TimeManager.WebAPI.Helpers;
@@ -12,6 +13,24 @@ namespace TimeManager.WebAPI.Controllers;
 public class AccountController(IAccount businessLogic) : ControllerBase
 {
     private readonly IAccount _businessLogic = businessLogic;
+
+    #region Gets
+
+    [HttpGet("GetUserByEmailAsync")]
+    public async Task<HttpResultT<User?>> GetUserByEmailAsync(string email)
+    {
+        try
+        {
+            var result = await _businessLogic.GetUserByEmailAsync(email);
+            return HttpHelper.Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error<User?>(e);
+        }
+    }
+
+    #endregion Gets
 
     #region Posts
 
@@ -26,6 +45,20 @@ public class AccountController(IAccount businessLogic) : ControllerBase
         catch (Exception e)
         {
             return HttpHelper.Error<UserToken>(e);
+        }
+    }
+
+    [HttpPost("RegisterAsync")]
+    public async Task<HttpResult> RegisterAsync(RegisterAccountForm form)
+    {
+        try
+        {
+            await _businessLogic.RegisterAsync(form);
+            return HttpHelper.Ok();
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error(e);
         }
     }
 

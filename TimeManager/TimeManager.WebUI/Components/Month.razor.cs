@@ -2,6 +2,7 @@
 using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Helpers;
+using TimeManager.WebUI.Pages;
 using TimeManager.WebUI.Services.Management;
 using TimeManager.WebUI.Services.Snackbar;
 
@@ -12,7 +13,12 @@ public partial class Month
     [Inject] public IManagementService ManagementService { get; set; } = null!;
     [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
 
-    [CascadingParameter(Name = "UserId")] public int UserId { get; set; }
+    [Parameter] public Home HomeRef { get; set; } = null!;
+
+    public int UserId
+    {
+        get => _userId;
+    }
 
     private MonthDto _monthDto = new();
 
@@ -22,6 +28,7 @@ public partial class Month
     private int _daysInLastWeek;
     private int _weeks;
     private string _monthName = string.Empty;
+    private int _userId;
 
     private List<ActivityDto> _allActivitiesDto = [];
     private Dictionary<int, string> _activityLists = null!;
@@ -30,12 +37,15 @@ public partial class Month
 
     protected override async Task OnInitializedAsync()
     {
+        _userId = HomeRef.GetUserId();
+
         try
         {
-            await LoadActivitiesAsync();
-            await LoadActivityListsAsync();
             await LoadHourTypesAsync();
             await LoadRepetitionTypesAsync();
+            await LoadActivitiesAsync();
+            await LoadActivityListsAsync();
+
             InitMonth(new DateTime(_now.Year, _now.Month, 1));
         }
         catch (Exception ex)

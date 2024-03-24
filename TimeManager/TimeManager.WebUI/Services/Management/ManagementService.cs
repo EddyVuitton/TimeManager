@@ -20,6 +20,10 @@ public class ManagementService(HttpClient httpClient) : IManagementService
         if (deserialisedResponse is null)
             throw new NullReferenceException(typeof(List<ActivityDto>).Name);
 
+        if (deserialisedResponse.Data.Count == 0)
+        {
+        }
+
         return deserialisedResponse;
     }
 

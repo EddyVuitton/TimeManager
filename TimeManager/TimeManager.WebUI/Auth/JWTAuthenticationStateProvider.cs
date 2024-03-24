@@ -43,20 +43,17 @@ public class JWTAuthenticationStateProvider(IJSRuntime js, HttpClient httpClient
         return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt")));
     }
 
-    public async Task<int> IsLoggedInAsync()
+    public async Task<string?> IsLoggedInAsync()
     {
         var authenticationState = await this.GetAuthenticationStateAsync();
 
         if (authenticationState is not null && authenticationState.User.Claims.Any())
         {
-            var result = authenticationState.User.Claims.FirstOrDefault(x => x.Type == "ClientId")?.Value;
-            if (int.TryParse(result, out int userAccountId))
-            {
-                return userAccountId;
-            }
+            var result = authenticationState.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            return result;
         }
 
-        return -1;
+        return null;
     }
 
     public async Task LogoutIfExpiredTokenAsync()

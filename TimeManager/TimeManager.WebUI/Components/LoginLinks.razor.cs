@@ -16,7 +16,7 @@ public partial class LoginLinks
     private async Task LogOut()
     {
         await LoginService.LogoutAsync();
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/", true);
         SnackbarService.Show("Poprawnie wylogowano", Severity.Info, true, false, Defaults.Classes.Position.TopStart);
     }
 

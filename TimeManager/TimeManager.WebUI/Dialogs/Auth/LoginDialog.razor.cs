@@ -13,11 +13,27 @@ public partial class LoginDialog
     [Inject] public IAccountService AccountService { get; set; } = null!;
     [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
     [Inject] public ILoginService LoginService { get; set; } = null!;
+    [Inject] public IDialogService DialogService { get; set; } = null!;
     [Inject] public NavigationManager NavigationManager { get; set; } = null!;
 
     [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
+    [Parameter] public RegisterAccountForm? RegisterAccountForm { get; set; }
+
     private readonly LoginAccountForm _model = new();
+    private readonly string _info = "Na potrzeby demo aplikacji jest stworzone konto \"konto@demo.com\" z hasłem \"demo\"";
+
+    protected override void OnInitialized()
+    {
+        _model.Email = "konto@demo.com";
+        _model.Password = "demo";
+
+        if (RegisterAccountForm is not null)
+        {
+            _model.Email = RegisterAccountForm.Email;
+            _model.Password = string.Empty;
+        }
+    }
 
     private async void OnValidSubmit(EditContext context)
     {
@@ -34,7 +50,7 @@ public partial class LoginDialog
             if (response.Data is not null)
             {
                 await LoginService.LoginAsync(response.Data);
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/", true);
             }
 
             SnackbarService.Show("Poprawnie zalogowano", Severity.Info, true, false, Defaults.Classes.Position.TopStart);
@@ -46,4 +62,20 @@ public partial class LoginDialog
     }
 
     private void Cancel() => MudDialog.Cancel();
+
+    private async Task OpenRegisterDialog()
+    {
+        Cancel();
+        await Task.Delay(250);
+
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = false,
+            NoHeader = true,
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true
+        };
+
+        DialogService.Show<RegisterDialog>(string.Empty, options);
+    }
 }
