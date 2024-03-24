@@ -8,10 +8,10 @@
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.2" />
-		<PackageReference Include="MudBlazor" Version="6.17.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.3" />
+		<PackageReference Include="MudBlazor" Version="6.19.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.3" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\TimeManager.Domain\TimeManager.Domain.csproj" />
