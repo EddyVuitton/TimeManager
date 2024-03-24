@@ -22,7 +22,7 @@ public class Activity
     public int ActivityListId { get; set; }
 
     public virtual Repetition Repetition { get; set; } = null!;
-    public virtual User User { get; set; } = null!;
+    public virtual UserAccount User { get; set; } = null!;
     public virtual HourType HourType { get; set; } = null!;
     public virtual ActivityList ActivityList { get; set; } = null!;
 }

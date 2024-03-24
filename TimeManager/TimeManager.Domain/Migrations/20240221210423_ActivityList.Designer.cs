@@ -190,7 +190,7 @@ namespace TimeManager.Domain.Migrations
                     b.ToTable("RepetitionType");
                 });
 
-            modelBuilder.Entity("TimeManager.Domain.Entities.User", b =>
+            modelBuilder.Entity("TimeManager.Domain.Entities.UserAccount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -208,7 +208,7 @@ namespace TimeManager.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("UserAccount");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.Activity", b =>
@@ -231,7 +231,7 @@ namespace TimeManager.Domain.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TimeManager.Domain.Entities.User", "User")
+                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "UserAccount")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,18 +243,18 @@ namespace TimeManager.Domain.Migrations
 
                     b.Navigation("Repetition");
 
-                    b.Navigation("User");
+                    b.Navigation("UserAccount");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.ActivityList", b =>
                 {
-                    b.HasOne("TimeManager.Domain.Entities.User", "User")
+                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "UserAccount")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("UserAccount");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.Repetition", b =>

@@ -17,7 +17,7 @@ public class AccountController(IAccount businessLogic) : ControllerBase
     #region Gets
 
     [HttpGet("GetUserByEmailAsync")]
-    public async Task<HttpResultT<User?>> GetUserByEmailAsync(string email)
+    public async Task<HttpResultT<UserAccount?>> GetUserByEmailAsync(string email)
     {
         try
         {
@@ -26,7 +26,7 @@ public class AccountController(IAccount businessLogic) : ControllerBase
         }
         catch (Exception e)
         {
-            return HttpHelper.Error<User?>(e);
+            return HttpHelper.Error<UserAccount?>(e);
         }
     }
 

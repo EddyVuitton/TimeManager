@@ -32,7 +32,7 @@ namespace TimeManager.Domain.Migrations
                     table.ForeignKey(
                         name: "FK_ActivityList_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "UserAccount",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                 });

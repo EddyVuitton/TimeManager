@@ -18,9 +18,9 @@ public static class SeedDataService
 
         #endregion Dictionaries
 
-        //User
-        var user = new User() { Email = "konto@demo.com", Password = "2A97516C354B68848CDBD8F54A226A0A55B21ED138E207AD6C5CBB9C00AA5AEA" }; //demo
-        context.User.Add(user);
+        //UserAccount
+        var user = new UserAccount() { Email = "konto@demo.com", Password = "2A97516C354B68848CDBD8F54A226A0A55B21ED138E207AD6C5CBB9C00AA5AEA" }; //demo
+        context.UserAccount.Add(user);
         context.SaveChanges();
 
         //Repetition

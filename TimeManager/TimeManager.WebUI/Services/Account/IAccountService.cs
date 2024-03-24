@@ -9,5 +9,5 @@ public interface IAccountService
 {
     Task<HttpResultT<UserToken>> LoginAsync(LoginAccountForm form);
     Task<HttpResult> RegisterAsync(RegisterAccountForm form);
-    Task<HttpResultT<User>> GetUserByEmailAsync(string email);
+    Task<HttpResultT<UserAccount>> GetUserByEmailAsync(string email);
 }

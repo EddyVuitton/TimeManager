@@ -9,7 +9,7 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
     public DbSet<RepetitionType> RepetitionType => Set<RepetitionType>();
     public DbSet<Repetition> Repetition => Set<Repetition>();
     public DbSet<Activity> Activity => Set<Activity>();
-    public DbSet<User> User => Set<User>();
+    public DbSet<UserAccount> UserAccount => Set<UserAccount>();
     public DbSet<HourType> HourType => Set<HourType>();
     public DbSet<ActivityList> ActivityList => Set<ActivityList>();
 

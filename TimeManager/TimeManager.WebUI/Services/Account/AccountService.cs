@@ -36,12 +36,12 @@ public class AccountService(HttpClient httpClient) : IAccountService
         return deserialisedResponse ?? throw new NullReferenceException(nameof(HttpResult));
     }
 
-    public async Task<HttpResultT<User>> GetUserByEmailAsync(string email)
+    public async Task<HttpResultT<UserAccount>> GetUserByEmailAsync(string email)
     {
         var response = await _httpClient.GetAsync($"{_ROUTE}/GetUserByEmailAsync?email={email}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<User>>(responseContent);
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<UserAccount>>(responseContent);
 
-        return deserialisedResponse ?? throw new NullReferenceException(typeof(User).Name);
+        return deserialisedResponse ?? throw new NullReferenceException(typeof(UserAccount).Name);
     }
 }

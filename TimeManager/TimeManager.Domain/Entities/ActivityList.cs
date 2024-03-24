@@ -12,5 +12,5 @@ public class ActivityList
     [ForeignKey(nameof(User))]
     public int UserId { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual UserAccount User { get; set; } = null!;
 }

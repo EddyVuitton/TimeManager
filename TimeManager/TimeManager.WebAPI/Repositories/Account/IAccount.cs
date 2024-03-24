@@ -6,7 +6,7 @@ namespace TimeManager.WebAPI.Repositories.Account;
 
 public interface IAccount
 {
-    Task<User?> GetUserByEmailAsync(string email);
+    Task<UserAccount?> GetUserByEmailAsync(string email);
     Task<UserToken> LoginAsync(LoginAccountForm form);
     Task RegisterAsync(RegisterAccountForm form);
 }

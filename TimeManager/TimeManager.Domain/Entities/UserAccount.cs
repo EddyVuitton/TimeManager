@@ -2,7 +2,7 @@
 
 namespace TimeManager.Domain.Entities;
 
-public class User
+public class UserAccount
 {
     [Key]
     public int Id { get; set; }

@@ -37,7 +37,7 @@ namespace TimeManager.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "UserAccount",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -102,7 +102,7 @@ namespace TimeManager.Domain.Migrations
                     table.ForeignKey(
                         name: "FK_Activity_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "UserAccount",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -141,7 +141,7 @@ namespace TimeManager.Domain.Migrations
                 name: "Repetition");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "UserAccount");
 
             migrationBuilder.DropTable(
                 name: "RepetitionType");

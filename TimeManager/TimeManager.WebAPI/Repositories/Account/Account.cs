@@ -19,7 +19,7 @@ public class Account(DBContext context) : IAccount
             throw new Exception("Niepoprawna próba logowania");
 
         var hashedPassword = AuthHelper.HashPassword(form.Password);
-        var dbAccountPassword = (await context.User.FirstOrDefaultAsync(x => x.Email == form.Email))?.Password;
+        var dbAccountPassword = (await context.UserAccount.FirstOrDefaultAsync(x => x.Email == form.Email))?.Password;
 
         if (dbAccountPassword == hashedPassword)
         {
@@ -39,12 +39,12 @@ public class Account(DBContext context) : IAccount
         if (form is null || form.Email is null || form.Password is null)
             throw new Exception("Niepoprawna próba rejestracji");
 
-        var doesExist = await context.User.FirstOrDefaultAsync(x => x.Email == form.Email);
+        var doesExist = await context.UserAccount.FirstOrDefaultAsync(x => x.Email == form.Email);
 
         if (doesExist is not null)
             throw new Exception("Ten adres email jest zajęty");
 
-        var user = new User()
+        var user = new UserAccount()
         {
             Email = form.Email,
             Password = AuthHelper.HashPassword(form.Password)
@@ -56,15 +56,15 @@ public class Account(DBContext context) : IAccount
             User = user
         };
 
-        await context.User.AddAsync(user);
+        await context.UserAccount.AddAsync(user);
         await context.ActivityList.AddAsync(activityList);
 
         await context.SaveChangesAsync();
     }
 
-    public async Task<User?> GetUserByEmailAsync(string email)
+    public async Task<UserAccount?> GetUserByEmailAsync(string email)
     {
-        var user = await context.User.FirstOrDefaultAsync(x => x.Email == email);
+        var user = await context.UserAccount.FirstOrDefaultAsync(x => x.Email == email);
         return user;
     }
 }
