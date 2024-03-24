@@ -6,7 +6,7 @@ using TimeManager.WebUI.Services.Snackbar;
 
 namespace TimeManager.WebUI.Pages;
 
-public partial class Home : IComponent
+public partial class Home
 {
     [Inject] public ILoginService LoginService { get; set; } = null!;
     [Inject] public IAccountService AccountService { get; set; } = null!;

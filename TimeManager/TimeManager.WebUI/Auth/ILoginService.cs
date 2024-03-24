@@ -6,6 +6,6 @@ public interface ILoginService
 {
     Task LoginAsync(UserToken userToken);
     Task LogoutAsync();
-    Task<string> IsLoggedInAsync();
+    Task<string?> IsLoggedInAsync();
     Task LogoutIfExpiredTokenAsync();
 }
