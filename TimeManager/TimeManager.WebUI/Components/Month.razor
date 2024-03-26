@@ -5,9 +5,7 @@
                 Style="font-size: 10px;"
                 StartIcon="@Icons.Material.Filled.KeyboardArrowLeft"
                 Size="Size.Small"
-                Color="Color.Primary">
-            Zmniejsz miesiąc
-        </MudFab>
+                Color="Color.Primary" />
         @{
             var year = _monthDto.Year != 0 ? _monthDto.Year.ToString() : string.Empty;
             <MudText Style="width: 370px; height: 56px; margin: 0% 1%; text-align: center;" Typo="Typo.h3">@(_monthName) @(year)</MudText>
@@ -17,12 +15,7 @@
                 Style="font-size: 10px;"
                 StartIcon="@Icons.Material.Filled.KeyboardArrowRight"
                 Size="Size.Small"
-                Color="Color.Primary">
-            Zwiększ miesiąc
-        </MudFab>
-    </div>
-    <div class="right">
-        <LoginLinks />
+                Color="Color.Primary" />
     </div>
 </div>
 

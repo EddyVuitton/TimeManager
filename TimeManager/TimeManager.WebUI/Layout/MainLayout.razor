@@ -4,10 +4,13 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<div>
-    <main>
-        <div>
-            @Body
-        </div>
-    </main>
-</div>
+<MudLayout>
+    <MudAppBar Style="background-color: #FFFFFF" Elevation="1" Fixed="false" Dense="true">
+        <SwitchButtons />
+        <MudSpacer />
+        <LoginLinks />
+    </MudAppBar>
+    <div>
+        @Body
+    </div>
+</MudLayout>

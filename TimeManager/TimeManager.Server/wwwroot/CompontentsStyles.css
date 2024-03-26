@@ -16,7 +16,8 @@
 
 .day {
     width: 14.286vw;
-    height: 18.5vh;
+    height: 17.5vh;
+    /*height: 138px;*/
     border-left: 0.1rem solid #cccccc;
 }
 
@@ -83,7 +84,7 @@
 
 .activity-body {
     width: auto;
-    height: 25px;
+    height: 24px;
     display: flex;
     background-color: #5496ff;
     margin: 0% 1% 1% 1%;

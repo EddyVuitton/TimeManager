@@ -1,9 +1,7 @@
 ﻿<CascadingAuthenticationState>
     <AuthorizeView>
         <Authorized>
-            <MudPaper Elevation="0" Class="d-flex align-content-center flex-wrap" Style="background-color: inherit;">
-                <MudButton OnClick="@(async () => await (LogOut()))" StartIcon="@Icons.Material.Filled.Logout" Color="Color.Primary" Variant="Variant.Outlined">Wyloguj się</MudButton>
-            </MudPaper>
+            <MudButton OnClick="@(async () => await (LogOut()))" StartIcon="@Icons.Material.Filled.Logout" Color="Color.Primary" Variant="Variant.Outlined">Wyloguj się</MudButton>
         </Authorized>
         <NotAuthorized>
             <MudButton OnClick="@(async () => await (OpenLoginDialog()))" StartIcon="@Icons.Material.Filled.Login" Color="Color.Primary" Variant="Variant.Outlined">Zaloguj się</MudButton>

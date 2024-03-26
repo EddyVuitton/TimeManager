@@ -52,8 +52,6 @@ public partial class LoginDialog
                 await LoginService.LoginAsync(response.Data);
                 NavigationManager.NavigateTo("/", true);
             }
-
-            SnackbarService.Show("Poprawnie zalogowano", Severity.Info, true, false, Defaults.Classes.Position.TopStart);
         }
         catch (Exception ex)
         {
