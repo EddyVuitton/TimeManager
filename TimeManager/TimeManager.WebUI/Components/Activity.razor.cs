@@ -6,10 +6,10 @@ namespace TimeManager.WebUI.Components;
 
 public partial class Activity
 {
-    [CascadingParameter(Name = "MonthRef")] public Month MonthRef { get; set; } = null!;
+    [CascadingParameter(Name = "MonthRef")] public Month MonthRef {get; private init; } = null!;
 
-    [Parameter] public Day Day { get; set; } = null!;
-    [Parameter] public List<ActivityDto> ActivitiesDto { get; set; } = null!;
+    [Parameter] public Day Day {get; init; } = null!;
+    [Parameter] public List<ActivityDto> ActivitiesDto {get; init; } = null!;
 
     public ActivityListPopover? ActivityListPopoverRef { get; set; }
 

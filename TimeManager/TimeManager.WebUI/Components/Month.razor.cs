@@ -10,10 +10,10 @@ namespace TimeManager.WebUI.Components;
 
 public partial class Month
 {
-    [Inject] public IManagementService ManagementService { get; set; } = null!;
-    [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
+    [Inject] public IManagementService ManagementService {get; init; } = null!;
+    [Inject] public ISnackbarService SnackbarService {get; init; } = null!;
 
-    [Parameter] public Calendar CalendarRef { get; set; } = null!;
+    [Parameter] public Calendar CalendarRef {get; init; } = null!;
 
     public int UserId
     {

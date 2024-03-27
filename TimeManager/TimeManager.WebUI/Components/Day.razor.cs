@@ -9,12 +9,12 @@ namespace TimeManager.WebUI.Components;
 
 public partial class Day
 {
-    [Inject] public IDialogService DialogService { get; set; } = null!;
-    [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
+    [Inject] public IDialogService DialogService {get; init; } = null!;
+    [Inject] public ISnackbarService SnackbarService {get; init; } = null!;
 
-    [CascadingParameter(Name = "MonthRef")] public Month MonthRef { get; set; } = null!;
+    [CascadingParameter(Name = "MonthRef")] public Month MonthRef {get; private init; } = null!;
 
-    [Parameter] public DayDto DayDto { get; set; } = null!;
+    [Parameter] public DayDto DayDto {get; init; } = null!;
 
     private Activity? ActivityRef { get; set; }
 

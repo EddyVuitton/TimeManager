@@ -9,11 +9,11 @@ namespace TimeManager.WebUI.Dialogs.Auth;
 
 public partial class RegisterDialog
 {
-    [Inject] public IAccountService AccountService { get; set; } = null!;
-    [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
-    [Inject] public IDialogService DialogService { get; set; } = null!;
+    [Inject] public IAccountService AccountService {get; init; } = null!;
+    [Inject] public ISnackbarService SnackbarService {get; init; } = null!;
+    [Inject] public IDialogService DialogService {get; init; } = null!;
 
-    [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
+    [CascadingParameter] public MudDialogInstance MudDialog {get; private init; } = null!;
 
     private readonly RegisterAccountForm _model = new();
 

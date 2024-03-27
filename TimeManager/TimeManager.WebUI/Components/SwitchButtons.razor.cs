@@ -5,7 +5,7 @@ namespace TimeManager.WebUI.Components;
 
 public partial class SwitchButtons
 {
-    [Inject] public NavigationManager NavigationManager { get; set; } = null!;
+    [Inject] public NavigationManager NavigationManager {get; init; } = null!;
 
     private Variant _calendarVariant = Variant.Filled;
     private Variant _listVariant = Variant.Outlined;

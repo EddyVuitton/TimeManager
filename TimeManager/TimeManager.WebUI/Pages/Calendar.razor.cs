@@ -8,9 +8,9 @@ namespace TimeManager.WebUI.Pages;
 
 public partial class Calendar
 {
-    [Inject] public ILoginService LoginService { get; set; } = null!;
-    [Inject] public IAccountService AccountService { get; set; } = null!;
-    [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
+    [Inject] public ILoginService LoginService {get; init; } = null!;
+    [Inject] public IAccountService AccountService {get; init; } = null!;
+    [Inject] public ISnackbarService SnackbarService {get; init; } = null!;
 
     private int _userId;
 

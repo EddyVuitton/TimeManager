@@ -8,13 +8,13 @@ namespace TimeManager.WebUI.Dialogs;
 
 public partial class AddActivityDialog
 {
-    [CascadingParameter] public MudDialogInstance MudDialog { get; set; } = null!;
+    [CascadingParameter] public MudDialogInstance MudDialog {get; private init; } = null!;
 
-    [Parameter] public DayDto DayDto { get; set; } = null!;
-    [Parameter] public Day DayRef { get; set; } = null!;
-    [Parameter] public Dictionary<int, string> HourTypeList { get; set; } = null!;
-    [Parameter] public Dictionary<int, string> RepetitionTypeList { get; set; } = null!;
-    [Parameter] public Dictionary<int, string> ActivityLists { get; set; } = null!;
+    [Parameter] public DayDto DayDto {get; init; } = null!;
+    [Parameter] public Day DayRef {get; init; } = null!;
+    [Parameter] public Dictionary<int, string> HourTypeList {get; init; } = null!;
+    [Parameter] public Dictionary<int, string> RepetitionTypeList {get; init; } = null!;
+    [Parameter] public Dictionary<int, string> ActivityLists {get; init; } = null!;
 
     private string? _title;
     private string _description = null!;

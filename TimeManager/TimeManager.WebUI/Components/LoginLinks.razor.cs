@@ -8,10 +8,10 @@ namespace TimeManager.WebUI.Components;
 
 public partial class LoginLinks
 {
-    [Inject] public ILoginService LoginService { get; set; } = null!;
-    [Inject] public IDialogService DialogService { get; set; } = null!;
-    [Inject] public NavigationManager NavigationManager { get; set; } = null!;
-    [Inject] public ISnackbarService SnackbarService { get; set; } = null!;
+    [Inject] public ILoginService LoginService {get; init; } = null!;
+    [Inject] public IDialogService DialogService {get; init; } = null!;
+    [Inject] public NavigationManager NavigationManager {get; init; } = null!;
+    [Inject] public ISnackbarService SnackbarService {get; init; } = null!;
 
     private async Task LogOut()
     {
