@@ -1,0 +1,9 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="_listName" Variant="Variant.Text" Placeholder="Wpisz nazwę" ErrorText="@_errorText" Error="@isError" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Anuluj</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Gotowe</MudButton>
+    </DialogActions>
+</MudDialog>
