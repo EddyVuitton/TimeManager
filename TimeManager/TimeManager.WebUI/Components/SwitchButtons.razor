@@ -2,20 +2,9 @@
     <AuthorizeView>
         <Authorized>
             <MudButtonGroup OverrideStyles="false">
-                <MudIconButton OnClick="Switch" Color="Color.Primary" Icon="@Icons.Material.Filled.CalendarMonth" Variant="@_calendarVariant" />
-                <MudIconButton OnClick="Switch" Color="Color.Primary" Icon="@Icons.Material.Filled.ChecklistRtl" Variant="@_listVariant" />
+                <MudIconButton OnClick="SwitchToCalendar" Color="Color.Primary" Icon="@Icons.Material.Filled.CalendarMonth" Variant="@_calendarVariant" />
+                <MudIconButton OnClick="SwitchToTasks" Color="Color.Primary" Icon="@Icons.Material.Filled.ChecklistRtl" Variant="@_listVariant" />
             </MudButtonGroup>
         </Authorized>
     </AuthorizeView>
 </CascadingAuthenticationState>
-
-@code {
-    private Variant _calendarVariant = Variant.Filled;
-    private Variant _listVariant = Variant.Outlined;
-
-    private void Switch()
-    {
-        _calendarVariant = _calendarVariant == Variant.Filled ? Variant.Outlined : Variant.Filled;
-        _listVariant = _listVariant == Variant.Filled ? Variant.Outlined : Variant.Filled;
-    }
-}

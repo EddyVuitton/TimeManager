@@ -1,7 +1,41 @@
 ﻿@page "/tasks"
 
-<h3>Tasks</h3>
+<PageTitle>Lista zadań</PageTitle>
 
-@code {
-
-}
+<div style="width: 100vw; height: 94vh; padding: 1%;">
+    <div class="d-flex flex-row" style="width: 100%; height: 100%;">
+        <div class="d-flex flex-column" style="width: 15%; height: 100%; overflow-y: scroll; overscroll-behavior-y: auto;">
+            <div class="d-flex justify-center">
+                <MudFab OnClick=AddList StartIcon="@Icons.Material.Filled.Add" DisableElevation="true" Label="Utwórz nową listę" />
+            </div>
+            <MudList Clickable="true">
+                <MudListItem Text="Listy" InitiallyExpanded="true" Dense="false">
+                    <NestedList>
+                        @foreach (var item in lists)
+                        {
+                            <MudListItem Dense="true" OnClick="(() => item.IsChecked = !item.IsChecked)">
+                                <MudCheckBox Dense="true" @bind-Value="item.IsChecked" Label="@item.ID.ToString()"></MudCheckBox>
+                            </MudListItem>
+                        }
+                    </NestedList>
+                </MudListItem>
+            </MudList>
+        </div>
+        <div style="width: 100%; overflow-x: scroll; height: 100%; border: 1px solid blue;">
+            <MudStack Row="true" Justify="Justify.FlexStart" Wrap="Wrap.NoWrap">
+                @foreach (var item in lists)
+                {
+                    <MudPaper Class="stack pa-3 mud-theme-primary" Style="height: min-content;" MinWidth="300px">
+                        <MudStack>
+                            <MudButton OnClick="(() => AddTask(item.ID))" Class="pa-3" Style="color: #2196F3; background-color: rgba(255,255,255,1)" Variant="Variant.Text">Dodaj zadanie</MudButton>
+                            @foreach (var task in item.Tasks)
+                            {
+                                <MudPaper Class="pa-3">Item @(task)</MudPaper>
+                            }
+                        </MudStack>
+                    </MudPaper>
+                }
+            </MudStack>
+        </div>
+    </div>
+</div>
