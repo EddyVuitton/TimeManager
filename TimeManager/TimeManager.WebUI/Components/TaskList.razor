@@ -1,0 +1,16 @@
+﻿<MudPaper Class="stack pa-3" Style="height: min-content; background-color: white;" MinWidth="300px">
+    <MudStack>
+        <div class="d-flex flex-row">
+            <h3 class="align-self-center">@CustomList.Name</h3>
+            <MudSpacer />
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopRight">
+                <MenuList />
+            </MudMenu>
+        </div>
+        <MudButton OnClick="AddTask" Class="pa-3" Color="Color.Info" Variant="Variant.Outlined">Dodaj zadanie</MudButton>
+        @foreach (var task in CustomList.Tasks)
+        {
+            <MudPaper Class="pa-3">Item @(task)</MudPaper>
+        }
+    </MudStack>
+</MudPaper>

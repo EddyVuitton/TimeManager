@@ -157,3 +157,38 @@
         position: absolute;
         right: 10px;
     }
+
+.option {
+    height: 30px;
+    padding: 0px 25px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+    .option:hover {
+        background-color: #eee;
+        cursor: pointer;
+    }
+
+.icon-contener {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 30px;
+    margin-right: 25px;
+}
+
+.stack-divider {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 2%;
+}
+
+.disabled {
+    color: #aaa;
+}
+
+    .disabled:hover {
+        background-color: inherit !important;
+        cursor: default !important
+    }

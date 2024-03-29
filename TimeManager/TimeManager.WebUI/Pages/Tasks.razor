@@ -23,26 +23,9 @@
         </div>
         <div style="height: 100%; overflow-x: scroll;">
             <MudStack Row="true" Justify="Justify.FlexStart" Wrap="Wrap.NoWrap">
-                @foreach (var item in lists)
+                @foreach (var item in lists.Where(x => x.IsChecked))
                 {
-                    <MudPaper Class="stack pa-3" Style="height: min-content; background-color: white;" MinWidth="300px">
-                        <MudStack>
-                            <div class="d-flex flex-row">
-                                <h3 class="align-self-center">@item.Name</h3>
-                                <MudSpacer />
-                                <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopRight">
-                                    <MenuPopover />
-                                </MudMenu>
-                            </div>
-                            <MudButton OnClick="(() => AddTask(item.ID))" Class="pa-3" Style="color: #2196F3; background-color: rgba(255,255,255,1)" Variant="Variant.Text">Dodaj zadanie</MudButton>
-                            @foreach (var task in item.Tasks)
-                            {
-                                <MudPaper Class="pa-3">Item @(task)</MudPaper>
-                            }
-
-                            <div class="tWyAef" role="presentation"></div>
-                        </MudStack>
-                    </MudPaper>
+                    <TaskList CustomList="item" />
                 }
             </MudStack>
         </div>

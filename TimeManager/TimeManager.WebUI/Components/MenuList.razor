@@ -1,0 +1,26 @@
+﻿<div class="d-flex flex-column gap-y-4">
+    <MudStack Class="stack-divider">
+        <div style="padding-left: 5%;">Sortuj według</div>
+        <div class="option" @onclick="CloseMenu">
+            <div class="icon-contener">
+                <MudIcon Icon="@Icons.Material.Filled.Done"></MudIcon>
+            </div>
+            <div>
+                Data
+            </div>
+        </div>
+    </MudStack>
+    <MudStack Class="stack-divider">
+        <div class="option" @onclick="CloseMenu">
+            Zmień nazwę listy
+        </div>
+        <div class="option" @onclick="CloseMenu">
+            Usuń listę
+        </div>
+    </MudStack>
+    <MudStack>
+        <div class="option disabled">
+            Usuń wszystkie zakończone zadania
+        </div>
+    </MudStack>
+</div>
