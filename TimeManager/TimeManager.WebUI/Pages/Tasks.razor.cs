@@ -26,9 +26,9 @@ public partial class Tasks
         };
 
         var parameters = new DialogParameters
-            {
-                { "TasksRef", this }
-            };
+        {
+            { "TasksRef", this }
+        };
 
         DialogService.Show<AddListDialog>("Tworzenie nowej listy", parameters, options);
     }
@@ -41,6 +41,14 @@ public partial class Tasks
     {
         var newId = lists.Max(x => x.ID) + 1;
         lists.Add(new ListDto() { ID = newId, Name = name, IsChecked = true });
+
+        StateHasChanged();
+    }
+
+    public void ChangeListName(ListDto modifiedList)
+    {
+        var list = lists.First(x => x.ID == modifiedList.ID);
+        list.Name = modifiedList.Name;
 
         StateHasChanged();
     }

@@ -4,7 +4,7 @@
             <h3 class="align-self-center">@CustomList.Name</h3>
             <MudSpacer />
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopRight">
-                <MenuList />
+                <MenuList TasksRef="TasksRef" ListDto="CustomList"/>
             </MudMenu>
         </div>
         <MudButton OnClick="AddTask" Class="pa-3" Color="Color.Info" Variant="Variant.Outlined">Dodaj zadanie</MudButton>

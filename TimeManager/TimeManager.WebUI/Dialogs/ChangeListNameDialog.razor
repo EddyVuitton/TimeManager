@@ -1,5 +1,9 @@
-﻿<h3>ChangeListNameDialog</h3>
-
-@code {
-
-}
+﻿<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="@ListDto.Name" Style="user-select:all;" Variant="Variant.Text" Placeholder="Wpisz nazwę" ErrorText="@_errorText" Error="@isError" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Anuluj</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Gotowe</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TimeManager.Domain.DTOs;
+using TimeManager.WebUI.Pages;
 
 namespace TimeManager.WebUI.Components;
 
 public partial class TaskList
 {
     [Parameter] public ListDto CustomList { get; init; } = null!;
+    [Parameter] public Tasks TasksRef { get; init; } = null!;
 
     private void AddTask()
     {

@@ -25,7 +25,7 @@
             <MudStack Row="true" Justify="Justify.FlexStart" Wrap="Wrap.NoWrap">
                 @foreach (var item in lists.Where(x => x.IsChecked))
                 {
-                    <TaskList CustomList="item" />
+                    <TaskList CustomList="item" TasksRef="this"/>
                 }
             </MudStack>
         </div>
