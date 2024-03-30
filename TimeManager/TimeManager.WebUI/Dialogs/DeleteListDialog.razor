@@ -1,5 +1,9 @@
-﻿<h3>DeleteListDialog</h3>
-
-@code {
-
-}
+﻿<MudDialog>
+    <DialogContent>
+        <MudText>Wszystkie zadania z tej listy zostaną trwale usunięte</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Anuluj</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Usuń</MudButton>
+    </DialogActions>
+</MudDialog>

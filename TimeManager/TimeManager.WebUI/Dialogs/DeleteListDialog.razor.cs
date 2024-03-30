@@ -1,29 +1,20 @@
-﻿using Microsoft.AspNetCore.Components;
-using MudBlazor;
+﻿using MudBlazor;
 using TimeManager.Domain.DTOs;
+using Microsoft.AspNetCore.Components;
 using TimeManager.WebUI.Pages;
 
 namespace TimeManager.WebUI.Dialogs;
 
-public partial class ChangeListNameDialog
+public partial class DeleteListDialog
 {
     [CascadingParameter] public MudDialogInstance MudDialog { get; private init; } = null!;
 
     [Parameter] public Tasks TasksRef { get; init; } = null!;
     [Parameter] public ListDto ListDto { get; init; } = null!;
 
-    private readonly string _errorText = "Nazwa listy zadań nie może być pusta.";
-    private bool isError = false;
-
     private void Submit()
     {
-        if (string.IsNullOrEmpty(ListDto.Name))
-        {
-            isError = true;
-            return;
-        }
-
-        TasksRef.ChangeListName(ListDto);
+        TasksRef.DeleteList(ListDto.ID);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

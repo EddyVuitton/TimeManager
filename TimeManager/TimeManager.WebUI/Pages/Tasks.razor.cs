@@ -39,7 +39,7 @@ public partial class Tasks
 
     public void AddList(string name)
     {
-        var newId = lists.Max(x => x.ID) + 1;
+        var newId = lists.Count == 0 ? 0 : lists.Max(x => x.ID) + 1;
         lists.Add(new ListDto() { ID = newId, Name = name, IsChecked = true });
 
         StateHasChanged();
@@ -49,6 +49,14 @@ public partial class Tasks
     {
         var list = lists.First(x => x.ID == modifiedList.ID);
         list.Name = modifiedList.Name;
+
+        StateHasChanged();
+    }
+
+    public void DeleteList(int id)
+    {
+        var list = lists.First(x => x.ID == id);
+        lists.Remove(list);
 
         StateHasChanged();
     }

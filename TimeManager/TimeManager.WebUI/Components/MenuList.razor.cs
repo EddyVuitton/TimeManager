@@ -37,4 +37,29 @@ public partial class MenuList
 
         DialogService.Show<ChangeListNameDialog>("Zmiana nazwy listy", parameters, options);
     }
+
+    private void OpenDeleteListDialog()
+    {
+        CloseMenu();
+
+        if (ListDto.Tasks.Count == 0)
+        {
+            TasksRef.DeleteList(ListDto.ID);
+        }
+        else
+        {
+            var options = new DialogOptions
+            {
+                CloseOnEscapeKey = true
+            };
+
+            var parameters = new DialogParameters
+        {
+            { "TasksRef", TasksRef },
+            { "ListDto", ListDto }
+        };
+
+            DialogService.Show<DeleteListDialog>("Usunąć tę listę?", parameters, options);
+        }
+    }
 }
