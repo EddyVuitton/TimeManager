@@ -9,18 +9,44 @@ public partial class SwitchButtons
 
     private Variant _calendarVariant = Variant.Filled;
     private Variant _listVariant = Variant.Outlined;
+    
+    protected override void OnInitialized()
+    {
+        var page = NavigationManager.Uri.Replace(NavigationManager.BaseUri, string.Empty);
+
+        switch (page)
+        {
+            case "tasks":
+                SwitchToTasks();
+                break;
+
+            default:
+                SwitchToCalendar();
+                break;
+        }
+    }
 
     private void SwitchToCalendar()
     {
         _calendarVariant = Variant.Filled;
         _listVariant = Variant.Outlined;
-        NavigationManager.NavigateTo("/");
     }
 
     private void SwitchToTasks()
     {
         _calendarVariant = Variant.Outlined;
         _listVariant = Variant.Filled;
+    }
+
+    private void NavigateToCalendar()
+    {
+        SwitchToCalendar();
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void NavigateToTasks()
+    {
+        SwitchToTasks();
         NavigationManager.NavigateTo("/tasks");
     }
 }
