@@ -4,6 +4,6 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Anuluj</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Usuń</MudButton>
+        <MudButton Color="Color.Primary" OnClick="(async () => await Submit())">Usuń</MudButton>
     </DialogActions>
 </MudDialog>

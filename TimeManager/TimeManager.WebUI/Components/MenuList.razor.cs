@@ -15,6 +15,16 @@ public partial class MenuList
     [Parameter] public Tasks TasksRef { get; init; } = null!;
     [Parameter] public ActivityListDto ListDto { get; init; } = null!;
 
+    private bool _isDefualt = false;
+    private string _optionClass = "option";
+
+    protected override void OnInitialized()
+    {
+        _isDefualt = ListDto.IsDefault;
+        if (_isDefualt)
+            _optionClass += " disabled";
+    }
+
     private void CloseMenu()
     {
         MudMenu.CloseMenu();
@@ -38,13 +48,16 @@ public partial class MenuList
         DialogService.Show<ChangeListNameDialog>("Zmiana nazwy listy", parameters, options);
     }
 
-    private void OpenDeleteListDialog()
+    private async Task OpenDeleteListDialog()
     {
+        if (_isDefualt)
+            return;
+
         CloseMenu();
 
         if (ListDto.Tasks.Count == 0)
         {
-            TasksRef.DeleteList(ListDto.ID);
+            await TasksRef.DeleteList(ListDto.ID);
         }
         else
         {

@@ -19,3 +19,31 @@ begin
 	where a.UserId = @userId
 end
 go
+
+create procedure p_remove_user_activity_list @id int
+as
+begin
+	declare @is_default int = (
+		select top 1 IsDefault
+		from ActivityList
+		where Id = @id
+	);
+
+	if (@is_default = 1)
+	begin
+		raiserror('Listy domyslnej nie mozna usunac', 16, 1);
+		return;
+	end
+
+	delete r
+	from Repetition r
+	join Activity a on r.Id = a.RepetitionId
+	where a.ActivityListId = @id;
+
+	delete a
+	from Activity a
+	where a.ActivityListId = @id;
+
+	delete ActivityList where Id = @id;
+end
+go

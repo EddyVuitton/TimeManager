@@ -116,12 +116,28 @@ public partial class Tasks
         }
     }
 
-    public void DeleteList(int id)
+    public async Task DeleteList(int id)
     {
-        var list = lists.First(x => x.ID == id);
-        lists.Remove(list);
+        try
+        {
+            var removedActivityListResult = await ManagementService.RemoveActivityListAsync(id);
 
-        StateHasChanged();
+            if (!removedActivityListResult.IsSuccess)
+            {
+                throw new Exception(removedActivityListResult.Message ?? "Błąd w usunięciu listy...");
+            }
+
+            var list = lists.First(x => x.ID == id);
+            lists.Remove(list);
+
+            SnackbarService.Show("Lista zadań została usunięta", Severity.Normal, true, false);
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
+        }
     }
 
     #endregion PublicMethods

@@ -12,9 +12,9 @@ public partial class DeleteListDialog
     [Parameter] public Tasks TasksRef { get; init; } = null!;
     [Parameter] public ActivityListDto ListDto { get; init; } = null!;
 
-    private void Submit()
+    private async Task Submit()
     {
-        TasksRef.DeleteList(ListDto.ID);
+        await TasksRef.DeleteList(ListDto.ID);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

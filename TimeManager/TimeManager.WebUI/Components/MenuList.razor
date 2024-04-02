@@ -14,8 +14,16 @@
         <div class="option" @onclick="OpenChangeListNameDialog">
             Zmień nazwę listy
         </div>
-        <div class="option" @onclick="OpenDeleteListDialog">
-            Usuń listę
+        <div class="d-flex flex-column">
+            <div class="@_optionClass" @onclick="(async () => await OpenDeleteListDialog())">
+                Usuń listę
+            </div>
+            @if (_isDefualt)
+            {
+                <div class="disabled" style="height: 30px; padding: 0px 25px; font-size: 0.8rem;">
+                    Listy domyślnej nie można usunąć
+                </div>
+            }
         </div>
     </MudStack>
     <MudStack>

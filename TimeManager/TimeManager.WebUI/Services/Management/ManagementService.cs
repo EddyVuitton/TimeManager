@@ -125,4 +125,15 @@ public class ManagementService(HttpClient httpClient) : IManagementService
 
         return deserialisedResponse;
     }
+
+    public async Task<HttpResult> RemoveActivityListAsync(int activityListId)
+    {
+        var response = await _httpClient.PostAsync($"{_ROUTE}/RemoveActivityListAsync?activityListId={activityListId}", null);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResult>(responseContent);
+
+        ArgumentNullException.ThrowIfNull(deserialisedResponse);
+
+        return deserialisedResponse;
+    }
 }

@@ -117,6 +117,20 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         }
     }
 
+    [HttpPost("RemoveActivityListAsync")]
+    public async Task<HttpResult> RemoveActivityListAsync(int activityListId)
+    {
+        try
+        {
+            await _businessLogic.RemoveActivityListAsync(activityListId);
+            return HttpHelper.Ok();
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error(e);
+        }
+    }
+
     #endregion Posts
 
     #region Puts

@@ -83,7 +83,8 @@ public class Management(DBContext context) : IManagement
             {
                 ID = aL.Id,
                 Name = aL.Name,
-                IsChecked = true
+                IsChecked = true,
+                IsDefault = aL.IsDefault
             };
 
         return listsDto.ToList();
@@ -127,6 +128,15 @@ public class Management(DBContext context) : IManagement
         }
 
         return activityList;
+    }
+
+    public async Task RemoveActivityListAsync(int activityListId)
+    {
+        var hT = new object[]
+        {
+            _context.CreateParameter("id", activityListId, SqlDbType.Int)
+        };
+        await _context.SqlQueryAsync("exec p_remove_user_activity_list @id", hT);
     }
 
     #endregion PublicMethods
