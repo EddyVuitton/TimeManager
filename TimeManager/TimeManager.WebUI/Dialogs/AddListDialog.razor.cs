@@ -14,7 +14,7 @@ public partial class AddListDialog
     private readonly string _errorText = "Nazwa listy zadań nie może być pusta.";
     private bool isError = false;
 
-    private void Submit()
+    private async Task Submit()
     {
         if (string.IsNullOrEmpty(_listName))
         {
@@ -22,7 +22,7 @@ public partial class AddListDialog
             return;
         }
 
-        TasksRef.AddList(_listName);
+        await TasksRef.AddList(_listName);
 
         MudDialog.Close(DialogResult.Ok(true));
     }
