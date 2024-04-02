@@ -9,27 +9,29 @@ namespace TimeManager.WebAPI.Repositories.Management;
 
 public class Management(DBContext context) : IManagement
 {
+    private readonly DBContext _context = context;
+
     #region PublicMethods
 
     public async Task<List<ActivityDto>> GetActivitiesAsync(int userId)
     {
         var hT = new object[]
         {
-            context.CreateParameter("userId", userId, SqlDbType.Int)
+            _context.CreateParameter("userId", userId, SqlDbType.Int)
         };
-        var result = await context.SqlQueryAsync<ActivityDto>("exec p_get_user_activities @userId;", hT);
+        var result = await _context.SqlQueryAsync<ActivityDto>("exec p_get_user_activities @userId;", hT);
 
         return result ?? [];
     }
 
     public async Task<ActivityDto> AddActivityAsync(ActivityDto activity)
     {
-        var newRepetitionEntity = (await context.Repetition.AddAsync(new Repetition()
+        var newRepetitionEntity = (await _context.Repetition.AddAsync(new Repetition()
         {
             Day = DateTime.Now,
             RepetitionTypeId = activity.RepetitionTypeId
         })).Entity;
-        var newActivity = await context.Activity.AddAsync(new Activity()
+        var newActivity = await _context.Activity.AddAsync(new Activity()
         {
             Day = activity.Day,
             Title = activity.Title,
@@ -40,7 +42,7 @@ public class Management(DBContext context) : IManagement
             UserId = activity.UserId,
             ActivityListId = activity.ActivityListId,
         });
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         activity.ActivityId = newActivity.Entity.Id;
 
         return activity;
@@ -48,33 +50,33 @@ public class Management(DBContext context) : IManagement
 
     public async Task<List<RepetitionType>> GetRepetitionTypesAsync()
     {
-        var result = await context.RepetitionType.ToListAsync();
+        var result = await _context.RepetitionType.ToListAsync();
 
         return result ?? [];
     }
 
     public async Task<List<HourType>> GetHourTypesAsync()
     {
-        var result = await context.HourType.ToListAsync();
+        var result = await _context.HourType.ToListAsync();
 
         return result ?? [];
     }
 
     public async Task RemoveActivityAsync(int activityId)
     {
-        var activityToRemove = await context.Activity.Include(a => a.Repetition).FirstOrDefaultAsync(a => a.Id == activityId);
+        var activityToRemove = await _context.Activity.Include(a => a.Repetition).FirstOrDefaultAsync(a => a.Id == activityId);
         if (activityToRemove is not null)
         {
-            context.Repetition.Remove(activityToRemove.Repetition);
-            context.Activity.Remove(activityToRemove);
+            _context.Repetition.Remove(activityToRemove.Repetition);
+            _context.Activity.Remove(activityToRemove);
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 
     public async Task<List<ActivityListDto>> GetActivityListsAsync(int userId)
     {
-        var activityLists = await context.ActivityList.Where(x => x.UserId == userId).ToListAsync();
+        var activityLists = await _context.ActivityList.Where(x => x.UserId == userId).ToListAsync();
         var listsDto =
             from aL in activityLists
             select new ActivityListDto
@@ -89,12 +91,12 @@ public class Management(DBContext context) : IManagement
 
     public async Task<ActivityDto> UpdateActivityAsync(ActivityDto activity)
     {
-        var updatedActivity = await context.Activity.FindAsync(activity.ActivityId);
+        var updatedActivity = await _context.Activity.FindAsync(activity.ActivityId);
         if (updatedActivity is not null)
         {
             updatedActivity.Title = activity.Title;
             updatedActivity.Description = activity.Description;
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         return activity;
@@ -102,14 +104,14 @@ public class Management(DBContext context) : IManagement
 
     public async Task<ActivityListDto> AddActivityListAsync(ActivityListDto activityList)
     {
-        var user = await context.UserAccount.FirstAsync(x => x.Id == activityList.UserId);
-        var newActivityList = await context.ActivityList.AddAsync(new ActivityList()
+        var user = await _context.UserAccount.FirstAsync(x => x.Id == activityList.UserId);
+        var newActivityList = await _context.ActivityList.AddAsync(new ActivityList()
         {
             Name = activityList.Name,
             IsDefault = false,
             User = user
         });
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         activityList.ID = newActivityList.Entity.Id;
 
         return activityList;

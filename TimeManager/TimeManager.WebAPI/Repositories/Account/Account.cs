@@ -11,6 +11,8 @@ namespace TimeManager.WebAPI.Repositories.Account;
 
 public class Account(DBContext context) : IAccount
 {
+    private readonly DBContext _context = context;
+
     private readonly byte[] _jwtKeyBytes = Encoding.UTF8.GetBytes(ConfigurationHelper.JWTKey);
 
     public async Task<UserToken> LoginAsync(LoginAccountForm form)
@@ -19,7 +21,7 @@ public class Account(DBContext context) : IAccount
             throw new Exception("Niepoprawna próba logowania");
 
         var hashedPassword = AuthHelper.HashPassword(form.Password);
-        var dbAccountPassword = (await context.UserAccount.FirstOrDefaultAsync(x => x.Email == form.Email))?.Password;
+        var dbAccountPassword = (await _context.UserAccount.FirstOrDefaultAsync(x => x.Email == form.Email))?.Password;
 
         if (dbAccountPassword == hashedPassword)
         {
@@ -39,7 +41,7 @@ public class Account(DBContext context) : IAccount
         if (form is null || form.Email is null || form.Password is null)
             throw new Exception("Niepoprawna próba rejestracji");
 
-        var doesExist = await context.UserAccount.FirstOrDefaultAsync(x => x.Email == form.Email);
+        var doesExist = await _context.UserAccount.FirstOrDefaultAsync(x => x.Email == form.Email);
 
         if (doesExist is not null)
             throw new Exception("Ten adres email jest zajęty");
@@ -56,15 +58,15 @@ public class Account(DBContext context) : IAccount
             User = user
         };
 
-        await context.UserAccount.AddAsync(user);
-        await context.ActivityList.AddAsync(activityList);
+        await _context.UserAccount.AddAsync(user);
+        await _context.ActivityList.AddAsync(activityList);
 
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
     public async Task<UserAccount?> GetUserByEmailAsync(string email)
     {
-        var user = await context.UserAccount.FirstOrDefaultAsync(x => x.Email == email);
+        var user = await _context.UserAccount.FirstOrDefaultAsync(x => x.Email == email);
         return user;
     }
 }
