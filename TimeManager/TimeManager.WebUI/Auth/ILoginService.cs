@@ -8,4 +8,5 @@ public interface ILoginService
     Task LogoutAsync();
     Task<string?> IsLoggedInAsync();
     Task LogoutIfExpiredTokenAsync();
+    Task<int> GetUserIdFromToken();
 }

@@ -72,11 +72,28 @@ public class Management(DBContext context) : IManagement
         }
     }
 
-    public async Task<List<ActivityList>> GetActivityListsAsync(int userId)
+    public async Task<List<ActivityListDto>> GetActivityListsDtoAsync(int userId)
     {
-        var result = await context.ActivityList.Where(x => x.UserId == userId).ToListAsync();
+        var activityLists = await context.ActivityList.Where(x => x.UserId == userId).ToListAsync();
+        var tasks = await GetActivitiesAsync(userId);
 
-        return result ?? [];
+        var xd = from aL in activityLists
+                 join task in tasks on aL.Id equals task.ActivityListId
+                 group aL by new
+                 {
+                     aL.Id, 
+                     aL.Name, 
+                     aL.UserId
+                 } into aLGroup
+                 select new ActivityListDto
+                 {
+                     ID = aLGroup.Key.Id,
+                     Name = aLGroup.Key.Name,
+                     IsChecked = true,
+                     Tasks = tasks.ToList()
+                 };
+
+        return xd.ToList() ?? [];
     }
 
     public async Task<ActivityDto> UpdateActivityAsync(ActivityDto activity)

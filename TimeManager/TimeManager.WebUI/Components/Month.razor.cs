@@ -73,7 +73,7 @@ public partial class Month
         _activityLists = [];
         try
         {
-            var activityListsResult = await ManagementService.GetActivityListsAsync(UserId);
+            var activityListsResult = await ManagementService.GetActivityListsDtoAsync(UserId);
 
             if (!activityListsResult.IsSuccess)
             {
@@ -82,7 +82,7 @@ public partial class Month
 
             foreach (var type in activityListsResult.Data)
             {
-                _activityLists.Add(type.Id, type.Name);
+                _activityLists.Add(type.ID, type.Name);
             }
         }
         catch

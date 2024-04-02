@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
+using MudBlazor;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text.Json;
 using TimeManager.Domain.Auth;
 using TimeManager.WebUI.Extensions;
+using TimeManager.WebUI.Services.Account;
 
 namespace TimeManager.WebUI.Auth;
 
-public class JWTAuthenticationStateProvider(IJSRuntime js, HttpClient httpClient) : AuthenticationStateProvider, ILoginService
+public class JWTAuthenticationStateProvider(IJSRuntime js, HttpClient httpClient, IAccountService accountService) : AuthenticationStateProvider, ILoginService
 {
     //https://www.udemy.com/course/programming-in-blazor-aspnet-core/learn/lecture/17136788#overview
     private readonly IJSRuntime _js = js;
@@ -17,6 +20,7 @@ public class JWTAuthenticationStateProvider(IJSRuntime js, HttpClient httpClient
     private readonly HttpClient _httpClient = httpClient;
     private const string _TOKENKEY = "TOKENKEY";
     private readonly AuthenticationState _anonymous = new(new ClaimsPrincipal(new ClaimsIdentity()));
+    private readonly IAccountService _accountService = accountService;
 
     #region PublicMethods
 
@@ -77,6 +81,31 @@ public class JWTAuthenticationStateProvider(IJSRuntime js, HttpClient httpClient
     public async Task LogoutAsync()
     {
         await CleanUpAsync();
+    }
+
+    public async Task<int> GetUserIdFromToken()
+    {
+        await LogoutIfExpiredTokenAsync();
+
+        var userEmail = await IsLoggedInAsync();
+        int userId = 0;
+
+        if (!string.IsNullOrEmpty(userEmail))
+        {
+            try
+            {
+                var result = await _accountService.GetUserByEmailAsync(userEmail);
+
+                if (result.Data is not null)
+                    userId = result.Data.Id;
+            }
+            catch
+            {
+                //log error...
+            }
+        }
+
+        return userId;
     }
 
     #endregion PublicMethods

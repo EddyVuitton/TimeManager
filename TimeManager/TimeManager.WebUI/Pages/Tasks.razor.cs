@@ -1,19 +1,26 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using TimeManager.Domain.DTOs;
+using TimeManager.WebUI.Auth;
 using TimeManager.WebUI.Dialogs;
+using TimeManager.WebUI.Services.Management;
 
 namespace TimeManager.WebUI.Pages;
 
 public partial class Tasks
 {
     [Inject] public IDialogService DialogService { get; private init; } = null!;
+    [Inject] public ILoginService LoginService { get; private init; } = null!;
+    [Inject] public IManagementService ManagementService { get; private init; } = null!;
 
-    private readonly List<ListDto> lists = [];
+    private List<ActivityListDto> lists = [];
+    
+    private int _userId;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        lists.Add(new ListDto() { ID = 0, Name = "Moje zadania", IsChecked = true });
+        _userId = await LoginService.GetUserIdFromToken();
+        lists = (await ManagementService.GetActivityListsDtoAsync(_userId)).Data;
     }
 
     #region PrivateMethods
@@ -40,12 +47,12 @@ public partial class Tasks
     public void AddList(string name)
     {
         var newId = lists.Count == 0 ? 0 : lists.Max(x => x.ID) + 1;
-        lists.Add(new ListDto() { ID = newId, Name = name, IsChecked = true });
+        lists.Add(new ActivityListDto() { ID = newId, Name = name, IsChecked = true });
 
         StateHasChanged();
     }
 
-    public void ChangeListName(ListDto modifiedList)
+    public void ChangeListName(ActivityListDto modifiedList)
     {
         var list = lists.First(x => x.ID == modifiedList.ID);
         list.Name = modifiedList.Name;

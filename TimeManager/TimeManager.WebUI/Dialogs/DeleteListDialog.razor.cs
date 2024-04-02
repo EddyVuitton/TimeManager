@@ -10,7 +10,7 @@ public partial class DeleteListDialog
     [CascadingParameter] public MudDialogInstance MudDialog { get; private init; } = null!;
 
     [Parameter] public Tasks TasksRef { get; init; } = null!;
-    [Parameter] public ListDto ListDto { get; init; } = null!;
+    [Parameter] public ActivityListDto ListDto { get; init; } = null!;
 
     private void Submit()
     {

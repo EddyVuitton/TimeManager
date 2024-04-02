@@ -33,6 +33,7 @@ public static class SeedDataService
         var activityList = new ActivityList()
         {
             Name = "Moje zadania",
+            IsDefault = true,
             User = user
         };
         context.ActivityList.Add(activityList);

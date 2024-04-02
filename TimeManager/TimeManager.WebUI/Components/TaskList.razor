@@ -1,16 +1,16 @@
 ﻿<MudPaper Class="stack pa-3" Style="height: min-content; background-color: white;" MinWidth="300px">
     <MudStack>
         <div class="d-flex flex-row">
-            <h3 class="align-self-center">@CustomList.Name</h3>
+            <h3 class="align-self-center">@ActivityList.Name</h3>
             <MudSpacer />
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopRight">
-                <MenuList TasksRef="TasksRef" ListDto="CustomList"/>
+                <MenuList TasksRef="TasksRef" ListDto="ActivityList" />
             </MudMenu>
         </div>
         <MudButton OnClick="AddTask" Class="pa-3" Color="Color.Info" Variant="Variant.Outlined">Dodaj zadanie</MudButton>
-        @foreach (var task in CustomList.Tasks)
+        @foreach (var task in ActivityList.Tasks)
         {
-            <MudPaper Class="pa-3">Item @(task)</MudPaper>
+            <MudPaper Class="pa-3">Item @(task.Title)</MudPaper>
         }
     </MudStack>
 </MudPaper>

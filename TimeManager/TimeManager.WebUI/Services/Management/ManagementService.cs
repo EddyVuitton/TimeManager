@@ -75,15 +75,6 @@ public class ManagementService(HttpClient httpClient) : IManagementService
         return deserialisedResponse ?? throw new NullReferenceException(typeof(HttpResult).Name);
     }
 
-    public async Task<HttpResultT<List<ActivityList>>> GetActivityListsAsync(int userId)
-    {
-        var response = await _httpClient.GetAsync($"{_ROUTE}/GetActivityListsAsync?userId={userId}");
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<ActivityList>>>(responseContent);
-
-        return deserialisedResponse ?? throw new NullReferenceException(typeof(List<ActivityList>).Name);
-    }
-
     public async Task<HttpResultT<ActivityDto>> UpdateActivityAsync(ActivityDto activity)
     {
         var json = JsonConvert.SerializeObject(activity);
@@ -94,5 +85,16 @@ public class ManagementService(HttpClient httpClient) : IManagementService
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityDto>>(responseContent);
 
         return deserialisedResponse ?? throw new NullReferenceException(typeof(ActivityDto).Name);
+    }
+
+    public async Task<HttpResultT<List<ActivityListDto>>> GetActivityListsDtoAsync(int userId)
+    {
+        var response = await _httpClient.GetAsync($"{_ROUTE}/GetActivityListsDtoAsync?userId={userId}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<ActivityListDto>>>(responseContent);
+
+        ArgumentNullException.ThrowIfNull(deserialisedResponse);
+
+        return deserialisedResponse;
     }
 }
