@@ -117,5 +117,17 @@ public class Management(DBContext context) : IManagement
         return activityList;
     }
 
+    public async Task<ActivityListDto> UpdateActivityListAsync(ActivityListDto activityList)
+    {
+        var updatedActivityList = await _context.ActivityList.FindAsync(activityList.ID);
+        if (updatedActivityList is not null)
+        {
+            updatedActivityList.Name = activityList.Name;
+            await _context.SaveChangesAsync();
+        }
+
+        return activityList;
+    }
+
     #endregion PublicMethods
 }

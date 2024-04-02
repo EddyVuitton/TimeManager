@@ -111,4 +111,18 @@ public class ManagementService(HttpClient httpClient) : IManagementService
 
         return deserialisedResponse;
     }
+
+    public async Task<HttpResultT<ActivityListDto>> UpdateActivityListAsync(ActivityListDto activityList)
+    {
+        var json = JsonConvert.SerializeObject(activityList);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PutAsync($"{_ROUTE}/UpdateActivityListAsync", content);
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityListDto>>(responseContent);
+
+        ArgumentNullException.ThrowIfNull(deserialisedResponse);
+
+        return deserialisedResponse;
+    }
 }

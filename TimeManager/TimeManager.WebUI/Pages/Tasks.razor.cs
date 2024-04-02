@@ -94,12 +94,26 @@ public partial class Tasks
         StateHasChanged();
     }
 
-    public void ChangeListName(ActivityListDto modifiedList)
+    public async Task ChangeListName(ActivityListDto modifiedList)
     {
-        var list = lists.First(x => x.ID == modifiedList.ID);
-        list.Name = modifiedList.Name;
+        try
+        {
+            var updatedActivityListResult = await ManagementService.UpdateActivityListAsync(modifiedList);
 
-        StateHasChanged();
+            if (!updatedActivityListResult.IsSuccess)
+            {
+                throw new Exception(updatedActivityListResult.Message ?? "Błąd w dodaniu listy...");
+            }
+
+            var list = lists.First(x => x.ID == modifiedList.ID);
+            list.Name = modifiedList.Name;
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
+        }
     }
 
     public void DeleteList(int id)
