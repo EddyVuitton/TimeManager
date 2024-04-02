@@ -10,6 +10,7 @@ public interface IManagement
     Task<List<RepetitionType>> GetRepetitionTypesAsync();
     Task<List<ActivityDto>> GetActivitiesAsync(int userId);
     Task RemoveActivityAsync(int activityId);
-    Task<List<ActivityListDto>> GetActivityListsDtoAsync(int userId);
+    Task<List<ActivityListDto>> GetActivityListsAsync(int userId);
     Task<ActivityDto> UpdateActivityAsync(ActivityDto activity);
+    Task<ActivityListDto> AddActivityListAsync(ActivityListDto activityList);
 }

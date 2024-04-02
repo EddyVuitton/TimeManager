@@ -72,29 +72,19 @@ public class Management(DBContext context) : IManagement
         }
     }
 
-    public async Task<List<ActivityListDto>> GetActivityListsDtoAsync(int userId)
+    public async Task<List<ActivityListDto>> GetActivityListsAsync(int userId)
     {
         var activityLists = await context.ActivityList.Where(x => x.UserId == userId).ToListAsync();
-        var tasks = await GetActivitiesAsync(userId);
+        var listsDto =
+            from aL in activityLists
+            select new ActivityListDto
+            {
+                ID = aL.Id,
+                Name = aL.Name,
+                IsChecked = true
+            };
 
-        var activityListsDto =
-                from aL in activityLists
-                join task in tasks on aL.Id equals task.ActivityListId
-                group aL by new
-                {
-                    aL.Id,
-                    aL.Name,
-                    aL.UserId
-                } into aLGroup
-                select new ActivityListDto
-                {
-                    ID = aLGroup.Key.Id,
-                    Name = aLGroup.Key.Name,
-                    IsChecked = true,
-                    Tasks = tasks.ToList()
-                };
-
-        return activityListsDto.ToList();
+        return listsDto.ToList();
     }
 
     public async Task<ActivityDto> UpdateActivityAsync(ActivityDto activity)
@@ -108,6 +98,21 @@ public class Management(DBContext context) : IManagement
         }
 
         return activity;
+    }
+
+    public async Task<ActivityListDto> AddActivityListAsync(ActivityListDto activityList)
+    {
+        var user = await context.UserAccount.FirstAsync(x => x.Id == activityList.UserId);
+        var newActivityList = await context.ActivityList.AddAsync(new ActivityList()
+        {
+            Name = activityList.Name,
+            IsDefault = false,
+            User = user
+        });
+        await context.SaveChangesAsync();
+        activityList.ID = newActivityList.Entity.Id;
+
+        return activityList;
     }
 
     #endregion PublicMethods

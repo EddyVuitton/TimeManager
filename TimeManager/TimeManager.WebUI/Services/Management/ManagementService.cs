@@ -87,11 +87,25 @@ public class ManagementService(HttpClient httpClient) : IManagementService
         return deserialisedResponse ?? throw new NullReferenceException(typeof(ActivityDto).Name);
     }
 
-    public async Task<HttpResultT<List<ActivityListDto>>> GetActivityListsDtoAsync(int userId)
+    public async Task<HttpResultT<List<ActivityListDto>>> GetActivityListsAsync(int userId)
     {
-        var response = await _httpClient.GetAsync($"{_ROUTE}/GetActivityListsDtoAsync?userId={userId}");
+        var response = await _httpClient.GetAsync($"{_ROUTE}/GetActivityListsAsync?userId={userId}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<ActivityListDto>>>(responseContent);
+
+        ArgumentNullException.ThrowIfNull(deserialisedResponse);
+
+        return deserialisedResponse;
+    }
+
+    public async Task<HttpResultT<ActivityListDto>> AddActivityListAsync(ActivityListDto activityList)
+    {
+        var json = JsonConvert.SerializeObject(activityList);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync($"{_ROUTE}/AddActivityListAsync", content);
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityListDto>>(responseContent);
 
         ArgumentNullException.ThrowIfNull(deserialisedResponse);
 

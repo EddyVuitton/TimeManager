@@ -57,12 +57,12 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         }
     }
 
-    [HttpGet("GetActivityListsDtoAsync")]
-    public async Task<HttpResultT<List<ActivityListDto>>> GetActivityListsDtoAsync(int userId)
+    [HttpGet("GetActivityListsAsync")]
+    public async Task<HttpResultT<List<ActivityListDto>>> GetActivityListsAsync(int userId)
     {
         try
         {
-            var result = await _businessLogic.GetActivityListsDtoAsync(userId);
+            var result = await _businessLogic.GetActivityListsAsync(userId);
             return HttpHelper.Ok(result);
         }
         catch (Exception e)
@@ -100,6 +100,20 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         catch (Exception e)
         {
             return HttpHelper.Error(e);
+        }
+    }
+
+    [HttpPost("AddActivityListAsync")]
+    public async Task<HttpResultT<ActivityListDto>> AddActivityListAsync(ActivityListDto activityList)
+    {
+        try
+        {
+            var result = await _businessLogic.AddActivityListAsync(activityList);
+            return HttpHelper.Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error<ActivityListDto>(e);
         }
     }
 

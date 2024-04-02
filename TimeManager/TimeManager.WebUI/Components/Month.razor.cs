@@ -73,7 +73,7 @@ public partial class Month
         _activityLists = [];
         try
         {
-            var activityListsResult = await ManagementService.GetActivityListsDtoAsync(UserId);
+            var activityListsResult = await ManagementService.GetActivityListsAsync(UserId);
 
             if (!activityListsResult.IsSuccess)
             {
