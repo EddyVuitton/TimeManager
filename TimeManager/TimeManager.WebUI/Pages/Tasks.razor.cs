@@ -14,7 +14,7 @@ public partial class Tasks
     [Inject] public IManagementService ManagementService { get; private init; } = null!;
 
     private List<ActivityListDto> lists = [];
-    
+
     private int _userId;
 
     protected override async Task OnInitializedAsync()

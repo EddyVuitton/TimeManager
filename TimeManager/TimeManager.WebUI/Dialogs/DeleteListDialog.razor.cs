@@ -1,6 +1,6 @@
-﻿using MudBlazor;
+﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using TimeManager.Domain.DTOs;
-using Microsoft.AspNetCore.Components;
 using TimeManager.WebUI.Pages;
 
 namespace TimeManager.WebUI.Dialogs;

@@ -94,7 +94,7 @@ public class Management(DBContext context) : IManagement
                     Tasks = tasks.ToList()
                 };
 
-        return activityListsDto.ToList() ?? [];
+        return activityListsDto.ToList();
     }
 
     public async Task<ActivityDto> UpdateActivityAsync(ActivityDto activity)

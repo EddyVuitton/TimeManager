@@ -5,11 +5,11 @@ namespace TimeManager.WebUI.Components;
 
 public partial class SwitchButtons
 {
-    [Inject] public NavigationManager NavigationManager {get; init; } = null!;
+    [Inject] public NavigationManager NavigationManager { get; init; } = null!;
 
     private Variant _calendarVariant = Variant.Filled;
     private Variant _listVariant = Variant.Outlined;
-    
+
     protected override void OnInitialized()
     {
         var page = NavigationManager.Uri.Replace(NavigationManager.BaseUri, string.Empty);

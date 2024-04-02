@@ -7,7 +7,7 @@ namespace TimeManager.WebUI.Popovers;
 
 public partial class ActivityListPopover
 {
-    [Parameter] public Activity ActivityRef {get; init; } = null!;
+    [Parameter] public Activity ActivityRef { get; init; } = null!;
 
     private List<ActivityDto> _activitiesDto = null!;
     private string _shortDayWeekName = null!;

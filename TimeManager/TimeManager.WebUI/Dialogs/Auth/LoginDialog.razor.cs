@@ -10,13 +10,13 @@ namespace TimeManager.WebUI.Dialogs.Auth;
 
 public partial class LoginDialog
 {
-    [Inject] public IAccountService AccountService {get; init; } = null!;
-    [Inject] public ISnackbarService SnackbarService {get; init; } = null!;
-    [Inject] public ILoginService LoginService {get; init; } = null!;
-    [Inject] public IDialogService DialogService {get; init; } = null!;
-    [Inject] public NavigationManager NavigationManager {get; init; } = null!;
+    [Inject] public IAccountService AccountService { get; init; } = null!;
+    [Inject] public ISnackbarService SnackbarService { get; init; } = null!;
+    [Inject] public ILoginService LoginService { get; init; } = null!;
+    [Inject] public IDialogService DialogService { get; init; } = null!;
+    [Inject] public NavigationManager NavigationManager { get; init; } = null!;
 
-    [CascadingParameter] public MudDialogInstance MudDialog {get; private init; } = null!;
+    [CascadingParameter] public MudDialogInstance MudDialog { get; private init; } = null!;
 
     [Parameter] public RegisterAccountForm? RegisterAccountForm { get; set; }
 

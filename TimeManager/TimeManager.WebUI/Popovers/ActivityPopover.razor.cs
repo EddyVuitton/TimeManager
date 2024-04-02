@@ -7,8 +7,8 @@ namespace TimeManager.WebUI.Popovers;
 
 public partial class ActivityPopover
 {
-    [Parameter] public Activity ActivityRef {get; init; } = null!;
-    [Parameter] public ActivityDto ActivityDto {get; init; } = null!;
+    [Parameter] public Activity ActivityRef { get; init; } = null!;
+    [Parameter] public ActivityDto ActivityDto { get; init; } = null!;
 
     private string _dayName = string.Empty;
     private bool isReadonly = true;
