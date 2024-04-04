@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using TimeManager.Domain.DTOs;
+using TimeManager.Domain.Entities;
 using TimeManager.WebUI.Auth;
 using TimeManager.WebUI.Dialogs;
 using TimeManager.WebUI.Services.Management;
@@ -17,6 +18,8 @@ public partial class Tasks
 
     private List<ActivityListDto> lists = [];
     private List<ActivityDto> _allActivitiesDto = [];
+    private List<HourType> _hourTypes = [];
+    private List<RepetitionType> _repetitionTypes = [];
 
     private int _userId;
 
@@ -25,6 +28,8 @@ public partial class Tasks
         _userId = await LoginService.GetUserIdFromToken();
         lists = (await ManagementService.GetActivityListsAsync(_userId)).Data;
         await LoadActivitiesAsync();
+        await LoadHourTypesAsync();
+        await LoadRepetitionTypesAsync();
         LoadTasksToLists();
     }
 
@@ -62,6 +67,44 @@ public partial class Tasks
         foreach (var list in lists)
         {
             list.Tasks = _allActivitiesDto.Where(x => x.ActivityListId == list.ID).ToList();
+        }
+    }
+
+    private async Task LoadHourTypesAsync()
+    {
+        try
+        {
+            var hourTypesResult = await ManagementService.GetHourTypesAsync();
+
+            if (!hourTypesResult.IsSuccess)
+            {
+                throw new Exception(hourTypesResult.Message ?? "Błąd w pobraniu godzin do wyboru...");
+            }
+
+            _hourTypes = hourTypesResult.Data;
+        }
+        catch
+        {
+            //handle exceptions...
+        }
+    }
+
+    private async Task LoadRepetitionTypesAsync()
+    {
+        try
+        {
+            var repetitionTypesResult = await ManagementService.GetRepetitionTypesAsync();
+
+            if (!repetitionTypesResult.IsSuccess)
+            {
+                throw new Exception(repetitionTypesResult.Message ?? "Błąd w pobraniu typów powtórzeń...");
+            }
+
+            _repetitionTypes = repetitionTypesResult.Data;
+        }
+        catch
+        {
+            //handle exceptions...
         }
     }
 
@@ -139,6 +182,34 @@ public partial class Tasks
             SnackbarService.Show(ex.Message, Severity.Warning, true, false);
         }
     }
+
+    public async Task AddActivity(ActivityDto activity)
+    {
+        try
+        {
+            var newActivityResult = await ManagementService.AddActivityAsync(activity);
+
+            if (!newActivityResult.IsSuccess)
+            {
+                throw new Exception(newActivityResult.Message ?? "Błąd w dodaniu zadania...");
+            }
+
+            _allActivitiesDto.Add(activity);
+            LoadTasksToLists();
+        }
+        catch (Exception ex)
+        {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
+        }
+
+        StateHasChanged();
+    }
+
+    public List<HourType> GetHourTypes() => _hourTypes;
+
+    public List<RepetitionType> GetRepetitionTypes() => _repetitionTypes;
+
+    public int GetUserId() => _userId;
 
     #endregion PublicMethods
 }

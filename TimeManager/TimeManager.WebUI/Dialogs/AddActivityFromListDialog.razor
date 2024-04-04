@@ -1,0 +1,86 @@
+﻿<MudDialog>
+    <DialogContent>
+        <div class="add-activity-body gap-y-4">
+            <div class="d-flex flex-row gap-x-8">
+                <div></div>
+                <MudTextField @bind-Value="_title"
+                              T="string"
+                              Style="font-size: 2rem;"
+                              Placeholder="Dodaj tytuł i termin" />
+            </div>
+            <div class="d-flex flex-row gap-x-2" style="width: 100%; height: 50px;">
+                <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.AccessTime" Color="Color.Primary" />
+                <div class="d-flex justify-space-around" style="width: 100%; height: 100%;">
+
+                    <div class="align-self-center">
+                        <input @bind-value="_dayOfActivity"
+                               type="date"
+                               style="width: min-content; height: min-content; padding: 5px; border: 1px solid #dddddd; border-radius: 8px;" />
+                    </div>
+
+                    @if (_showAddDeadlineButton)
+                    {
+                        <div class="custom-select align-self-center">
+                            <select @onchange="((e) => OnRepetitionChange(e))" disabled="@_isRepetitionSelectDisabled">
+                                @foreach (var repetitionType in RepetitionTypes)
+                                {
+                                    <option value="@repetitionType.Id">@repetitionType.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    else
+                    {
+                        var _tempRepetitionTypeValue = RepetitionTypes.First(x => x.Id == _repetitionTypeId).Name;
+                        <div class="align-self-center" style="font-size: 1rem;">@_tempRepetitionTypeValue</div>
+                    }
+                    @if (_showAddDeadlineButton)
+                    {
+                        <div class="custom-select align-self-center" style="width: 100px;">
+                            <select @onchange="((e) => OnHourChange(e))">
+                                @foreach (var hourType in HourTypes)
+                                {
+                                    <option value="@hourType.Id">@hourType.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    @if (_isRepetitionSelectDisabled)
+                    {
+                        <MudButton OnClick="ShowAddDeadlineButton"
+                                   Class="align-self-center"
+                                   Size="Size.Small"
+                                   Color="Color.Primary"
+                                   Variant="Variant.Outlined">
+                            Dodaj termin
+                        </MudButton>
+                    }
+                </div>
+            </div>
+            <div class="d-flex flex-row gap-x-2" style="width: 100%;">
+                <MudIcon Style="margin-top: 5%;" Icon="@Icons.Material.Filled.Description" Color="Color.Primary" />
+                <MudTextField @bind-Value="@_description"
+                              T="string"
+                              Class="align-self-start"
+                              Style="margin: 0px; padding: 0px;"
+                              Variant="Variant.Outlined"
+                              Placeholder="Dodaj opis"
+                              AutoGrow="true"
+                              MaxLines="4"
+                              Lines="4" />
+            </div>
+            <div class="d-flex flex-row gap-x-2" style="width: 100%;">
+                <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.List" Color="Color.Primary" />
+                <div style="width: 50%;">
+                    <div class="custom-select align-self-center">
+                        <MudText>@(ActivityList.Name)</MudText>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Anuluj</MudButton>
+        <MudButton Color="Color.Primary" OnClick="(async () => await Submit())">Zapisz</MudButton>
+    </DialogActions>
+</MudDialog>

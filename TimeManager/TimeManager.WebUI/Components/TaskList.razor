@@ -7,10 +7,10 @@
                 <MenuList TasksRef="TasksRef" ListDto="ActivityList" />
             </MudMenu>
         </div>
-        <MudButton OnClick="AddTask" Class="pa-3" Color="Color.Info" Variant="Variant.Outlined">Dodaj zadanie</MudButton>
+        <MudButton OnClick="OpenAddActivityDialog" Color="Color.Info" Variant="Variant.Outlined">Dodaj zadanie</MudButton>
         @foreach (var task in ActivityList.Tasks)
         {
-            <MudPaper Class="pa-3">Item @(task.Title)</MudPaper>
+            <MudPaper Class="pa-3">@(task.Title)</MudPaper>
         }
     </MudStack>
 </MudPaper>

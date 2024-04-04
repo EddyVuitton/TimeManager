@@ -42,6 +42,7 @@ public static class SeedDataService
         var activity1 = new Activity()
         {
             Day = DateTime.Now,
+            Title = "Przykładowe zadanie",
             Description = string.Empty,
             Task = "Moje zadania",
             HourTypeId = hourTypeId,
