@@ -9,127 +9,107 @@ namespace TimeManager.WebUI.Services.Management;
 public class ManagementService(HttpClient httpClient) : IManagementService
 {
     private readonly HttpClient _httpClient = httpClient;
-    private const string _ROUTE = "api/Management";
+    private readonly string _route = "api/Management";
 
     public async Task<HttpResultT<List<ActivityDto>>> GetActivitiesAsync(int userId)
     {
-        var response = await _httpClient.GetAsync($"{_ROUTE}/GetActivitiesAsync?userId={userId}");
+        var response = await _httpClient.GetAsync($"{_route}/GetActivitiesAsync?userId={userId}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<ActivityDto>>>(responseContent);
 
-        if (deserialisedResponse is null)
-            throw new NullReferenceException(typeof(List<ActivityDto>).Name);
-
-        return deserialisedResponse;
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResultT<ActivityDto>> AddActivityAsync(ActivityDto activity)
     {
         var json = JsonConvert.SerializeObject(activity);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync($"{_ROUTE}/AddActivityAsync", content);
+        var response = await _httpClient.PostAsync($"{_route}/AddActivityAsync", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityDto>>(responseContent);
 
-        if (deserialisedResponse is null)
-            throw new NullReferenceException(typeof(ActivityDto).Name);
-
-        return deserialisedResponse;
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResultT<List<RepetitionType>>> GetRepetitionTypesAsync()
     {
-        var response = await _httpClient.GetAsync($"{_ROUTE}/GetRepetitionTypesAsync");
+        var response = await _httpClient.GetAsync($"{_route}/GetRepetitionTypesAsync");
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<RepetitionType>>>(responseContent);
 
-        if (deserialisedResponse is null)
-            throw new NullReferenceException(typeof(List<RepetitionType>).Name);
-
-        return deserialisedResponse;
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResultT<List<HourType>>> GetHourTypesAsync()
     {
-        var response = await _httpClient.GetAsync($"{_ROUTE}/GetHourTypesAsync");
+        var response = await _httpClient.GetAsync($"{_route}/GetHourTypesAsync");
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<HourType>>>(responseContent);
 
-        if (deserialisedResponse is null)
-            throw new NullReferenceException(typeof(List<HourType>).Name);
-
-        return deserialisedResponse;
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResult> RemoveActivityAsync(int activityId)
     {
-        var response = await _httpClient.PostAsync($"{_ROUTE}/RemoveActivityAsync?activityId={activityId}", null);
+        var response = await _httpClient.PostAsync($"{_route}/RemoveActivityAsync?activityId={activityId}", null);
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResult>(responseContent);
 
-        return deserialisedResponse ?? throw new NullReferenceException(typeof(HttpResult).Name);
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResultT<ActivityDto>> UpdateActivityAsync(ActivityDto activity)
     {
         var json = JsonConvert.SerializeObject(activity);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PutAsync($"{_ROUTE}/UpdateActivityAsync", content);
+        var response = await _httpClient.PutAsync($"{_route}/UpdateActivityAsync", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityDto>>(responseContent);
 
-        return deserialisedResponse ?? throw new NullReferenceException(typeof(ActivityDto).Name);
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResultT<List<ActivityListDto>>> GetActivityListsAsync(int userId)
     {
-        var response = await _httpClient.GetAsync($"{_ROUTE}/GetActivityListsAsync?userId={userId}");
+        var response = await _httpClient.GetAsync($"{_route}/GetActivityListsAsync?userId={userId}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<ActivityListDto>>>(responseContent);
 
-        ArgumentNullException.ThrowIfNull(deserialisedResponse);
-
-        return deserialisedResponse;
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResultT<ActivityListDto>> AddActivityListAsync(ActivityListDto activityList)
     {
         var json = JsonConvert.SerializeObject(activityList);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync($"{_ROUTE}/AddActivityListAsync", content);
+        var response = await _httpClient.PostAsync($"{_route}/AddActivityListAsync", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityListDto>>(responseContent);
 
-        ArgumentNullException.ThrowIfNull(deserialisedResponse);
-
-        return deserialisedResponse;
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResultT<ActivityListDto>> UpdateActivityListAsync(ActivityListDto activityList)
     {
         var json = JsonConvert.SerializeObject(activityList);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PutAsync($"{_ROUTE}/UpdateActivityListAsync", content);
+        var response = await _httpClient.PutAsync($"{_route}/UpdateActivityListAsync", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityListDto>>(responseContent);
 
-        ArgumentNullException.ThrowIfNull(deserialisedResponse);
-
-        return deserialisedResponse;
+        return deserialisedResponse ?? new();
     }
 
     public async Task<HttpResult> RemoveActivityListAsync(int activityListId)
     {
-        var response = await _httpClient.PostAsync($"{_ROUTE}/RemoveActivityListAsync?activityListId={activityListId}", null);
+        var response = await _httpClient.PostAsync($"{_route}/RemoveActivityListAsync?activityListId={activityListId}", null);
         var responseContent = await response.Content.ReadAsStringAsync();
         var deserialisedResponse = JsonConvert.DeserializeObject<HttpResult>(responseContent);
 
-        ArgumentNullException.ThrowIfNull(deserialisedResponse);
-
-        return deserialisedResponse;
+        return deserialisedResponse ?? new();
     }
 }
