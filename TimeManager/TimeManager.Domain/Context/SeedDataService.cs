@@ -44,7 +44,6 @@ public static class SeedDataService
             Day = DateTime.Now,
             Title = "Przykładowe zadanie",
             Description = string.Empty,
-            Task = "Moje zadania",
             HourTypeId = hourTypeId,
             Repetition = repetition1,
             User = user,

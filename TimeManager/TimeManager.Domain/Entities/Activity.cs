@@ -11,7 +11,6 @@ public class Activity
     public DateTime Day { get; set; }
     public string? Title { get; set; }
     public string? Description { get; set; }
-    public string Task { get; set; } = null!;
     [ForeignKey(nameof(HourType))]
     public int HourTypeId { get; set; }
     [ForeignKey(nameof(Repetition))]

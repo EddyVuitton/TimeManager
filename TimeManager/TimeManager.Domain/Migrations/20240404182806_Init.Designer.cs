@@ -12,15 +12,15 @@ using TimeManager.Domain.Context;
 namespace TimeManager.Domain.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240221210423_ActivityList")]
-    partial class ActivityList
+    [Migration("20240404182806_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -28,6 +28,9 @@ namespace TimeManager.Domain.Migrations
             modelBuilder.Entity("TimeManager.Domain.DTOs.ActivityDto", b =>
                 {
                     b.Property<int>("ActivityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActivityListId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Day")
@@ -87,10 +90,6 @@ namespace TimeManager.Domain.Migrations
                     b.Property<int>("RepetitionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Task")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -120,6 +119,9 @@ namespace TimeManager.Domain.Migrations
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -231,7 +233,7 @@ namespace TimeManager.Domain.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "UserAccount")
+                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,18 +245,18 @@ namespace TimeManager.Domain.Migrations
 
                     b.Navigation("Repetition");
 
-                    b.Navigation("UserAccount");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.ActivityList", b =>
                 {
-                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "UserAccount")
+                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserAccount");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.Repetition", b =>

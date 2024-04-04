@@ -8,7 +8,6 @@ begin
 		a.Day,
 		a.Title,
 		a.Description,
-		a.Task,
 		a.HourTypeId,
 		rt.Id [RepetitionTypeId],
 		cast(0 as bit) as IsOpen,

@@ -36,7 +36,6 @@ public class Management(DBContext context) : IManagement
             Day = activity.Day,
             Title = activity.Title,
             Description = activity.Description,
-            Task = activity.Task,
             HourTypeId = activity.HourTypeId,
             Repetition = newRepetitionEntity,
             UserId = activity.UserId,
