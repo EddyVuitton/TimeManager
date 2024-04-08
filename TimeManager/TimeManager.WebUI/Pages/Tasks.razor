@@ -11,7 +11,7 @@
             <MudList Clickable="true">
                 <MudListItem Text="Listy" InitiallyExpanded="true" Dense="false">
                     <NestedList>
-                        @foreach (var item in lists)
+                        @foreach (var item in _lists)
                         {
                             <MudListItem Dense="true" OnClick="(() => item.IsChecked = !item.IsChecked)">
                                 <MudCheckBox Dense="true" @bind-Value="item.IsChecked" Label="@item.Name"></MudCheckBox>
@@ -23,7 +23,7 @@
         </div>
         <div style="height: 100%; overflow-x: scroll;">
             <MudStack Row="true" Justify="Justify.FlexStart" Wrap="Wrap.NoWrap">
-                @foreach (var item in lists.Where(x => x.IsChecked))
+                @foreach (var item in _lists.Where(x => x.IsChecked))
                 {
                     <TaskList ActivityList="item" TasksRef="this" />
                 }

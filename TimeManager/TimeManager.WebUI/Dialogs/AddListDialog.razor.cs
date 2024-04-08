@@ -9,6 +9,7 @@ public partial class AddListDialog
     [CascadingParameter] public MudDialogInstance MudDialog { get; private init; } = null!;
 
     [Parameter] public Tasks TasksRef { get; init; } = null!;
+    [Parameter] public int TaskId { get; init; }
 
     private string _listName = string.Empty;
     private readonly string _errorText = "Nazwa listy zadań nie może być pusta.";
@@ -22,7 +23,7 @@ public partial class AddListDialog
             return;
         }
 
-        await TasksRef.AddList(_listName);
+        await TasksRef.AddList(_listName, TaskId);
 
         MudDialog.Close(DialogResult.Ok(true));
     }

@@ -15,4 +15,5 @@ public interface IManagement
     Task<ActivityListDto> AddActivityListAsync(ActivityListDto activityList);
     Task<ActivityListDto> UpdateActivityListAsync(ActivityListDto activityList);
     Task RemoveActivityListAsync(int activityListId);
+    Task MoveTaskToListAsync(int taskId, int taskListId);
 }

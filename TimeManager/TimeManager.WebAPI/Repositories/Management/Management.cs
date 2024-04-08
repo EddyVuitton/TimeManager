@@ -138,5 +138,17 @@ public class Management(DBContext context) : IManagement
         await _context.SqlQueryAsync("exec p_remove_user_activity_list @id", hT);
     }
 
+    public async Task MoveTaskToListAsync(int taskId, int taskListId)
+    {
+        var task = await _context.Activity.FirstOrDefaultAsync(x => x.Id == taskId);
+        var taskList = await _context.ActivityList.FirstOrDefaultAsync(x => x.Id == taskListId);
+
+        if (task is not null && taskList is not null)
+        {
+            task.ActivityList = taskList;
+            await _context.SaveChangesAsync();
+        }
+    }
+
     #endregion PublicMethods
 }

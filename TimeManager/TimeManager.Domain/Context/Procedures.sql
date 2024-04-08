@@ -34,14 +34,19 @@ begin
 		return;
 	end
 
-	delete r
-	from Repetition r
-	join Activity a on r.Id = a.RepetitionId
+	drop table if exists #activities;
+	select a.Id, a.RepetitionId
+	into #activities
+	from Activity a
 	where a.ActivityListId = @id;
 
 	delete a
 	from Activity a
-	where a.ActivityListId = @id;
+	join #activities t on a.Id = t.Id
+
+	delete r
+	from Repetition r
+	join #activities a on r.Id = a.RepetitionId	
 
 	delete ActivityList where Id = @id;
 end

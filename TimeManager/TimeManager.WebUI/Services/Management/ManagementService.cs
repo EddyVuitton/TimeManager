@@ -112,4 +112,13 @@ public class ManagementService(HttpClient httpClient) : IManagementService
 
         return deserialisedResponse ?? new();
     }
+
+    public async Task<HttpResult> MoveTaskToList(int taskId, int taskListId)
+    {
+        var response = await _httpClient.PostAsync($"{_route}/MoveTaskToListAsync?taskId={taskId}&taskListId={taskListId}", null);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResult>(responseContent);
+
+        return deserialisedResponse ?? new();
+    }
 }

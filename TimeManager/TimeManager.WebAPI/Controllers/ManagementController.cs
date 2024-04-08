@@ -131,6 +131,20 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         }
     }
 
+    [HttpPost("MoveTaskToListAsync")]
+    public async Task<HttpResult> MoveTaskToListAsync(int taskId, int taskListId)
+    {
+        try
+        {
+            await _businessLogic.MoveTaskToListAsync(taskId, taskListId);
+            return HttpHelper.Ok();
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error(e);
+        }
+    }
+
     #endregion Posts
 
     #region Puts

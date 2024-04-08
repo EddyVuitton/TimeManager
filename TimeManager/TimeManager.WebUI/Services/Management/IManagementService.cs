@@ -16,4 +16,5 @@ public interface IManagementService
     Task<HttpResultT<ActivityListDto>> AddActivityListAsync(ActivityListDto activityList);
     Task<HttpResultT<ActivityListDto>> UpdateActivityListAsync(ActivityListDto activityList);
     Task<HttpResult> RemoveActivityListAsync(int activityListId);
+    Task<HttpResult> MoveTaskToList(int taskId, int taskListId);
 }

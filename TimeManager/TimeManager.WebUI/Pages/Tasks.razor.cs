@@ -16,7 +16,7 @@ public partial class Tasks
     [Inject] public IManagementService ManagementService { get; private init; } = null!;
     [Inject] public ISnackbarService SnackbarService { get; private init; } = null!;
 
-    private List<ActivityListDto> lists = [];
+    private List<ActivityListDto> _lists = [];
     private List<ActivityDto> _allActivitiesDto = [];
     private List<HourType> _hourTypes = [];
     private List<RepetitionType> _repetitionTypes = [];
@@ -26,11 +26,10 @@ public partial class Tasks
     protected override async Task OnInitializedAsync()
     {
         _userId = await LoginService.GetUserIdFromToken();
-        lists = (await ManagementService.GetActivityListsAsync(_userId)).Data;
+        await LoadActivityListsAsync();
         await LoadActivitiesAsync();
         await LoadHourTypesAsync();
         await LoadRepetitionTypesAsync();
-        LoadTasksToLists();
     }
 
     #region PrivateMethods
@@ -60,11 +59,32 @@ public partial class Tasks
         }
 
         _allActivitiesDto = userActivities.Data;
+        LoadTasksToLists();
+    }
+
+    private async Task LoadActivityListsAsync()
+    {
+        try
+        {
+            var activityListsResult = await ManagementService.GetActivityListsAsync(_userId);
+
+            if (!activityListsResult.IsSuccess)
+            {
+                throw new Exception(activityListsResult.Message ?? "Błąd w pobraniu list...");
+            }
+
+            _lists = activityListsResult.Data;
+            StateHasChanged();
+        }
+        catch
+        {
+            //handle exceptions...
+        }
     }
 
     private void LoadTasksToLists()
     {
-        foreach (var list in lists)
+        foreach (var list in _lists)
         {
             list.Tasks = _allActivitiesDto.Where(x => x.ActivityListId == list.ID).ToList();
         }
@@ -112,7 +132,7 @@ public partial class Tasks
 
     #region PublicMethods
 
-    public async Task AddList(string name)
+    public async Task AddList(string name, int taskId = 0)
     {
         var newActivityList = new ActivityListDto() { Name = name, IsChecked = true, UserId = _userId };
 
@@ -125,7 +145,12 @@ public partial class Tasks
                 throw new Exception(newActivityListResult.Message ?? "Błąd w dodaniu listy...");
             }
 
-            lists.Add(newActivityListResult.Data);
+            _lists.Add(newActivityListResult.Data);
+
+            if (taskId != 0)
+            {
+                await MoveTaskToList(taskId, newActivityListResult.Data.ID);
+            }
 
             SnackbarService.Show("Utworzono listę", Severity.Normal, true, false);
         }
@@ -148,7 +173,7 @@ public partial class Tasks
                 throw new Exception(updatedActivityListResult.Message ?? "Błąd w dodaniu listy...");
             }
 
-            var list = lists.First(x => x.ID == modifiedList.ID);
+            var list = _lists.First(x => x.ID == modifiedList.ID);
             list.Name = modifiedList.Name;
 
             StateHasChanged();
@@ -170,8 +195,8 @@ public partial class Tasks
                 throw new Exception(removedActivityListResult.Message ?? "Błąd w usunięciu listy...");
             }
 
-            var list = lists.First(x => x.ID == id);
-            lists.Remove(list);
+            var list = _lists.First(x => x.ID == id);
+            _lists.Remove(list);
 
             SnackbarService.Show("Lista zadań została usunięta", Severity.Normal, true, false);
 
@@ -195,14 +220,19 @@ public partial class Tasks
             }
 
             _allActivitiesDto.Add(activity);
-            LoadTasksToLists();
+            //await LoadActivityListsAsync();
+            //LoadTasksToLists();
+
+            await LoadActivitiesAsync();
+
+            // await OnInitializedAsync();
+
+            StateHasChanged();
         }
         catch (Exception ex)
         {
             SnackbarService.Show(ex.Message, Severity.Warning, true, false);
         }
-
-        StateHasChanged();
     }
 
     public List<HourType> GetHourTypes() => _hourTypes;
@@ -210,6 +240,61 @@ public partial class Tasks
     public List<RepetitionType> GetRepetitionTypes() => _repetitionTypes;
 
     public int GetUserId() => _userId;
+
+    public List<ActivityListDto> GetActivityLists() => _lists;
+
+    public async Task MoveTaskToList(int taskId, int taskListId)
+    {
+        var task = _allActivitiesDto.First(x => x.ActivityId == taskId);
+
+        if (task.ActivityListId == taskListId)
+            return;
+
+        try
+        {
+            var moveTaskToListResult = await ManagementService.MoveTaskToList(taskId, taskListId);
+
+            if (!moveTaskToListResult.IsSuccess)
+            {
+                throw new Exception(moveTaskToListResult.Message ?? "Błąd w przeniesieniu zadania do innej listy...");
+            }
+
+            task.ActivityListId = taskListId;
+            LoadTasksToLists();
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
+        }
+    }
+
+    public async Task RemoveTask(int taskId)
+    {
+        var task = _allActivitiesDto.FirstOrDefault(x => x.ActivityId == taskId);
+        if (task is not null)
+        {
+            try
+            {
+                var removeActivityResult = await ManagementService.RemoveActivityAsync(taskId);
+
+                if (!removeActivityResult.IsSuccess)
+                {
+                    throw new Exception(removeActivityResult.Message ?? "Błąd w usunięciu aktywności..");
+                }
+
+                _allActivitiesDto.Remove(task);
+                LoadTasksToLists();
+
+                SnackbarService.Show("Usunięto zadanie", Severity.Normal, true, false);
+            }
+            catch (Exception ex)
+            {
+                SnackbarService.Show(ex.Message, Severity.Warning, true, false);
+            }
+        }
+    }
 
     #endregion PublicMethods
 }

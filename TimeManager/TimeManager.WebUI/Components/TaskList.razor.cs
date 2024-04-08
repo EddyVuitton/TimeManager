@@ -31,4 +31,16 @@ public partial class TaskList
 
         DialogService.Show<AddActivityFromListDialog>(string.Empty, parameters, options);
     }
+
+    public async Task MoveTaskToList(int taskId, int taskListId)
+    {
+        await TasksRef.MoveTaskToList(taskId, taskListId);
+        StateHasChanged();
+    }
+
+    public async Task RemoveTask(int taskId)
+    {
+        await TasksRef.RemoveTask(taskId);
+        StateHasChanged();
+    }
 }
