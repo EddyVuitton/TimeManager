@@ -1,4 +1,5 @@
 ﻿using TimeManager.Domain.DTOs;
+using TimeManager.Domain.Entities;
 
 namespace TimeManager.WebUI.Helpers;
 

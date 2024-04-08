@@ -34,7 +34,7 @@ public static class SeedDataService
         {
             Name = "Moje zadania",
             IsDefault = true,
-            User = user
+            UserAccount = user
         };
         context.ActivityList.Add(activityList);
 

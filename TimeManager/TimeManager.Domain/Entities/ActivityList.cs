@@ -10,8 +10,8 @@ public class ActivityList
     public string Name { get; set; } = null!;
     public bool IsDefault { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;
-    [ForeignKey(nameof(User))]
+    [ForeignKey(nameof(UserAccount))]
     public int UserId { get; set; }
 
-    public virtual UserAccount User { get; set; } = null!;
+    public virtual UserAccount UserAccount { get; set; } = null!;
 }

@@ -76,7 +76,7 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
     #region Posts
 
     [HttpPost("AddActivityAsync")]
-    public async Task<HttpResultT<ActivityDto>> AddActivityAsync(ActivityDto activity)
+    public async Task<HttpResultT<List<ActivityDto>>> AddActivityAsync(ActivityDto activity)
     {
         try
         {
@@ -85,7 +85,7 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         }
         catch (Exception e)
         {
-            return HttpHelper.Error<ActivityDto>(e);
+            return HttpHelper.Error<List<ActivityDto>>(e);
         }
     }
 

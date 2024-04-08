@@ -20,14 +20,14 @@ public class ManagementService(HttpClient httpClient) : IManagementService
         return deserialisedResponse ?? new();
     }
 
-    public async Task<HttpResultT<ActivityDto>> AddActivityAsync(ActivityDto activity)
+    public async Task<HttpResultT<List<ActivityDto>>> AddActivityAsync(ActivityDto activity)
     {
         var json = JsonConvert.SerializeObject(activity);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync($"{_route}/AddActivityAsync", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
-        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<ActivityDto>>(responseContent);
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<ActivityDto>>>(responseContent);
 
         return deserialisedResponse ?? new();
     }

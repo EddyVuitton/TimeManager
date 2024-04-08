@@ -6,7 +6,7 @@ namespace TimeManager.WebUI.Services.Management;
 
 public interface IManagementService
 {
-    Task<HttpResultT<ActivityDto>> AddActivityAsync(ActivityDto activity);
+    Task<HttpResultT<List<ActivityDto>>> AddActivityAsync(ActivityDto activity);
     Task<HttpResultT<List<HourType>>> GetHourTypesAsync();
     Task<HttpResultT<List<RepetitionType>>> GetRepetitionTypesAsync();
     Task<HttpResultT<List<ActivityDto>>> GetActivitiesAsync(int userId);

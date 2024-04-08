@@ -12,7 +12,7 @@ using TimeManager.Domain.Context;
 namespace TimeManager.Domain.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240404182806_Init")]
+    [Migration("20240408184632_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -51,10 +51,6 @@ namespace TimeManager.Domain.Migrations
 
                     b.Property<int>("RepetitionTypeId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Task")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -162,9 +158,6 @@ namespace TimeManager.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("Day")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("RepetitionTypeId")
                         .HasColumnType("int");
 
@@ -250,13 +243,13 @@ namespace TimeManager.Domain.Migrations
 
             modelBuilder.Entity("TimeManager.Domain.Entities.ActivityList", b =>
                 {
-                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "User")
+                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "UserAccount")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("UserAccount");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.Repetition", b =>

@@ -3,7 +3,9 @@ using System.Data;
 using TimeManager.Domain.Context;
 using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
+using TimeManager.Domain.Enums;
 using TimeManager.WebAPI.Extensions;
+using TimeManager.WebAPI.Helpers;
 
 namespace TimeManager.WebAPI.Repositories.Management;
 
@@ -24,27 +26,46 @@ public class Management(DBContext context) : IManagement
         return result ?? [];
     }
 
-    public async Task<ActivityDto> AddActivityAsync(ActivityDto activity)
+    public async Task<List<ActivityDto>> AddActivityAsync(ActivityDto activity)
     {
-        var newRepetitionEntity = (await _context.Repetition.AddAsync(new Repetition()
+        var repetitionTypeId = activity.RepetitionTypeId;
+        var repetitionEnum = (RepetitionEnum)repetitionTypeId;
+        var newActivities = new List<Activity>();
+        var newRepetition = (await _context.Repetition.AddAsync(new Repetition()
         {
-            Day = DateTime.Now,
             RepetitionTypeId = activity.RepetitionTypeId
         })).Entity;
-        var newActivity = await _context.Activity.AddAsync(new Activity()
-        {
-            Day = activity.Day,
-            Title = activity.Title,
-            Description = activity.Description,
-            HourTypeId = activity.HourTypeId,
-            Repetition = newRepetitionEntity,
-            UserId = activity.UserId,
-            ActivityListId = activity.ActivityListId,
-        });
-        await _context.SaveChangesAsync();
-        activity.ActivityId = newActivity.Entity.Id;
 
-        return activity;
+        switch (repetitionEnum)
+        {
+            case RepetitionEnum.DoesntRepeat:
+                newActivities = BasicHelper.AddActivityDoesntRepeat(activity, newRepetition);
+                break;
+
+            case RepetitionEnum.Daily:
+                newActivities = BasicHelper.AddActivityDaily(activity, newRepetition);
+                break;
+
+            case RepetitionEnum.Monthly:
+                newActivities = BasicHelper.AddActivityMonthly(activity, newRepetition);
+                break;
+
+            case RepetitionEnum.Weekly:
+                newActivities = BasicHelper.AddActivityWeekly(activity, newRepetition);
+                break;
+
+            case RepetitionEnum.Annually:
+                newActivities = BasicHelper.AddActivityAnnually(activity, newRepetition);
+                break;
+
+            default:
+                break;
+        }
+
+        await _context.Activity.AddRangeAsync(newActivities);
+        await _context.SaveChangesAsync();
+
+        return BasicHelper.ToDtos(newActivities, repetitionTypeId);
     }
 
     public async Task<List<RepetitionType>> GetRepetitionTypesAsync()
@@ -109,7 +130,7 @@ public class Management(DBContext context) : IManagement
         {
             Name = activityList.Name,
             IsDefault = false,
-            User = user
+            UserAccount = user
         });
         await _context.SaveChangesAsync();
         activityList.ID = newActivityList.Entity.Id;

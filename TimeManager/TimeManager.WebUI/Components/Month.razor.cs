@@ -181,7 +181,7 @@ public partial class Month
                 throw new Exception(newActivityResult.Message ?? "Błąd w dodaniu aktywności...");
             }
 
-            _allActivitiesDto.Add(newActivityResult.Data);
+            _allActivitiesDto.AddRange(newActivityResult.Data);
             SnackbarService.Show("Zadanie zostało zapisane", Severity.Normal, true, false);
         }
         catch (Exception ex)

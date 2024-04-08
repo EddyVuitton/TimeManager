@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using System.Collections.Generic;
 using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
 using TimeManager.WebUI.Auth;
@@ -219,13 +220,8 @@ public partial class Tasks
                 throw new Exception(newActivityResult.Message ?? "Błąd w dodaniu zadania...");
             }
 
-            _allActivitiesDto.Add(activity);
-            //await LoadActivityListsAsync();
-            //LoadTasksToLists();
-
+            _allActivitiesDto.AddRange(newActivityResult.Data);
             await LoadActivitiesAsync();
-
-            // await OnInitializedAsync();
 
             StateHasChanged();
         }

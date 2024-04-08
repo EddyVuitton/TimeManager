@@ -55,7 +55,7 @@ public class Account(DBContext context) : IAccount
         var activityList = new ActivityList()
         {
             Name = "Moje zadania",
-            User = user
+            UserAccount = user
         };
 
         await _context.UserAccount.AddAsync(user);
