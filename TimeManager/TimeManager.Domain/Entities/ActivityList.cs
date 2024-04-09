@@ -9,9 +9,10 @@ public class ActivityList
     public int Id { get; set; }
     public string Name { get; set; } = null!;
     public bool IsDefault { get; set; }
-    public DateTime Created { get; set; } = DateTime.Now;
     [ForeignKey(nameof(UserAccount))]
     public int UserId { get; set; }
+    [Column(TypeName = "datetime")]
+    public DateTime CreatedOn { get; set; } = DateTime.Now;
 
     public virtual UserAccount UserAccount { get; set; } = null!;
 }

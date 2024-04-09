@@ -12,7 +12,7 @@ using TimeManager.Domain.Context;
 namespace TimeManager.Domain.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240408184632_Init")]
+    [Migration("20240409103504_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -74,6 +74,9 @@ namespace TimeManager.Domain.Migrations
                     b.Property<int>("ActivityListId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
                     b.Property<DateTime>("Day")
                         .HasColumnType("date");
 
@@ -89,9 +92,6 @@ namespace TimeManager.Domain.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ActivityListId");
@@ -99,8 +99,6 @@ namespace TimeManager.Domain.Migrations
                     b.HasIndex("HourTypeId");
 
                     b.HasIndex("RepetitionId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Activity");
                 });
@@ -113,8 +111,8 @@ namespace TimeManager.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
@@ -141,6 +139,9 @@ namespace TimeManager.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -157,6 +158,9 @@ namespace TimeManager.Domain.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
 
                     b.Property<int>("RepetitionTypeId")
                         .HasColumnType("int");
@@ -176,6 +180,9 @@ namespace TimeManager.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -192,6 +199,9 @@ namespace TimeManager.Domain.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -221,14 +231,8 @@ namespace TimeManager.Domain.Migrations
                         .IsRequired();
 
                     b.HasOne("TimeManager.Domain.Entities.Repetition", "Repetition")
-                        .WithMany()
+                        .WithMany("Activities")
                         .HasForeignKey("RepetitionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TimeManager.Domain.Entities.UserAccount", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -237,8 +241,6 @@ namespace TimeManager.Domain.Migrations
                     b.Navigation("HourType");
 
                     b.Navigation("Repetition");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.ActivityList", b =>
@@ -261,6 +263,11 @@ namespace TimeManager.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("RepetitionType");
+                });
+
+            modelBuilder.Entity("TimeManager.Domain.Entities.Repetition", b =>
+                {
+                    b.Navigation("Activities");
                 });
 #pragma warning restore 612, 618
         }

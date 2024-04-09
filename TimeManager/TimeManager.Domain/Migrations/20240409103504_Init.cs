@@ -20,7 +20,8 @@ namespace TimeManager.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +34,8 @@ namespace TimeManager.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,7 +49,8 @@ namespace TimeManager.Domain.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +63,8 @@ namespace TimeManager.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RepetitionTypeId = table.Column<int>(type: "int", nullable: false)
+                    RepetitionTypeId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,7 +74,7 @@ namespace TimeManager.Domain.Migrations
                         column: x => x.RepetitionTypeId,
                         principalTable: "RepetitionType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,8 +85,8 @@ namespace TimeManager.Domain.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,7 +96,7 @@ namespace TimeManager.Domain.Migrations
                         column: x => x.UserId,
                         principalTable: "UserAccount",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,8 +110,8 @@ namespace TimeManager.Domain.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HourTypeId = table.Column<int>(type: "int", nullable: false),
                     RepetitionId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ActivityListId = table.Column<int>(type: "int", nullable: false)
+                    ActivityListId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,25 +121,19 @@ namespace TimeManager.Domain.Migrations
                         column: x => x.ActivityListId,
                         principalTable: "ActivityList",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Activity_HourType_HourTypeId",
                         column: x => x.HourTypeId,
                         principalTable: "HourType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Activity_Repetition_RepetitionId",
                         column: x => x.RepetitionId,
                         principalTable: "Repetition",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_Activity_UserAccount_UserId",
-                        column: x => x.UserId,
-                        principalTable: "UserAccount",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -152,11 +150,6 @@ namespace TimeManager.Domain.Migrations
                 name: "IX_Activity_RepetitionId",
                 table: "Activity",
                 column: "RepetitionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Activity_UserId",
-                table: "Activity",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActivityList_UserId",

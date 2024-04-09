@@ -16,7 +16,6 @@ public static class BasicHelper
             Description = activity.Description,
             HourTypeId = activity.HourTypeId,
             Repetition = repetition,
-            UserId = activity.UserId,
             ActivityListId = activity.ActivityListId
         };
 
@@ -40,7 +39,6 @@ public static class BasicHelper
                 Description = activity.Description,
                 HourTypeId = activity.HourTypeId,
                 Repetition = repetition,
-                UserId = activity.UserId,
                 ActivityListId = activity.ActivityListId
             });
 
@@ -65,7 +63,6 @@ public static class BasicHelper
                 Description = activity.Description,
                 HourTypeId = activity.HourTypeId,
                 Repetition = repetition,
-                UserId = activity.UserId,
                 ActivityListId = activity.ActivityListId
             });
 
@@ -90,7 +87,6 @@ public static class BasicHelper
                 Description = activity.Description,
                 HourTypeId = activity.HourTypeId,
                 Repetition = repetition,
-                UserId = activity.UserId,
                 ActivityListId = activity.ActivityListId
             });
 
@@ -115,7 +111,6 @@ public static class BasicHelper
                 Description = activity.Description,
                 HourTypeId = activity.HourTypeId,
                 Repetition = repetition,
-                UserId = activity.UserId,
                 ActivityListId = activity.ActivityListId
             });
 
@@ -139,8 +134,7 @@ public static class BasicHelper
                 Title = activity.Title,
                 Description = activity.Description ?? string.Empty,
                 HourTypeId = activity.HourTypeId,
-                RepetitionTypeId = repetitionTypeId,
-                UserId = activity.UserId               
+                RepetitionTypeId = repetitionTypeId   
             });
         }
 

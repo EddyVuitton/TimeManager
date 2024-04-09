@@ -17,13 +17,27 @@ public class Management(DBContext context) : IManagement
 
     public async Task<List<ActivityDto>> GetActivitiesAsync(int userId)
     {
-        var hT = new object[]
-        {
-            _context.CreateParameter("userId", userId, SqlDbType.Int)
-        };
-        var result = await _context.SqlQueryAsync<ActivityDto>("exec p_get_user_activities @userId;", hT);
+        var userActivityLists = _context.ActivityList.Where(x => x.UserId == userId);
+        var result =
+            from aL in userActivityLists
+            join a in _context.Activity on aL.Id equals a.ActivityListId
+            join r in _context.Repetition on a.RepetitionId equals r.Id
+            join rt in _context.RepetitionType on r.RepetitionTypeId equals rt.Id
+            select new ActivityDto
+            {
+                ActivityId = a.Id,
+                RepetitionId = r.Id,
+                ActivityListId = aL.Id,
+                Day = a.Day,
+                Title = a.Title,
+                Description = a.Description ?? string.Empty,
+                HourTypeId = a.HourTypeId,
+                RepetitionTypeId = rt.Id,
+                IsOpen = false,
+                UserId = userId
+            };
 
-        return result ?? [];
+        return await result.ToListAsync() ?? [];
     }
 
     public async Task<List<ActivityDto>> AddActivityAsync(ActivityDto activity)
@@ -152,11 +166,26 @@ public class Management(DBContext context) : IManagement
 
     public async Task RemoveActivityListAsync(int activityListId)
     {
-        var hT = new object[]
+        var activityList = await _context.ActivityList.FirstOrDefaultAsync(x => x.Id == activityListId);
+
+        if (activityList is not null && activityList.IsDefault)
         {
-            _context.CreateParameter("id", activityListId, SqlDbType.Int)
-        };
-        await _context.SqlQueryAsync("exec p_remove_user_activity_list @id", hT);
+            throw new Exception("Listy domyślnej nie można usunąć");
+        }
+
+        var activities = _context.Activity.Where(x => x.ActivityList == activityList);
+        var repetitions =
+            from r in _context.Repetition
+            join a in activities on r.Id equals a.RepetitionId
+            select r;
+
+        _context.Activity.RemoveRange(activities);
+        _context.Repetition.RemoveRange(repetitions);
+
+        if (activityList is not null)
+            _context.ActivityList.Remove(activityList);
+
+        await _context.SaveChangesAsync();
     }
 
     public async Task MoveTaskToListAsync(int taskId, int taskListId)

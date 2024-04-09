@@ -46,7 +46,6 @@ public static class SeedDataService
             Description = string.Empty,
             HourTypeId = hourTypeId,
             Repetition = repetition1,
-            User = user,
             ActivityList = activityList
         };
 

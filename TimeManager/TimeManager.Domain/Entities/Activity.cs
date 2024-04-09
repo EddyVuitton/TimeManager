@@ -15,13 +15,12 @@ public class Activity
     public int HourTypeId { get; set; }
     [ForeignKey(nameof(Repetition))]
     public int RepetitionId { get; set; }
-    [ForeignKey(nameof(User))]
-    public int UserId { get; set; }
     [ForeignKey(nameof(ActivityList))]
     public int ActivityListId { get; set; }
+    [Column(TypeName = "datetime")]
+    public DateTime CreatedOn { get; set; } = DateTime.Now;
 
     public virtual Repetition Repetition { get; set; } = null!;
-    public virtual UserAccount User { get; set; } = null!;
     public virtual HourType HourType { get; set; } = null!;
     public virtual ActivityList ActivityList { get; set; } = null!;
 }
