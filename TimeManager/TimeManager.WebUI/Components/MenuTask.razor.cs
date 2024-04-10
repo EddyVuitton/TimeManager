@@ -14,7 +14,7 @@ public partial class MenuTask
 
     [Parameter] public Tasks TasksRef { get; init; } = null!;
     [Parameter] public TaskList TaskListRef { get; init; } = null!;
-    [Parameter] public ActivityDto TaskDto { get; init; } = null!;
+    [Parameter] public RepetitionDto RepetitionDto { get; init; } = null!;
 
     private void CloseMenu()
     {
@@ -33,21 +33,21 @@ public partial class MenuTask
         var parameters = new DialogParameters
         {
             { "TasksRef", TasksRef },
-            { "TaskId", TaskDto.ActivityId }
+            { "RepetitionId", RepetitionDto.RepetitionId }
         };
 
         DialogService.Show<AddListDialog>("Tworzenie nowej listy", parameters, options);
     }
 
-    public async Task MoveTaskToList(int taskListId)
+    public async Task MoveRepetitionToList(int taskListId)
     {
-        await TaskListRef.MoveTaskToList(TaskDto.ActivityId, taskListId);
+        await TaskListRef.MoveRepetitionToList(RepetitionDto.RepetitionId, taskListId);
         CloseMenu();
     }
 
-    public async Task RemoveTask()
+    public async Task RemoveRepetition()
     {
-        await TaskListRef.RemoveTask(TaskDto.ActivityId);
+        await TaskListRef.RemoveRepetition(RepetitionDto.RepetitionId);
         CloseMenu();
     }
 }

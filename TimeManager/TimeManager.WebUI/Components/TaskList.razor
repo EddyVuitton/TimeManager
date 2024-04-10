@@ -1,14 +1,4 @@
-﻿<style>
-    .task {
-        border-radius: 5px;
-    }
-
-        .task:hover {
-            background-color: #eee;
-        }
-</style>
-
-<MudPaper Class="stack pa-3" Style="height: min-content; background-color: white;" MinWidth="300px">
+﻿<MudPaper Class="stack pa-3" Style="height: min-content; background-color: white;" MinWidth="300px">
     <MudStack>
         <div class="d-flex flex-row">
             <h3 class="align-self-center">@ActivityList.Name</h3>
@@ -18,13 +8,13 @@
             </MudMenu>
         </div>
         <MudButton OnClick="OpenAddActivityDialog" Color="Color.Info" Variant="Variant.Outlined">Dodaj zadanie</MudButton>
-        @foreach (var task in ActivityList.Tasks)
+        @foreach (var repetition in ActivityList.Repetitions)
         {
-            <div class="d-flex flex-row task" title="@(task.Title)">
-                <span class="align-self-center" style="padding-left: 5%;">@(task.Title)</span>
+            <div class="d-flex flex-row repetition" title="@(repetition.InitialTitle)">
+                <span class="align-self-center" style="padding-left: 5%;">@(repetition.InitialTitle)</span>
                 <MudSpacer />
                 <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopRight" Size="Size.Small">
-                    <MenuTask TasksRef="TasksRef" TaskListRef="this" TaskDto="task" />
+                    <MenuTask TasksRef="TasksRef" TaskListRef="this" RepetitionDto="repetition" />
                 </MudMenu>
             </div>
         }

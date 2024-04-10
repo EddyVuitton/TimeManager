@@ -148,7 +148,7 @@ namespace TimeManager.Domain.Migrations
                     b.ToTable("HourType");
                 });
 
-            modelBuilder.Entity("TimeManager.Domain.Entities.Repetition", b =>
+            modelBuilder.Entity("TimeManager.Domain.Entities.RepetitionDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,6 +159,9 @@ namespace TimeManager.Domain.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("InitialTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RepetitionTypeId")
                         .HasColumnType("int");
 
@@ -166,7 +169,7 @@ namespace TimeManager.Domain.Migrations
 
                     b.HasIndex("RepetitionTypeId");
 
-                    b.ToTable("Repetition");
+                    b.ToTable("RepetitionDto");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.RepetitionType", b =>
@@ -227,8 +230,8 @@ namespace TimeManager.Domain.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TimeManager.Domain.Entities.Repetition", "Repetition")
-                        .WithMany("Activities")
+                    b.HasOne("TimeManager.Domain.Entities.RepetitionDto", "RepetitionDto")
+                        .WithMany()
                         .HasForeignKey("RepetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -237,7 +240,7 @@ namespace TimeManager.Domain.Migrations
 
                     b.Navigation("HourType");
 
-                    b.Navigation("Repetition");
+                    b.Navigation("RepetitionDto");
                 });
 
             modelBuilder.Entity("TimeManager.Domain.Entities.ActivityList", b =>
@@ -251,7 +254,7 @@ namespace TimeManager.Domain.Migrations
                     b.Navigation("UserAccount");
                 });
 
-            modelBuilder.Entity("TimeManager.Domain.Entities.Repetition", b =>
+            modelBuilder.Entity("TimeManager.Domain.Entities.RepetitionDto", b =>
                 {
                     b.HasOne("TimeManager.Domain.Entities.RepetitionType", "RepetitionType")
                         .WithMany()
@@ -260,11 +263,6 @@ namespace TimeManager.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("RepetitionType");
-                });
-
-            modelBuilder.Entity("TimeManager.Domain.Entities.Repetition", b =>
-                {
-                    b.Navigation("Activities");
                 });
 #pragma warning restore 612, 618
         }

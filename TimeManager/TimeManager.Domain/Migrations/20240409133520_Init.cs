@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-using TimeManager.Domain.Extensions;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -12,8 +10,6 @@ namespace TimeManager.Domain.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RunSqlScript("Procedures");
-
             migrationBuilder.CreateTable(
                 name: "HourType",
                 columns: table => new
@@ -64,6 +60,7 @@ namespace TimeManager.Domain.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RepetitionTypeId = table.Column<int>(type: "int", nullable: false),
+                    InitialTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>

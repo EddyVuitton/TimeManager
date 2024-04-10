@@ -17,4 +17,7 @@ public interface IManagementService
     Task<HttpResultT<ActivityListDto>> UpdateActivityListAsync(ActivityListDto activityList);
     Task<HttpResult> RemoveActivityListAsync(int activityListId);
     Task<HttpResult> MoveTaskToList(int taskId, int taskListId);
+    Task<HttpResultT<List<RepetitionDto>>> GetRepetitionsAsync(int userId);
+    Task<HttpResult> RemoveRepetitionAsync(int repetitionId);
+    Task<HttpResult> MoveRepetitionToListAsync(int repetitionId, int taskListId);
 }

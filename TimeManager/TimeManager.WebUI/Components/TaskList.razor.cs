@@ -32,15 +32,15 @@ public partial class TaskList
         DialogService.Show<AddActivityFromListDialog>(string.Empty, parameters, options);
     }
 
-    public async Task MoveTaskToList(int taskId, int taskListId)
+    public async Task MoveRepetitionToList(int id, int taskListId)
     {
-        await TasksRef.MoveTaskToList(taskId, taskListId);
+        await TasksRef.MoveRepetitionToList(id, taskListId);
         StateHasChanged();
     }
 
-    public async Task RemoveTask(int taskId)
+    public async Task RemoveRepetition(int id)
     {
-        await TasksRef.RemoveTask(taskId);
+        await TasksRef.RemoveRepetition(id);
         StateHasChanged();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System.Collections.Generic;
 using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
 using TimeManager.WebUI.Auth;
@@ -18,9 +17,9 @@ public partial class Tasks
     [Inject] public ISnackbarService SnackbarService { get; private init; } = null!;
 
     private List<ActivityListDto> _lists = [];
-    private List<ActivityDto> _allActivitiesDto = [];
     private List<HourType> _hourTypes = [];
     private List<RepetitionType> _repetitionTypes = [];
+    private List<RepetitionDto> _repetitions = [];
 
     private int _userId;
 
@@ -28,7 +27,7 @@ public partial class Tasks
     {
         _userId = await LoginService.GetUserIdFromToken();
         await LoadActivityListsAsync();
-        await LoadActivitiesAsync();
+        await LoadRepetitionsAsync();
         await LoadHourTypesAsync();
         await LoadRepetitionTypesAsync();
     }
@@ -48,19 +47,6 @@ public partial class Tasks
         };
 
         DialogService.Show<AddListDialog>("Tworzenie nowej listy", parameters, options);
-    }
-
-    private async Task LoadActivitiesAsync()
-    {
-        var userActivities = await ManagementService.GetActivitiesAsync(_userId);
-
-        if (!userActivities.IsSuccess)
-        {
-            throw new Exception(userActivities.Message ?? "Błąd we wczytaniu aktywności...");
-        }
-
-        _allActivitiesDto = userActivities.Data;
-        LoadTasksToLists();
     }
 
     private async Task LoadActivityListsAsync()
@@ -83,11 +69,11 @@ public partial class Tasks
         }
     }
 
-    private void LoadTasksToLists()
+    private void LoadDataToLists()
     {
         foreach (var list in _lists)
         {
-            list.Tasks = _allActivitiesDto.Where(x => x.ActivityListId == list.ID).ToList();
+            list.Repetitions = _repetitions.Where(x => x.ActivityListId == list.ID).ToList();
         }
     }
 
@@ -129,11 +115,24 @@ public partial class Tasks
         }
     }
 
+    private async Task LoadRepetitionsAsync()
+    {
+        var repetitionsResult = await ManagementService.GetRepetitionsAsync(_userId);
+
+        if (!repetitionsResult.IsSuccess)
+        {
+            throw new Exception(repetitionsResult.Message ?? "Błąd we wczytaniu powtórzeń...");
+        }
+
+        _repetitions = repetitionsResult.Data;
+        LoadDataToLists();
+    }
+
     #endregion PrivateMethods
 
     #region PublicMethods
 
-    public async Task AddList(string name, int taskId = 0)
+    public async Task AddList(string name, int repetitionId = 0)
     {
         var newActivityList = new ActivityListDto() { Name = name, IsChecked = true, UserId = _userId };
 
@@ -148,9 +147,9 @@ public partial class Tasks
 
             _lists.Add(newActivityListResult.Data);
 
-            if (taskId != 0)
+            if (repetitionId != 0)
             {
-                await MoveTaskToList(taskId, newActivityListResult.Data.ID);
+                await MoveRepetitionToList(repetitionId, newActivityListResult.Data.ID);
             }
 
             SnackbarService.Show("Utworzono listę", Severity.Normal, true, false);
@@ -220,8 +219,7 @@ public partial class Tasks
                 throw new Exception(newActivityResult.Message ?? "Błąd w dodaniu zadania...");
             }
 
-            _allActivitiesDto.AddRange(newActivityResult.Data);
-            await LoadActivitiesAsync();
+            await LoadRepetitionsAsync();
 
             StateHasChanged();
         }
@@ -239,24 +237,24 @@ public partial class Tasks
 
     public List<ActivityListDto> GetActivityLists() => _lists;
 
-    public async Task MoveTaskToList(int taskId, int taskListId)
+    public async Task MoveRepetitionToList(int id, int taskListId)
     {
-        var task = _allActivitiesDto.First(x => x.ActivityId == taskId);
+        var repetition = _repetitions.First(x => x.RepetitionId == id);
 
-        if (task.ActivityListId == taskListId)
+        if (repetition.ActivityListId == taskListId)
             return;
 
         try
         {
-            var moveTaskToListResult = await ManagementService.MoveTaskToList(taskId, taskListId);
+            var moveRepetitionToListResult = await ManagementService.MoveRepetitionToListAsync(id, taskListId);
 
-            if (!moveTaskToListResult.IsSuccess)
+            if (!moveRepetitionToListResult.IsSuccess)
             {
-                throw new Exception(moveTaskToListResult.Message ?? "Błąd w przeniesieniu zadania do innej listy...");
+                throw new Exception(moveRepetitionToListResult.Message ?? "Błąd w przeniesieniu zadania do innej listy...");
             }
 
-            task.ActivityListId = taskListId;
-            LoadTasksToLists();
+            repetition.ActivityListId = taskListId;
+            LoadDataToLists();
 
             StateHasChanged();
         }
@@ -266,29 +264,26 @@ public partial class Tasks
         }
     }
 
-    public async Task RemoveTask(int taskId)
+    public async Task RemoveRepetition(int id)
     {
-        var task = _allActivitiesDto.FirstOrDefault(x => x.ActivityId == taskId);
-        if (task is not null)
+        try
         {
-            try
+            var removeRepetitionResult = await ManagementService.RemoveRepetitionAsync(id);
+
+            if (!removeRepetitionResult.IsSuccess)
             {
-                var removeActivityResult = await ManagementService.RemoveActivityAsync(taskId);
-
-                if (!removeActivityResult.IsSuccess)
-                {
-                    throw new Exception(removeActivityResult.Message ?? "Błąd w usunięciu aktywności..");
-                }
-
-                _allActivitiesDto.Remove(task);
-                LoadTasksToLists();
-
-                SnackbarService.Show("Usunięto zadanie", Severity.Normal, true, false);
+                throw new Exception(removeRepetitionResult.Message ?? "Błąd w usunięciu aktywności..");
             }
-            catch (Exception ex)
-            {
-                SnackbarService.Show(ex.Message, Severity.Warning, true, false);
-            }
+
+            _repetitions.RemoveAll(x => x.RepetitionId == id);
+
+            LoadDataToLists();
+
+            SnackbarService.Show("Usunięto zadanie", Severity.Normal, true, false);
+        }
+        catch (Exception ex)
+        {
+            SnackbarService.Show(ex.Message, Severity.Warning, true, false);
         }
     }
 

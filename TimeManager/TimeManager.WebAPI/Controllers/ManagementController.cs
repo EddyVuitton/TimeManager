@@ -71,6 +71,20 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         }
     }
 
+    [HttpGet("GetRepetitionsAsync")]
+    public async Task<HttpResultT<List<RepetitionDto>>> GetRepetitionsAsync(int userId)
+    {
+        try
+        {
+            var result = await _businessLogic.GetRepetitionsAsync(userId);
+            return HttpHelper.Ok(result);
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error<List<RepetitionDto>>(e);
+        }
+    }
+
     #endregion Gets
 
     #region Posts
@@ -137,6 +151,34 @@ public class ManagementController(IManagement businessLogic) : ControllerBase
         try
         {
             await _businessLogic.MoveTaskToListAsync(taskId, taskListId);
+            return HttpHelper.Ok();
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error(e);
+        }
+    }
+
+    [HttpPost("RemoveRepetitionAsync")]
+    public async Task<HttpResult> RemoveRepetitionAsync(int repetitionId)
+    {
+        try
+        {
+            await _businessLogic.RemoveRepetitionAsync(repetitionId);
+            return HttpHelper.Ok();
+        }
+        catch (Exception e)
+        {
+            return HttpHelper.Error(e);
+        }
+    }
+
+    [HttpPost("MoveRepetitionToListAsync")]
+    public async Task<HttpResult> MoveRepetitionToListAsync(int repetitionId, int taskListId)
+    {
+        try
+        {
+            await _businessLogic.MoveRepetitionToListAsync(repetitionId, taskListId);
             return HttpHelper.Ok();
         }
         catch (Exception e)

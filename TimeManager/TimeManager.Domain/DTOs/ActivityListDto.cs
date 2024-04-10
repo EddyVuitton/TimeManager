@@ -9,4 +9,5 @@ public class ActivityListDto
     public int UserId { get; set; }
 
     public List<ActivityDto> Tasks { get; set; } = [];
+    public List<RepetitionDto> Repetitions { get; set; } = [];
 }

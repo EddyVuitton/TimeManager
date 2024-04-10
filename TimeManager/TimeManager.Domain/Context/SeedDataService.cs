@@ -24,7 +24,7 @@ public static class SeedDataService
         context.SaveChanges();
 
         //Repetition
-        var repetition1 = AddRepetition(context, 1);
+        var repetition1 = AddRepetition(context, 1, "Przykładowe zadanie");
 
         //Default hour type
         var hourTypeId = context.HourType.First(x => x.Name == "10:00").Id;
@@ -42,7 +42,7 @@ public static class SeedDataService
         var activity1 = new Activity()
         {
             Day = DateTime.Now,
-            Title = "Przykładowe zadanie",
+            Title = repetition1.InitialTitle,
             Description = string.Empty,
             HourTypeId = hourTypeId,
             Repetition = repetition1,
@@ -64,11 +64,12 @@ public static class SeedDataService
         context.RepetitionType.Add(new RepetitionType() { Name = "W dni powszednie (od poniedziałku do piątku)" });
     }
 
-    private static Repetition AddRepetition(DBContext context, int typeId)
+    private static Repetition AddRepetition(DBContext context, int typeId, string? initialTitle)
     {
         var repetition = new Repetition()
         {
-            RepetitionTypeId = typeId
+            RepetitionTypeId = typeId,
+            InitialTitle = initialTitle
         };
         context.Repetition.Add(repetition);
         context.SaveChanges();

@@ -192,3 +192,12 @@
         background-color: inherit !important;
         cursor: default !important
     }
+
+.repetition {
+    border-radius: 5px;
+}
+
+    .repetition:hover {
+        background-color: #eee;
+        cursor: default;
+    }

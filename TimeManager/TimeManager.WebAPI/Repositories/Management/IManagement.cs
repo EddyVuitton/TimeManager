@@ -16,4 +16,7 @@ public interface IManagement
     Task<ActivityListDto> UpdateActivityListAsync(ActivityListDto activityList);
     Task RemoveActivityListAsync(int activityListId);
     Task MoveTaskToListAsync(int taskId, int taskListId);
+    Task<List<RepetitionDto>> GetRepetitionsAsync(int userId);
+    Task RemoveRepetitionAsync(int repetitionId);
+    Task MoveRepetitionToListAsync(int repetitionId, int taskListId);
 }

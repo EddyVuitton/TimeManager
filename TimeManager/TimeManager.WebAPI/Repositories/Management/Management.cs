@@ -4,7 +4,6 @@ using TimeManager.Domain.Context;
 using TimeManager.Domain.DTOs;
 using TimeManager.Domain.Entities;
 using TimeManager.Domain.Enums;
-using TimeManager.WebAPI.Extensions;
 using TimeManager.WebAPI.Helpers;
 
 namespace TimeManager.WebAPI.Repositories.Management;
@@ -47,7 +46,8 @@ public class Management(DBContext context) : IManagement
         var newActivities = new List<Activity>();
         var newRepetition = (await _context.Repetition.AddAsync(new Repetition()
         {
-            RepetitionTypeId = activity.RepetitionTypeId
+            RepetitionTypeId = activity.RepetitionTypeId,
+            InitialTitle = activity.Title
         })).Entity;
 
         switch (repetitionEnum)
@@ -196,6 +196,57 @@ public class Management(DBContext context) : IManagement
         if (task is not null && taskList is not null)
         {
             task.ActivityList = taskList;
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task<List<RepetitionDto>> GetRepetitionsAsync(int userId)
+    {
+        var userActivityLists = _context.ActivityList.Where(x => x.UserId == userId);
+        var result =
+            from aL in userActivityLists
+            join a in _context.Activity on aL.Id equals a.ActivityListId
+            join r in _context.Repetition on a.RepetitionId equals r.Id
+            group r by new
+            {
+                r.Id,
+                r.RepetitionTypeId,
+                r.InitialTitle,
+                ActivityListId = aL.Id
+            } into groupedR
+            select new RepetitionDto
+            {
+                RepetitionId = groupedR.Key.Id,
+                RepetitionTypeId = groupedR.Key.RepetitionTypeId,
+                InitialTitle = groupedR.Key.InitialTitle,
+                ActivityListId = groupedR.Key.ActivityListId
+            };
+
+        return await result.ToListAsync() ?? [];
+    }
+
+    public async Task RemoveRepetitionAsync(int repetitionId)
+    {
+        var repetitionToRemove = await _context.Repetition.FirstOrDefaultAsync(x => x.Id == repetitionId);
+        var activitiesToRemove = _context.Activity.Where(a => a.RepetitionId == repetitionId);
+
+        if (activitiesToRemove is not null && repetitionToRemove is not null)
+        {
+            _context.Repetition.Remove(repetitionToRemove);
+            _context.Activity.RemoveRange(activitiesToRemove);
+
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task MoveRepetitionToListAsync(int repetitionId, int taskListId)
+    {
+        var activityList = await _context.ActivityList.FirstOrDefaultAsync(x => x.Id == taskListId);
+        var activities = _context.Activity.Where(a => a.RepetitionId == repetitionId);
+
+        if (activityList is not null && activities is not null)
+        {
+            await activities.ForEachAsync(x => x.ActivityList = activityList);
             await _context.SaveChangesAsync();
         }
     }

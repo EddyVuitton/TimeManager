@@ -121,4 +121,31 @@ public class ManagementService(HttpClient httpClient) : IManagementService
 
         return deserialisedResponse ?? new();
     }
+
+    public async Task<HttpResultT<List<RepetitionDto>>> GetRepetitionsAsync(int userId)
+    {
+        var response = await _httpClient.GetAsync($"{_route}/GetRepetitionsAsync?userId={userId}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResultT<List<RepetitionDto>>>(responseContent);
+
+        return deserialisedResponse ?? new();
+    }
+
+    public async Task<HttpResult> RemoveRepetitionAsync(int repetitionId)
+    {
+        var response = await _httpClient.PostAsync($"{_route}/RemoveRepetitionAsync?repetitionId={repetitionId}", null);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResult>(responseContent);
+
+        return deserialisedResponse ?? new();
+    }
+
+    public async Task<HttpResult> MoveRepetitionToListAsync(int repetitionId, int taskListId)
+    {
+        var response = await _httpClient.PostAsync($"{_route}/MoveRepetitionToListAsync?repetitionId={repetitionId}&taskListId={taskListId}", null);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var deserialisedResponse = JsonConvert.DeserializeObject<HttpResult>(responseContent);
+
+        return deserialisedResponse ?? new();
+    }
 }
