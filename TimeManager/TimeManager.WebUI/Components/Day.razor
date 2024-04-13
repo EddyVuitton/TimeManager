@@ -1,10 +1,19 @@
-﻿<div class="day" @onclick="OpenDialog">
-    @if (DayDto.Day.Day <= 7)
-    {
-        var culture = new System.Globalization.CultureInfo("pl-PL");
-        var weekName = culture.DateTimeFormat.GetDayName(DayDto.Day.DayOfWeek);
-        <MudText Class="hide-text-on-overflow" Align="Align.Center">@(weekName)</MudText>
-    }
-    <MudText Align="Align.Center">@(_dayText)</MudText>
-    <Activity @ref="ActivityRef" Day="this" ActivitiesDto="DayDto?.Activities" />
-</div>
+﻿@{
+    string _dayText = string.Empty;
+    _dayText = DayDto.Day.Day.ToString();
+    _dayText += DayDto.Day.Day == 1 ? " " + BasicHelper.GetMonthName(DayDto.Day.Month)[..3].ToLower() : string.Empty;
+
+    string _style = string.Empty;
+    _style = "font-size: 12px;";
+    _style += !IsBeforeOrAfter ? " font-weight: 500;" : string.Empty;
+
+    <div class="day" @onclick="OpenDialog">
+        @if (IsFirst7)
+        {
+            var dayWeekName = BasicHelper.GetShortDayWeekName((int)DayDto.Day.DayOfWeek).ToUpper();
+            <MudText Style="color: #70757a; font-size: 11px; font-weight: 500;" Align="Align.Center">@(dayWeekName)</MudText>
+        }
+        <MudText Style="@(_style)" Align="Align.Center">@(_dayText)</MudText>
+        @*<Activity @ref="ActivityRef" Day="this" ActivitiesDto="DayDto?.Activities" />*@
+    </div>
+}

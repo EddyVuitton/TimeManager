@@ -1,5 +1,4 @@
 ﻿using TimeManager.Domain.DTOs;
-using TimeManager.Domain.Entities;
 
 namespace TimeManager.WebUI.Helpers;
 
@@ -89,9 +88,9 @@ public static class BasicHelper
     public static List<ActivityDto> GetMonthActivities(List<ActivityDto>? activities, DateTime date) =>
         activities?.Where(x => x.Day.Year == date.Year && x.Day.Month == date.Month).ToList() ?? [];
 
-    public static string GetShortDayWeekName(int day)
+    public static string GetShortDayWeekName(int dayOfWeek)
     {
-        return day switch
+        return dayOfWeek switch
         {
             0 => "Niedz.",
             1 => "Pon.",

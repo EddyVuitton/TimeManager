@@ -207,10 +207,12 @@ public class Management(DBContext context) : IManagement
             from aL in userActivityLists
             join a in _context.Activity on aL.Id equals a.ActivityListId
             join r in _context.Repetition on a.RepetitionId equals r.Id
+            join rt in _context.RepetitionType on r.RepetitionTypeId equals rt.Id
             group r by new
             {
                 r.Id,
                 r.RepetitionTypeId,
+                RepetitionName = rt.Name,
                 r.InitialTitle,
                 ActivityListId = aL.Id
             } into groupedR
@@ -218,6 +220,7 @@ public class Management(DBContext context) : IManagement
             {
                 RepetitionId = groupedR.Key.Id,
                 RepetitionTypeId = groupedR.Key.RepetitionTypeId,
+                RepetitionName = groupedR.Key.RepetitionName,
                 InitialTitle = groupedR.Key.InitialTitle,
                 ActivityListId = groupedR.Key.ActivityListId
             };

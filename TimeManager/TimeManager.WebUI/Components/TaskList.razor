@@ -13,6 +13,10 @@
             <div class="d-flex flex-row repetition" title="@(repetition.InitialTitle)">
                 <span class="align-self-center" style="padding-left: 5%;">@(repetition.InitialTitle)</span>
                 <MudSpacer />
+                @if (repetition.RepetitionTypeId != 1)
+                {
+                    <MudIcon Title="@repetition.RepetitionName" Icon="@Icons.Material.Filled.Repeat" />
+                }
                 <MudMenu Icon="@Icons.Material.Filled.MoreVert" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopRight" Size="Size.Small">
                     <MenuTask TasksRef="TasksRef" TaskListRef="this" RepetitionDto="repetition" />
                 </MudMenu>

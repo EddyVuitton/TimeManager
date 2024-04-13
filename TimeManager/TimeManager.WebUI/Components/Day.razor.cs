@@ -15,22 +15,12 @@ public partial class Day
     [CascadingParameter(Name = "MonthRef")] public Month MonthRef { get; private init; } = null!;
 
     [Parameter] public DayDto DayDto { get; init; } = null!;
+    [Parameter] public bool IsFirst7 { get; init; }
+    [Parameter] public bool IsBeforeOrAfter { get; init; }
 
     private Activity? ActivityRef { get; set; }
 
-    private string _dayText = string.Empty;
-
-    protected override void OnInitialized()
-    {
-        InitFields();
-    }
-
     #region PrivateMethods
-
-    private void InitFields()
-    {
-        _dayText = DayDto.Day.Day.ToString();
-    }
 
     private void OpenDialog()
     {

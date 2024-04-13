@@ -1,35 +1,16 @@
-.month {
-    width: 100%;
-    height: 100%;
-}
-
-.month-contener {
-    justify-content: center;
-    align-items: center;
-}
-
-.month-top {
+.day-container {
     display: flex;
-    justify-content: center;
-    border-top: 0.1rem solid #cccccc;
+    flex-wrap: wrap;
+    height: 85vh;
+    border-bottom: 1px solid #cccccc;
 }
 
 .day {
-    width: 14.286vw;
-    height: 17.5vh;
-    /*height: 138px;*/
-    border-left: 0.1rem solid #cccccc;
-}
-
-.week {
-    width: fit-content;
-    border-right: 0.1rem solid #cccccc;
-    border-bottom: 0.1rem solid #cccccc;
-}
-
-.week-name {
-    width: 271px;
-    height: 20px;
+    flex: 1 1 auto;
+    flex-basis: 13%;
+    border-top: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    cursor: default;
 }
 
 .activity-list-content {
@@ -201,3 +182,12 @@
         background-color: #eee;
         cursor: default;
     }
+
+.month-title {
+    width: 300px;
+    height: 56px;
+    margin: 0% 1%;
+    text-align: center;
+    align-content: center;
+    cursor: default;
+}

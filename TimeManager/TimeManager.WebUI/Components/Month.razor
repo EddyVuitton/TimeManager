@@ -8,7 +8,7 @@
                 Color="Color.Primary" />
         @{
             var year = _monthDto.Year != 0 ? _monthDto.Year.ToString() : string.Empty;
-            <MudText Style="width: 370px; height: 56px; margin: 0% 1%; text-align: center;" Typo="Typo.h3">@(_monthName) @(year)</MudText>
+            <MudText Class="month-title" Style="" Typo="Typo.h4">@(_monthName) @(year)</MudText>
         }
         <MudFab OnClick="IncreaseMonth"
                 Class="align-self-center"
@@ -20,27 +20,14 @@
 </div>
 
 <CascadingValue TValue="Month" Name="MonthRef" Value="this">
-    <div class="month-top">
+    <div class="day-container">
         @{
-            var dayCount = 1;
-
-            <div style="width: fit-content; height: fit-content;">
-                @for (int week = 1; week <= _weeks; week++) //Render weeks
-                {
-                    int daysToRender = _daysInLastWeek > 0 ? week < _weeks ? 7 : _daysInLastWeek : 7;
-
-                    <div class="d-flex flex-row week">
-                        @for (int day = 0; day < daysToRender; day++) //Render days
-                        {
-                            var dayDto = _monthDto.Days.FirstOrDefault(x => x.Day.Day == dayCount);
-                            <Day DayDto="dayDto" />
-
-                            dayCount++;
-                        }
-                    </div>
-
-                }
-            </div>
+            var count = 1;
+            foreach (var day in _days)
+            {
+                <Day DayDto="day" IsFirst7="@(count <= 7)" IsBeforeOrAfter="@(day.Day.Month != _monthDto.Month)" />
+                count++;
+            }
         }
     </div>
 </CascadingValue>
