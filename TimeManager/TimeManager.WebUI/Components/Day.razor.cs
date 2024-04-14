@@ -18,8 +18,6 @@ public partial class Day
     [Parameter] public bool IsFirst7 { get; init; }
     [Parameter] public bool IsBeforeOrAfter { get; init; }
 
-    private Activity? ActivityRef { get; set; }
-
     #region PrivateMethods
 
     private void OpenDialog()
@@ -65,7 +63,7 @@ public partial class Day
         };
 
         DialogService.Show<LoginDialog>(string.Empty, options);
-        SnackbarService.Show("Przed dodaniem wydarzenia zaloguj się lub stwórz konto", Severity.Info, true, false);
+        SnackbarService.Show("Przed dodaniem zadania zaloguj się lub stwórz konto", Severity.Info, true, false);
     }
 
     #endregion PrivateMethods
@@ -77,7 +75,7 @@ public partial class Day
         activity.UserId = MonthRef.UserId;
         MonthRef.AddActivity(activity);
         DayDto.Activities.Add(activity);
-        ActivityRef?.ActivityListPopoverRef?.InitComponent();
+
         StateHasChanged();
     }
 

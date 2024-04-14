@@ -9,18 +9,18 @@ public partial class ActivityListPopover
 {
     [Parameter] public Activity ActivityRef { get; init; } = null!;
 
-    private List<ActivityDto> _activitiesDto = null!;
     private string _shortDayWeekName = null!;
     private int _dayNumber;
 
     protected override void OnInitialized()
     {
-        InitComponent();
+        _shortDayWeekName = BasicHelper.GetShortDayWeekName((int)ActivityRef.Day.DayDto.Day.DayOfWeek).ToUpper();
+        _dayNumber = ActivityRef.Day.DayDto.Day.Day;
     }
 
     private void OpenActivityPopover(ActivityDto activity)
     {
-        foreach (var a in _activitiesDto)
+        foreach (var a in ActivityRef.ActivitiesDto)
         {
             if (a.Equals(activity))
             {
@@ -35,12 +35,4 @@ public partial class ActivityListPopover
 
     private void ClosePopover() =>
         ActivityRef.ToggleActivityListPopover();
-
-    public void InitComponent()
-    {
-        _activitiesDto = ActivityRef.ActivitiesDto;
-        _shortDayWeekName = BasicHelper.GetShortDayWeekName((int)ActivityRef.Day.DayDto.Day.DayOfWeek).ToUpper();
-        _dayNumber = ActivityRef.Day.DayDto.Day.Day;
-        StateHasChanged();
-    }
 }

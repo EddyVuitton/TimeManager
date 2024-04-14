@@ -6,7 +6,7 @@
 }
 
 .day {
-    flex: 1 1 auto;
+    flex: 1 1 0%;
     flex-basis: 13%;
     border-top: 1px solid #cccccc;
     border-left: 1px solid #cccccc;
@@ -27,7 +27,7 @@
 }
 
 .add-activity-body {
-    width: 430px;
+    width: auto;
     display: flex;
     flex-direction: column;
 }
@@ -64,7 +64,7 @@
     }
 
 .activity-body {
-    width: auto;
+    width: 250px;
     height: 24px;
     display: flex;
     background-color: #5496ff;

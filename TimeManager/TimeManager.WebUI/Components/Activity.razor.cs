@@ -44,6 +44,7 @@ public partial class Activity
     public async Task RemoveActivity(ActivityDto activity)
     {
         await MonthRef.RemoveActivity(activity);
+        StateHasChanged();
         Day.DayStateHasChanged();
     }
 

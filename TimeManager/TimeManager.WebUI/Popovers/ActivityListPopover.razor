@@ -3,7 +3,7 @@
             Fixed="true"
             AnchorOrigin="Origin.TopLeft"
             TransformOrigin="@Origin.TopRight">
-    <div class="d-flex flex-column" style="width: 225px; height: auto;">
+    <div class="d-flex flex-column" style="width: auto; height: auto;">
         <div class="d-flex justify-center">
             <span class="day-short-name" style="">@(_shortDayWeekName)</span>
         </div>
@@ -13,7 +13,7 @@
         <div class="d-flex justify-center" style="margin-top: -30px;">
             <span class="day-number">@(_dayNumber)</span>
         </div>
-        @foreach (var a in _activitiesDto)
+        @foreach (var a in ActivityRef.ActivitiesDto)
         {
             var localTitle = a.Title ?? "(Bez tytułu)";
 

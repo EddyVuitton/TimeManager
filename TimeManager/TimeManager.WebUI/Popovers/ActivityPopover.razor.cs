@@ -33,7 +33,7 @@ public partial class ActivityPopover
         _dayName = $"{dayWeekName}, {dayBody.Day} {polishMonthInflection}";
         _titleStyle = _TITLEUNEDITABLE;
         _placeholder = ActivityDto.Title ?? "(Bez tytułu)";
-        _activityListName = ActivityRef.MonthRef.GetActivityLists().First(x => x.Key == ActivityDto.ActivityListId).Value;
+        _activityListName = ActivityRef.MonthRef.GetActivityLists().First(x => x.ID == ActivityDto.ActivityListId).Name;
     }
 
     private void ToggleReadonly()
@@ -53,6 +53,7 @@ public partial class ActivityPopover
 
     private async Task DeleteActivity()
     {
+        ActivityDto.IsOpen = false;
         await ActivityRef.RemoveActivity(ActivityDto);
         StateHasChanged();
     }

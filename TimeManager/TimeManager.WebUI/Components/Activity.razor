@@ -1,34 +1,33 @@
-﻿<div @onclick:stopPropagation="true">
-    @*
-        Div, który ma ustawiony stop propagation na true blokuje uruchomienie działań
-        z komponentu rodzica, tzn. w przypadku nałożenia na siebie dwóch komponentów,
-        gdzie oba mają eventy onclick, ale jeden jest dzieckiem rodzica,
-        ten który ma stop propagation na true (dziecko) zostanie uruchomiony
-    *@
-    @if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
-    {
-        var dayNumber = Day.DayDto.Day.Day;
-        var isBetween1and7 = (dayNumber >= 1) && (dayNumber <= 7);
-        var take = isBetween1and7 ? 3 : 4;
-        var topActivities = ActivitiesDto.Take(take);
-
-        @foreach (var a in topActivities)
+﻿<div style="position: absolute; width: auto;">
+    <div @onclick:stopPropagation="true" class="d-flex flex-column">
+        @*
+            Div, który ma ustawiony stop propagation na true blokuje uruchomienie działań
+            z komponentu rodzica, tzn. w przypadku nałożenia na siebie dwóch komponentów,
+            gdzie oba mają eventy onclick, ale jeden jest dzieckiem rodzica,
+            ten który ma stop propagation na true (dziecko) zostanie uruchomiony
+        *@
+        @if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
         {
-            var localTitle = a.Title ?? "(Bez tytułu)";
+            var top4Activities = ActivitiesDto.Take(4);
 
-            <div class="activity-body" @onclick="(() => OpenActivityPopover(a))">
-                <span class="activity-title hide-text-on-overflow">@localTitle</span>
-            </div>
-            <ActivityPopover ActivityRef="this" ActivityDto="a" />
-        }
-        @if (ActivitiesDto.Count > take)
-        {
-            var leftActivities = ActivitiesDto.Count - take;
+            @foreach (var a in top4Activities)
+            {
+                var localTitle = a.Title ?? "(Bez tytułu)";
 
-            <div class="activity-body" @onclick="ToggleActivityListPopover">
-                <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
-            </div>
-            <ActivityListPopover @ref="ActivityListPopoverRef" ActivityRef="this" />
+                <div class="activity-body" @onclick="(() => OpenActivityPopover(a))">
+                    <span class="activity-title hide-text-on-overflow">@localTitle</span>
+                </div>
+                <ActivityPopover ActivityRef="this" ActivityDto="a" />
+            }
+            @if (ActivitiesDto.Count > 4)
+            {
+                var leftActivities = ActivitiesDto.Count - 4;
+
+                <div class="activity-body" @onclick="ToggleActivityListPopover">
+                    <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
+                </div>
+                <ActivityListPopover @ref="ActivityListPopoverRef" ActivityRef="this" />
+            }
         }
-    }
+    </div>
 </div>

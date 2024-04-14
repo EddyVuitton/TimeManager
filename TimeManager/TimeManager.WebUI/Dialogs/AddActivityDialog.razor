@@ -18,14 +18,14 @@
                             <select @onchange="((e) => OnRepetitionChange(e))" disabled="@_isRepetitionSelectDisabled">
                                 @foreach (var repetitionType in RepetitionTypeList)
                                 {
-                                    <option value="@repetitionType.Key">@repetitionType.Value</option>
+                                    <option value="@repetitionType.Id">@repetitionType.Name</option>
                                 }
                             </select>
                         </div>
                     }
                     else
                     {
-                        var _tempRepetitionTypeValue = RepetitionTypeList.FirstOrDefault(x => x.Key == _repetitionTypeId).Value;
+                        var _tempRepetitionTypeValue = RepetitionTypeList.First(x => x.Id == _repetitionTypeId).Name;
                         <div class="align-self-center" style="font-size: 1rem;">@_tempRepetitionTypeValue</div>
                     }
                     @if (_showAddDeadlineButton)
@@ -34,7 +34,7 @@
                             <select @onchange="((e) => OnHourChange(e))">
                                 @foreach (var hourType in HourTypeList)
                                 {
-                                    <option value="@hourType.Key">@hourType.Value</option>
+                                    <option value="@hourType.Id">@hourType.Name</option>
                                 }
                             </select>
                         </div>
@@ -70,7 +70,7 @@
                         <select @onchange="((e) => OnActivityListChange(e))">
                             @foreach (var activityList in ActivityLists)
                             {
-                                <option value="@activityList.Key">@activityList.Value</option>
+                                <option value="@activityList.ID">@activityList.Name</option>
                             }
                         </select>
                     </div>

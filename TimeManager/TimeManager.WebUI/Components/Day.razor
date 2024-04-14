@@ -14,6 +14,6 @@
             <MudText Style="color: #70757a; font-size: 11px; font-weight: 500;" Align="Align.Center">@(dayWeekName)</MudText>
         }
         <MudText Style="@(_style)" Align="Align.Center">@(_dayText)</MudText>
-        @*<Activity @ref="ActivityRef" Day="this" ActivitiesDto="DayDto?.Activities" />*@
+        <Activity Day="this" ActivitiesDto="DayDto?.Activities" />
     </div>
 }

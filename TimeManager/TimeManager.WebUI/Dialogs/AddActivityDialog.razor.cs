@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using TimeManager.Domain.DTOs;
+using TimeManager.Domain.Entities;
 using TimeManager.WebUI.Components;
 using TimeManager.WebUI.Helpers;
 
@@ -12,9 +13,9 @@ public partial class AddActivityDialog
 
     [Parameter] public DayDto DayDto { get; init; } = null!;
     [Parameter] public Day DayRef { get; init; } = null!;
-    [Parameter] public Dictionary<int, string> HourTypeList { get; init; } = null!;
-    [Parameter] public Dictionary<int, string> RepetitionTypeList { get; init; } = null!;
-    [Parameter] public Dictionary<int, string> ActivityLists { get; init; } = null!;
+    [Parameter] public List<HourType> HourTypeList { get; init; } = null!;
+    [Parameter] public List<RepetitionType> RepetitionTypeList { get; init; } = null!;
+    [Parameter] public List<ActivityListDto> ActivityLists { get; init; } = null!;
 
     private string? _title;
     private string _description = null!;
@@ -41,8 +42,8 @@ public partial class AddActivityDialog
         _dayName = string.Empty;
         _showAddDeadlineButton = false;
         _isRepetitionSelectDisabled = true;
-        _repetitionTypeId = RepetitionTypeList.FirstOrDefault().Key;
-        _activityListId = ActivityLists.FirstOrDefault().Key;
+        _repetitionTypeId = RepetitionTypeList.First().Id;
+        _activityListId = ActivityLists.First().ID;
     }
 
     private void SetDayName()
