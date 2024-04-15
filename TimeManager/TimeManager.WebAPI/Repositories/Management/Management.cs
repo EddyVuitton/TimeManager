@@ -127,10 +127,14 @@ public class Management(DBContext context) : IManagement
     public async Task<ActivityDto> UpdateActivityAsync(ActivityDto activity)
     {
         var updatedActivity = await _context.Activity.FindAsync(activity.ActivityId);
-        if (updatedActivity is not null)
+        var repetition = await _context.Repetition.FirstOrDefaultAsync(x => x.Id == activity.RepetitionId);
+
+        if (updatedActivity is not null && repetition is not null)
         {
             updatedActivity.Title = activity.Title;
             updatedActivity.Description = activity.Description;
+            repetition.InitialTitle = activity.Title;
+
             await _context.SaveChangesAsync();
         }
 

@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Popovers;
 
@@ -54,21 +52,5 @@ public partial class Activity
     {
         await MonthRef.UpdateActivity(activity);
         Day.DayStateHasChanged();
-    }
-
-    private bool isVisible;
-    private string _overlayStyle = "position: fixed;";
-
-    public void OpenOverlay(MouseEventArgs args)
-    {
-        if (args.Button == 2)
-        {
-            _overlayStyle = "position: fixed;";
-            _overlayStyle += $"left: {args.ClientX}px;";
-            _overlayStyle += $"top: {args.ClientY}px;";
-            isVisible = true;
-        }
-
-        StateHasChanged();
     }
 }

@@ -2,56 +2,48 @@
     .mud-overlay:hover {
         cursor: default;
     }
-
-    .div-test {
-        position: relative;
-        width: 100px;
-        height: 100px;
-        background-color: lightblue;
-        border: 1px solid blue;
-    }
-
-        .div-test:hover {
-            cursor: pointer;
-        }
 </style>
 
-<div style="position: absolute;">
-    <div @onclick:stopPropagation="true" class="d-flex flex-column">
-        @*
-        Div, który ma ustawiony stop propagation na true blokuje uruchomienie działań
-        z komponentu rodzica, tzn. w przypadku nałożenia na siebie dwóch komponentów,
-        gdzie oba mają eventy onclick, ale jeden jest dzieckiem rodzica,
-        ten który ma stop propagation na true (dziecko) zostanie uruchomiony
-        *@
-        @if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
+<div class="d-flex flex-column" @onclick:stopPropagation="true">
+    @*
+    Div, który ma ustawiony stop propagation na true blokuje uruchomienie działań
+    z komponentu rodzica, tzn. w przypadku nałożenia na siebie dwóch komponentów,
+    gdzie oba mają eventy onclick, ale jeden jest dzieckiem rodzica,
+    ten który ma stop propagation na true (dziecko) zostanie uruchomiony
+    *@
+    @if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
+    {
+        var top4Activities = ActivitiesDto.Take(4);
+
+        @foreach (var a in top4Activities)
         {
-            var top4Activities = ActivitiesDto.Take(4);
+            var localTitle = a.Title ?? "(Bez tytułu)";
 
-            @foreach (var a in top4Activities)
-            {
-                var localTitle = a.Title ?? "(Bez tytułu)";
-
-                <div class="activity-body" @onclick="(() => OpenActivityPopover(a))">
-                    @* @oncontextmenu="OpenOverlay" @oncontextmenu:preventDefault="true">*@
-
-                    <span class="activity-title hide-text-on-overflow">@localTitle</span>
-                </div>
-                <ActivityPopover ActivityRef="this" ActivityDto="a" />
-            }
-            @if (ActivitiesDto.Count > 4)
-            {
-                var leftActivities = ActivitiesDto.Count - 4;
-
-                <div class="activity-body" @onclick="ToggleActivityListPopover">
-                    <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
-                </div>
-                <ActivityListPopover @ref="ActivityListPopoverRef" ActivityRef="this" />
-            }
+            <MudMenu ActivationEvent="@MouseEvent.RightClick" Dense="true">
+                <ActivatorContent>
+                    <div class="activity-body" @onclick="() => OpenActivityPopover(a)">
+                        <span class="activity-title hide-text-on-overflow">@localTitle</span>
+                    </div>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem Style="width: 150px; ">
+                        <div @onclick="@(async () => await RemoveActivity(a))" class="d-flex" style="">
+                            <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.Delete" />
+                            <span class="align-self-center" style="font-size: 15px; padding-left: 10px;">Usuń</span>
+                        </div>
+                    </MudMenuItem>
+                </ChildContent>
+            </MudMenu>
+            <ActivityPopover ActivityRef="this" ActivityDto="a" />
         }
-    </div>
-</div>
+        @if (ActivitiesDto.Count > 4)
+        {
+            var leftActivities = ActivitiesDto.Count - 4;
 
-<MudOverlay @bind-Visible="isVisible" AutoClose="true">
-    <div class="div-test" style="@(_overlayStyle)">1234</div>
-</MudOverlay>
+            <div class="activity-body" @onclick="ToggleActivityListPopover">
+                <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
+            </div>
+            <ActivityListPopover @ref="ActivityListPopoverRef" ActivityRef="this" />
+        }
+    }
+</div>
