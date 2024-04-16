@@ -2,6 +2,15 @@
     .mud-overlay:hover {
         cursor: default;
     }
+
+    .custom-menu-item {
+        padding: 5px 10px;
+    }
+
+    .custom-menu-item:hover {
+        cursor: pointer;
+        background-color: var(--mud-palette-action-default-hover);
+    }
 </style>
 
 <div class="d-flex flex-column" style="position: absolute;" @onclick:stopPropagation="true">
@@ -17,35 +26,37 @@
 
         var topNActivities = ActivitiesDto.Take(topN);
 
-        @foreach (var a in topNActivities)
-        {
-            var localTitle = a.Title ?? "(Bez tytułu)";
+        <div style="position: relative;" @oncontextmenu="TogglePopoverActivityMenu" @oncontextmenu:preventDefault="@true">
+            @foreach (var a in topNActivities)
+            {
+                var localTitle = a.Title ?? "(Bez tytułu)";
 
-            <MudMenu ActivationEvent="@MouseEvent.RightClick" Dense="true">
-                <ActivatorContent>
-                    <div class="activity-body" @onclick="() => OpenActivityPopover(a)">
-                        <span class="activity-title hide-text-on-overflow">@localTitle</span>
-                    </div>
-                </ActivatorContent>
-                <ChildContent>
-                    <MudMenuItem Style="width: 150px; ">
-                        <div @onclick="@(async () => await RemoveActivity(a))" class="d-flex" style="">
+                <div class="activity-body" @onclick="() => OpenActivityPopover(a)">
+                    <span class="activity-title hide-text-on-overflow">@localTitle</span>
+                </div>
+
+                <ActivityPopover ActivityRef="this" ActivityDto="a" />
+
+                <MudPopover Open="@_isOpenPopoverMenu" @ontouchend:preventDefault="@true">
+                    <MudPaper Style="@_popoverStyle">
+                        <div @onclick="@(async () => await RemoveActivity(a))" class="d-flex custom-menu-item">
                             <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.Delete" />
                             <span class="align-self-center" style="font-size: 15px; padding-left: 10px;">Usuń</span>
                         </div>
-                    </MudMenuItem>
-                </ChildContent>
-            </MudMenu>
-            <ActivityPopover ActivityRef="this" ActivityDto="a" />
-        }
-        @if (ActivitiesDto.Count > topN)
-        {
-            var leftActivities = ActivitiesDto.Count - topN;
+                    </MudPaper>
+                </MudPopover>
+            }
+            @if (ActivitiesDto.Count > topN)
+            {
+                var leftActivities = ActivitiesDto.Count - topN;
 
-            <div class="activity-body" @onclick="ToggleActivityListPopover">
-                <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
-            </div>
-            <ActivityListPopover @ref="ActivityListPopoverRef" ActivityRef="this" />
-        }
+                <div class="activity-body" @onclick="ToggleActivityListPopover">
+                    <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
+                </div>
+                <ActivityListPopover @ref="ActivityListPopoverRef" ActivityRef="this" />
+            }
+
+            <MudOverlay Visible="_isOpenPopoverMenu" OnClick="@TogglePopoverActivityMenu" LockScroll="true" />
+        </div>
     }
 </div>

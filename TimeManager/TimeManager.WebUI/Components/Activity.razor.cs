@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Popovers;
 
@@ -14,6 +15,11 @@ public partial class Activity
     public ActivityListPopover? ActivityListPopoverRef { get; set; }
 
     public bool OpenActivityListPopover { get; set; } = false;
+
+    private bool _isOpenPopoverMenu = false;
+    private string? _popoverStyle;
+
+    #region PrivateMethods
 
     private void OpenActivityPopover(ActivityDto activity)
     {
@@ -32,6 +38,49 @@ public partial class Activity
         }
     }
 
+    private void TogglePopoverActivityMenu(MouseEventArgs args)
+    {
+        if (_isOpenPopoverMenu)
+        {
+            ClosePopoverActivityMenu();
+        }
+        else
+        {
+            OpenPopoverActivityMenu(args);
+        }
+    }
+
+    private void SetPopoverStyle(MouseEventArgs args)
+    {
+        var clientX = args?.ClientX.ToString("0.##");
+        var clientY = args?.ClientY.ToString("0.##");
+        _popoverStyle = $"width: 135px; padding: 10px 0px; position: fixed !important; left: {clientX}px; top: {clientY}px;";
+    }
+
+    private void OpenPopoverActivityMenu(MouseEventArgs args)
+    {
+        //if (_mudMenuRef.IsOpen)
+        //{
+        //    _mudMenuRef.CloseMenu();
+        //}
+
+        SetPopoverStyle(args);
+        _isOpenPopoverMenu = true;
+
+        StateHasChanged();
+    }
+
+    private void ClosePopoverActivityMenu()
+    {
+        _isOpenPopoverMenu = false;
+        _popoverStyle = null;
+        StateHasChanged();
+    }
+
+    #endregion PrivateMethods
+
+    #region PublicMethods
+
     public void ToggleActivityListPopover()
     {
         OpenActivityListPopover = !OpenActivityListPopover;
@@ -46,6 +95,7 @@ public partial class Activity
         await MonthRef.RemoveActivity(activity);
         StateHasChanged();
         Day.DayStateHasChanged();
+        ClosePopoverActivityMenu();
     }
 
     public async Task UpdateActivity(ActivityDto activity)
@@ -53,4 +103,6 @@ public partial class Activity
         await MonthRef.UpdateActivity(activity);
         Day.DayStateHasChanged();
     }
+
+    #endregion PublicMethods
 }

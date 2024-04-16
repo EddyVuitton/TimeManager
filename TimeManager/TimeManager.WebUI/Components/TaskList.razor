@@ -16,7 +16,7 @@
         <MudButton OnClick="OpenAddActivityDialog" Color="Color.Info" Variant="Variant.Outlined">Dodaj zadanie</MudButton>
         @foreach (var repetition in ActivityList.Repetitions)
         {
-            <div class="" style="position: relative;" @oncontextmenu="TogglePopoverMenu" @oncontextmenu:preventDefault="@true">
+            <div style="position: relative;" @oncontextmenu="TogglePopoverMenu" @oncontextmenu:preventDefault="@true">
                 <div class="d-flex flex-row repetition" title="@(repetition.InitialTitle)">
                     <span class="align-self-center" style="padding-left: 5%;">@(repetition.InitialTitle)</span>
                     <MudSpacer />
