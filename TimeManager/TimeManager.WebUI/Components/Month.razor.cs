@@ -304,7 +304,7 @@ public partial class Month
 
     public List<RepetitionType> GetRepetitionTypes() => _repetitionTypeList;
 
-    public List<ActivityDto> GetActivities() => _allActivitiesDto;
+    public int GetDaysCountInMonth() => _days.Count;
 
     #endregion PublicMethods
 }

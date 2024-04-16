@@ -13,9 +13,11 @@
     *@
     @if (ActivitiesDto is not null && ActivitiesDto.Count > 0)
     {
-        var top4Activities = ActivitiesDto.Take(4);
+        var topN = Day.MonthRef.GetDaysCountInMonth() == 35 ? 4 : 3;
 
-        @foreach (var a in top4Activities)
+        var topNActivities = ActivitiesDto.Take(topN);
+
+        @foreach (var a in topNActivities)
         {
             var localTitle = a.Title ?? "(Bez tytułu)";
 
@@ -36,9 +38,9 @@
             </MudMenu>
             <ActivityPopover ActivityRef="this" ActivityDto="a" />
         }
-        @if (ActivitiesDto.Count > 4)
+        @if (ActivitiesDto.Count > topN)
         {
-            var leftActivities = ActivitiesDto.Count - 4;
+            var leftActivities = ActivitiesDto.Count - topN;
 
             <div class="activity-body" @onclick="ToggleActivityListPopover">
                 <span class="activity-title hide-text-on-overflow">Jeszcze @(leftActivities)</span>
