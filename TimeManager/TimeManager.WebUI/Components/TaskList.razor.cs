@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 using TimeManager.Domain.DTOs;
 using TimeManager.WebUI.Dialogs;
@@ -12,6 +13,12 @@ public partial class TaskList
 
     [Parameter] public ActivityListDto ActivityList { get; init; } = null!;
     [Parameter] public Tasks TasksRef { get; init; } = null!;
+
+    private MudMenu _mudMenuRef = null!;
+    private bool _isOpenPopoverMenu = false;
+    private string? _popoverStyle;
+
+    #region PrivateMethods
 
     private void OpenAddActivityDialog()
     {
@@ -32,6 +39,42 @@ public partial class TaskList
         DialogService.Show<AddActivityFromListDialog>(string.Empty, parameters, options);
     }
 
+    private void TogglePopoverMenu(MouseEventArgs args)
+    {
+        if (_isOpenPopoverMenu)
+        {
+            ClosePopoverMenu();
+        }
+        else
+        {
+            OpenPopoverMenu(args);
+        }
+    }
+
+    private void SetPopoverStyle(MouseEventArgs args)
+    {
+        var clientX = args?.ClientX.ToString("0.##");
+        var clientY = args?.ClientY.ToString("0.##");
+        _popoverStyle = $"padding: 10px 0px; position: fixed !important; left: {clientX}px; top: {clientY}px;";
+    }
+
+    private void OpenPopoverMenu(MouseEventArgs args)
+    {
+        if (_mudMenuRef.IsOpen)
+        {
+            _mudMenuRef.CloseMenu();
+        }
+
+        SetPopoverStyle(args);
+        _isOpenPopoverMenu = true;
+
+        StateHasChanged();
+    }
+
+    #endregion PrivateMethods
+
+    #region PublicMethods
+
     public async Task MoveRepetitionToList(int id, int taskListId)
     {
         await TasksRef.MoveRepetitionToList(id, taskListId);
@@ -43,4 +86,13 @@ public partial class TaskList
         await TasksRef.RemoveRepetition(id);
         StateHasChanged();
     }
+
+    public void ClosePopoverMenu()
+    {
+        _isOpenPopoverMenu = false;
+        _popoverStyle = null;
+        StateHasChanged();
+    }
+
+    #endregion PublicMethods
 }

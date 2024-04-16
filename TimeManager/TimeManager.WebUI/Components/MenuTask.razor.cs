@@ -10,7 +10,7 @@ public partial class MenuTask
 {
     [Inject] public IDialogService DialogService { get; private init; } = null!;
 
-    [CascadingParameter] public MudMenu MudMenu { get; set; } = null!;
+    [CascadingParameter] public MudMenu? MudMenu { get; set; }
 
     [Parameter] public Tasks TasksRef { get; init; } = null!;
     [Parameter] public TaskList TaskListRef { get; init; } = null!;
@@ -18,7 +18,8 @@ public partial class MenuTask
 
     private void CloseMenu()
     {
-        MudMenu.CloseMenu();
+        MudMenu?.CloseMenu();
+        TaskListRef.ClosePopoverMenu();
     }
 
     private void OpenAddListDialog()
