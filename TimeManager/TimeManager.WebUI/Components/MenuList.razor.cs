@@ -67,10 +67,10 @@ public partial class MenuList
             };
 
             var parameters = new DialogParameters
-        {
-            { "TasksRef", TasksRef },
-            { "ListDto", ListDto }
-        };
+            {
+                { "TasksRef", TasksRef },
+                { "ListDto", ListDto }
+            };
 
             DialogService.Show<DeleteListDialog>("Usunąć tę listę?", parameters, options);
         }
