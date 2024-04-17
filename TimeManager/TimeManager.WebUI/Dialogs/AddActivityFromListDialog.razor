@@ -1,6 +1,6 @@
 ﻿<MudDialog>
     <DialogContent>
-        <div class="add-activity-body gap-y-4">
+        <div class="add-activity-body gap-y-4" style="width: 480px;">
             <div class="d-flex flex-row gap-x-8">
                 <div></div>
                 <MudTextField @bind-Value="_title"
@@ -11,16 +11,14 @@
             <div class="d-flex flex-row gap-x-2" style="width: 100%; height: 50px;">
                 <MudIcon Class="align-self-center" Icon="@Icons.Material.Filled.AccessTime" Color="Color.Primary" />
                 <div class="d-flex justify-space-around" style="width: 100%; height: 100%;">
-
                     <div class="align-self-center">
                         <input @bind-value="_dayOfActivity"
                                type="date"
                                style="width: min-content; height: min-content; padding: 5px; border: 1px solid #dddddd; border-radius: 8px;" />
                     </div>
-
                     @if (_showAddDeadlineButton)
                     {
-                        <div class="custom-select align-self-center">
+                        <div class="custom-select align-self-center" style="margin: 0% 2%;">
                             <select @onchange="((e) => OnRepetitionChange(e))" disabled="@_isRepetitionSelectDisabled">
                                 @foreach (var repetitionType in RepetitionTypes)
                                 {
@@ -32,7 +30,7 @@
                     else
                     {
                         var _tempRepetitionTypeValue = RepetitionTypes.First(x => x.Id == _repetitionTypeId).Name;
-                        <div class="align-self-center" style="font-size: 1rem;">@_tempRepetitionTypeValue</div>
+                        <div class="align-self-center" style="font-size: 1rem; margin: 0% 1%;">@_tempRepetitionTypeValue</div>
                     }
                     @if (_showAddDeadlineButton)
                     {
