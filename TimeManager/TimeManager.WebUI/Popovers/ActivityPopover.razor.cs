@@ -10,6 +10,8 @@ public partial class ActivityPopover
     [Parameter] public Activity ActivityRef { get; init; } = null!;
     [Parameter] public ActivityDto ActivityDto { get; init; } = null!;
 
+    private List<ActivityListDto> _activityLists = [];
+
     private string _dayName = string.Empty;
     private bool isReadonly = true;
     private const string _TITLEEDITABLE = "font-size: 2rem; color: black;";
@@ -17,6 +19,7 @@ public partial class ActivityPopover
     private string _titleStyle = string.Empty;
     private string? _placeholder;
     private string _activityListName = null!;
+    private int _activityListId;
 
     protected override void OnInitialized()
     {
@@ -33,7 +36,9 @@ public partial class ActivityPopover
         _dayName = $"{dayWeekName}, {dayBody.Day} {polishMonthInflection}";
         _titleStyle = _TITLEUNEDITABLE;
         _placeholder = ActivityDto.Title ?? "(Bez tytułu)";
-        _activityListName = ActivityRef.MonthRef.GetActivityLists().First(x => x.ID == ActivityDto.ActivityListId).Name;
+        _activityLists = ActivityRef.MonthRef.GetActivityLists();
+        _activityListId = ActivityDto.ActivityListId;
+        _activityListName = _activityLists.First(x => x.ID == _activityListId).Name;
     }
 
     private void ToggleReadonly()
@@ -69,6 +74,15 @@ public partial class ActivityPopover
     {
         ActivityDto.Description = newDescription;
         await ActivityRef.UpdateActivity(ActivityDto);
+        StateHasChanged();
+    }
+
+    private async Task OnActivityListChange(ChangeEventArgs e)
+    {
+        _activityListId = int.Parse(e.Value as string ?? string.Empty);
+        ActivityDto.ActivityListId = _activityListId;
+        await ActivityRef.UpdateActivity(ActivityDto);
+        InitFields();
         StateHasChanged();
     }
 

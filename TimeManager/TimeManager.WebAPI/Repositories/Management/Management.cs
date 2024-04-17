@@ -133,6 +133,7 @@ public class Management(DBContext context) : IManagement
         {
             updatedActivity.Title = activity.Title;
             updatedActivity.Description = activity.Description;
+            updatedActivity.ActivityListId = activity.ActivityListId;
             repetition.InitialTitle = activity.Title;
 
             await _context.SaveChangesAsync();
