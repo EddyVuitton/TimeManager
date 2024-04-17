@@ -55,7 +55,7 @@ public partial class MenuList
 
         CloseMenu();
 
-        if (ListDto.Tasks.Count == 0)
+        if (ListDto.Repetitions.Count == 0)
         {
             await TasksRef.DeleteList(ListDto.ID);
         }
