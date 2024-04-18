@@ -16,27 +16,24 @@ public class Management(DBContext context) : IManagement
 
     public async Task<List<ActivityDto>> GetActivitiesAsync(int userId)
     {
-        var userActivityLists = _context.ActivityList.Where(x => x.UserId == userId);
-        var result =
-            from aL in userActivityLists
-            join a in _context.Activity on aL.Id equals a.ActivityListId
-            join r in _context.Repetition on a.RepetitionId equals r.Id
-            join rt in _context.RepetitionType on r.RepetitionTypeId equals rt.Id
-            select new ActivityDto
+        var result = await _context.Activity
+            .Where(x => x.ActivityList.UserId == userId)
+            .Include(x => x.Repetition)
+            .Select(s => new ActivityDto
             {
-                ActivityId = a.Id,
-                RepetitionId = r.Id,
-                ActivityListId = aL.Id,
-                Day = a.Day,
-                Title = a.Title,
-                Description = a.Description ?? string.Empty,
-                HourTypeId = a.HourTypeId,
-                RepetitionTypeId = rt.Id,
+                ActivityId = s.Id,
+                RepetitionId = s.RepetitionId,
+                ActivityListId = s.ActivityListId,
+                Day = s.Day,
+                Title = s.Title,
+                Description = s.Description ?? string.Empty,
+                HourTypeId = s.HourTypeId,
+                RepetitionTypeId = s.Id,
                 IsOpen = false,
                 UserId = userId
-            };
+            }).ToListAsync();
 
-        return await result.ToListAsync() ?? [];
+        return result ?? [];
     }
 
     public async Task<List<ActivityDto>> AddActivityAsync(ActivityDto activity)
@@ -110,18 +107,17 @@ public class Management(DBContext context) : IManagement
 
     public async Task<List<ActivityListDto>> GetActivityListsAsync(int userId)
     {
-        var activityLists = await _context.ActivityList.Where(x => x.UserId == userId).ToListAsync();
-        var listsDto =
-            from aL in activityLists
-            select new ActivityListDto
+        var result = await _context.ActivityList
+            .Where(x => x.UserId == userId)
+            .Select(s => new ActivityListDto
             {
-                ID = aL.Id,
-                Name = aL.Name,
+                ID = s.Id,
+                Name = s.Name,
                 IsChecked = true,
-                IsDefault = aL.IsDefault
-            };
+                IsDefault = s.IsDefault
+            }).ToListAsync();
 
-        return listsDto.ToList();
+        return result;
     }
 
     public async Task<ActivityDto> UpdateActivityAsync(ActivityDto activity)
@@ -178,11 +174,10 @@ public class Management(DBContext context) : IManagement
             throw new Exception("Listy domyślnej nie można usunąć");
         }
 
-        var activities = _context.Activity.Where(x => x.ActivityList == activityList);
-        var repetitions =
-            from r in _context.Repetition
-            join a in activities on r.Id equals a.RepetitionId
-            select r;
+        var activities = _context.Activity
+            .Where(x => x.ActivityList == activityList)
+            .Include(x => x.Repetition);
+        var repetitions = activities.Select(x => x.Repetition);
 
         _context.Activity.RemoveRange(activities);
         _context.Repetition.RemoveRange(repetitions);
@@ -207,30 +202,27 @@ public class Management(DBContext context) : IManagement
 
     public async Task<List<RepetitionDto>> GetRepetitionsAsync(int userId)
     {
-        var userActivityLists = _context.ActivityList.Where(x => x.UserId == userId);
-        var result =
-            from aL in userActivityLists
-            join a in _context.Activity on aL.Id equals a.ActivityListId
-            join r in _context.Repetition on a.RepetitionId equals r.Id
-            join rt in _context.RepetitionType on r.RepetitionTypeId equals rt.Id
-            group r by new
+        var result = await _context.Activity
+            .Where(x => x.ActivityList.UserId == userId)
+            .Include(x => x.Repetition)
+            .GroupBy(gb => new
             {
-                r.Id,
-                r.RepetitionTypeId,
-                RepetitionName = rt.Name,
-                r.InitialTitle,
-                ActivityListId = aL.Id
-            } into groupedR
-            select new RepetitionDto
+                gb.RepetitionId,
+                gb.Repetition.RepetitionTypeId,
+                RepetitionName = gb.Repetition.RepetitionType.Name,
+                gb.Repetition.InitialTitle,
+                gb.ActivityListId
+            })
+            .Select(s => new RepetitionDto
             {
-                RepetitionId = groupedR.Key.Id,
-                RepetitionTypeId = groupedR.Key.RepetitionTypeId,
-                RepetitionName = groupedR.Key.RepetitionName,
-                InitialTitle = groupedR.Key.InitialTitle,
-                ActivityListId = groupedR.Key.ActivityListId
-            };
+                RepetitionId = s.Key.RepetitionId,
+                RepetitionTypeId = s.Key.RepetitionTypeId,
+                RepetitionName = s.Key.RepetitionName,
+                InitialTitle = s.Key.InitialTitle,
+                ActivityListId = s.Key.ActivityListId
+            }).ToListAsync();
 
-        return await result.ToListAsync() ?? [];
+        return result ?? [];
     }
 
     public async Task RemoveRepetitionAsync(int repetitionId)
